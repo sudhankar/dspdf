@@ -1,0 +1,21 @@
+{
+  "name": "DSPDF — Private PDF Tools",
+  "short_name": "DSPDF",
+  "description": "Powerful PDF tools that run 100% in your browser. Your files never leave your device.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0A1929",
+  "theme_color": "#0A1929",
+  "lang": "en",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

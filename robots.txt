@@ -1,0 +1,14 @@
+# DSPDF robots.txt
+# Allow everything — no reason to block crawlers.
+
+User-agent: *
+Allow: /
+
+# Explicitly allow CSS, JS, and worker files so Google can render
+# pages correctly for indexing.
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Sitemap
+Sitemap: https://YOUR-USERNAME.github.io/dspdf/sitemap.xml

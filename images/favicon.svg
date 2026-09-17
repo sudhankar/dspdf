@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="favGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="48" height="56" rx="8" fill="url(#favGrad)"/>
+  <path d="M36 4 L52 20 L52 12 A8 8 0 0 0 44 4 Z" fill="#1E40AF" opacity="0.9"/>
+  <path d="M36 4 L36 20 L52 20" fill="none" stroke="#0A1929" stroke-opacity="0.35" stroke-width="2"/>
+  <text x="28" y="42" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="800" fill="#F8FAFC">DS</text>
+</svg>

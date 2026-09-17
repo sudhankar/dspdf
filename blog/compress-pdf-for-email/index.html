@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Compress PDF for Email — Realistic Targets by Provider | DSPDF</title>
+<meta name="description" content="Email attachment limits vary widely. Here's what each provider allows, and how to hit those targets without destroying document quality." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/compress-pdf-for-email/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Compress PDF for Email" />
+<meta property="og:description" content="Realistic targets by provider." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/compress-pdf-for-email/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Compress PDF for Email",
+      "description":"Realistic attachment size targets by email provider.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/compress-pdf-for-email/",
+      "datePublished":"2026-02-04",
+      "dateModified":"2026-02-04",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Compress PDF for Email","item":"https://YOUR-USERNAME.github.io/dspdf/blog/compress-pdf-for-email/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Why do email limits seem lower than what's stated?","acceptedAnswer":{"@type":"Answer","text":"Base64 encoding used in email attachments adds about 33% overhead. A 25 MB attachment limit means roughly 18-19 MB of actual file content."}},
+        {"@type":"Question","name":"What's better than emailing a large PDF?","acceptedAnswer":{"@type":"Answer","text":"A share link. Google Drive, Dropbox, OneDrive, and WeTransfer all handle files far larger than any email limit. The recipient clicks a link and downloads."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Compress PDF for Email</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Optimize</span>
+      <h1>Compress PDF for Email</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-02-04">February 4, 2026</time>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p>Every email provider tells you a maximum attachment size. They're all slightly wrong. Not because they're lying, but because the number they advertise doesn't account for how email actually encodes attachments. A "25 MB" limit often rejects an 18 MB file.</p>
+
+      <p>This article explains why that happens, what each major provider actually accepts, and what to do when your PDF is genuinely too big to email — which happens more often than you'd think.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#real-limits">Real attachment limits by provider</a></li>
+          <li><a href="#base64">Why the limits are smaller than stated</a></li>
+          <li><a href="#targets">Realistic compression targets</a></li>
+          <li><a href="#better">When email isn't the right tool</a></li>
+          <li><a href="#workflow">A practical workflow</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="real-limits">Real attachment limits by provider</h2>
+
+      <p>Numbers below are the current state of things, but providers change these without warning. Treat them as approximate. When in doubt, send yourself a test email first.</p>
+
+      <table>
+        <thead>
+          <tr><th>Provider</th><th>Stated limit</th><th>Practical working limit</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gmail</td><td>25 MB</td><td>~18 MB</td></tr>
+          <tr><td>Outlook.com</td><td>20 MB</td><td>~15 MB</td></tr>
+          <tr><td>Yahoo Mail</td><td>25 MB</td><td>~18 MB</td></tr>
+          <tr><td>iCloud Mail</td><td>20 MB</td><td>~15 MB</td></tr>
+          <tr><td>Proton Mail</td><td>25 MB</td><td>~18 MB</td></tr>
+          <tr><td>Microsoft 365 (business)</td><td>35 MB (configurable)</td><td>~25 MB</td></tr>
+          <tr><td>Google Workspace</td><td>25 MB (standard), 50 MB (admin-configurable)</td><td>~18 MB / ~37 MB</td></tr>
+        </tbody>
+      </table>
+
+      <p>Notice the pattern: practical working limit is roughly 75% of the stated limit. That's the base64 overhead, which brings us to the next section.</p>
+
+      <h2 id="base64">Why the limits are smaller than stated</h2>
+
+      <p>Email was designed in the 1970s, before binary file attachments existed. Messages were text. When attachments became possible, they were encoded as text using a method called base64, which represents binary data using only printable ASCII characters.</p>
+
+      <p>The catch: base64 encoding makes binary data about 33% larger. So a 20 MB PDF becomes approximately 26.6 MB on the wire. If your provider says "25 MB limit," what they actually mean is: "the encoded payload must be under 25 MB," which works out to about 18.75 MB of original file.</p>
+
+      <p>Add the rest of the email (headers, text, signatures) and the real usable space for your attachment is closer to 18 MB.</p>
+
+      <p>This is why "compress to 25 MB for Gmail" advice is misleading. If your PDF is 19 MB after compression, Gmail will still reject it.</p>
+
+      <h2 id="targets">Realistic compression targets</h2>
+
+      <p>If your goal is to email a PDF, use these as your effective targets:</p>
+
+      <ul>
+        <li><strong>Gmail, Yahoo, Proton:</strong> Aim for under 18 MB. If your original is under 18 MB, don't compress at all.</li>
+        <li><strong>Outlook.com, iCloud:</strong> Aim for under 15 MB.</li>
+        <li><strong>Microsoft 365 business:</strong> Aim for under 25 MB.</li>
+        <li><strong>Unknown recipient:</strong> Aim for under 10 MB. This is safe across virtually every provider, mobile client, and corporate mail gateway.</li>
+      </ul>
+
+      <p>The last one is worth internalising. Corporate email gateways often have stricter limits than the mail provider itself. A 15 MB attachment that gets through Gmail might bounce at a corporate firewall. If you don't know the recipient's environment, 10 MB is the safe target.</p>
+
+      <h3>What compression can realistically achieve</h3>
+
+      <p>Rough guide to how small you can get different kinds of documents:</p>
+
+      <table>
+        <thead>
+          <tr><th>Document type</th><th>Typical starting size</th><th>Achievable after compression</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Scanned document (10 pages, 300 DPI)</td><td>15–25 MB</td><td>2–5 MB</td></tr>
+          <tr><td>Text-heavy report (50 pages)</td><td>3–6 MB</td><td>2–5 MB</td></tr>
+          <tr><td>Photo-heavy catalog (30 pages)</td><td>30–60 MB</td><td>8–20 MB</td></tr>
+          <tr><td>Mixed presentation (100 slides with images)</td><td>40–80 MB</td><td>12–30 MB</td></tr>
+        </tbody>
+      </table>
+
+      <p>If your target is smaller than the achievable size for your document type, compression won't get you there without visible quality loss. In that case, use a share link instead.</p>
+
+      <h2 id="better">When email isn't the right tool</h2>
+
+      <p>For files that genuinely can't be compressed small enough, emailing is the wrong approach. Several alternatives are better:</p>
+
+      <h3>Cloud share links (best for most cases)</h3>
+
+      <p>Upload to Google Drive, Dropbox, OneDrive, or iCloud Drive, and send a share link. These services host files many gigabytes in size. The recipient clicks, downloads, done. You also get delivery confirmation (you can see when they opened it) and the ability to revoke access later.</p>
+
+      <p>Downside: requires the recipient to click a link and possibly sign in or pass a captcha. Some older corporate email systems block links to consumer cloud services.</p>
+
+      <h3>File transfer services</h3>
+
+      <p>WeTransfer, Send Anywhere, and similar services let you upload a file (up to 2 GB on free tiers) and get a shareable link valid for a few days. No account required for the sender.</p>
+
+      <p>Downside: privacy concerns if the file is sensitive. Read the service's policy before uploading anything confidential.</p>
+
+      <h3>Split and email in parts</h3>
+
+      <p>If you must use email, split the PDF into chunks under 15 MB each and send as multiple attachments. The recipient has to recombine them. Tedious but works when nothing else does.</p>
+
+      <p>Our <a href="../../tools/split-pdf/index.html">Split PDF</a> tool handles this — set "every N pages" so each chunk falls under your target size.</p>
+
+      <h2 id="workflow">A practical workflow</h2>
+
+      <p>Here's the sequence I use when someone asks me to "just email them the file":</p>
+
+      <ol>
+        <li><strong>Check the actual size.</strong> Many people assume a file is too big when it isn't. If it's under 10 MB, send it as-is.</li>
+        <li><strong>If it's 10–18 MB,</strong> try compressing with the <a href="../../tools/compress-pdf/index.html">Compress PDF tool</a>. For scans, this usually gets well under 10 MB.</li>
+        <li><strong>If it's over 18 MB,</strong> ask whether the recipient actually needs it via email. Nine times out of ten, a share link is better and preferred.</li>
+        <li><strong>If the recipient insists on email,</strong> split the file into chunks of 10 MB each. Two emails of 10 MB are more reliable than one email of 20 MB.</li>
+        <li><strong>Never re-compress a compressed file</strong> hoping for a different result. The algorithms converge.</li>
+      </ol>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Why do email limits seem lower than what's stated?</summary>
+          <p>Base64 encoding adds about 33% overhead when binary files are turned into email-safe text. Plus email headers and content. A "25 MB" limit really means about 18 MB of file.</p>
+        </details>
+        <details>
+          <summary>What's better than emailing a large PDF?</summary>
+          <p>A share link. Google Drive, Dropbox, OneDrive, and WeTransfer all handle files far larger than any email limit, and they let you revoke access later.</p>
+        </details>
+        <details>
+          <summary>Can I compress a PDF to any specific size?</summary>
+          <p>Not reliably. Compression adjusts quality to reduce size, but the resulting size depends entirely on the source content. If a tool claims "compress to 500 KB guaranteed," it's either going to produce a bad result or it's lying about the output size. Our <a href="../../tools/compress-pdf/index.html">Compress PDF</a> tool gives you honest feedback about what it achieved.</p>
+        </details>
+        <details>
+          <summary>Will compression damage my document?</summary>
+          <p>Depends on the method. Rasterization (which most browser tools, including ours, use) turns text into images. It reduces size significantly but text becomes non-selectable. If your recipient needs to search or copy text, compress first, then OCR to rebuild a text layer.</p>
+        </details>
+        <details>
+          <summary>Should I use ZIP to reduce size?</summary>
+          <p>ZIP won't help much for a PDF. PDFs already use internal compression (Flate), so ZIP typically reduces them by less than 5%. ZIP is useful for combining multiple files into one attachment, but for PDF size reduction, compression is the tool you want.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it:</strong> <a href="../../tools/compress-pdf/index.html">DSPDF Compress PDF</a> reports honestly what it achieved. If it can't get you to your target without destroying quality, it tells you the best it could do.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-compress-pdf/index.html">
+            <h3 class="tool-card__title">How to Compress a PDF (and when not to)</h3>
+            <p class="tool-card__desc">The mechanics of compression.</p>
+          </a>
+          <a class="tool-card" href="../how-to-split-pdf/index.html">
+            <h3 class="tool-card__title">How to Split a PDF</h3>
+            <p class="tool-card__desc">Chunk a large file for emailing.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

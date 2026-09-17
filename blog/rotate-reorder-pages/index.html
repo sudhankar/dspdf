@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Rotate &amp; Reorder PDF Pages — Fixing a Bad Scan | DSPDF</title>
+<meta name="description" content="Fix sideways scans, wrong-order pages, and mixed orientations. Practical workflows for cleaning up PDFs before sharing them." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/rotate-reorder-pages/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Rotate &amp; Reorder PDF Pages" />
+<meta property="og:description" content="Fixing a bad scan, step by step." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/rotate-reorder-pages/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Rotate & Reorder PDF Pages",
+      "description":"Fixing a badly scanned PDF.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/rotate-reorder-pages/",
+      "datePublished":"2026-01-31",
+      "dateModified":"2026-01-31",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Rotate & Reorder Pages","item":"https://YOUR-USERNAME.github.io/dspdf/blog/rotate-reorder-pages/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Does rotating a PDF reduce quality?","acceptedAnswer":{"@type":"Answer","text":"No. Rotating changes the page's orientation metadata without re-rendering content. Quality is preserved perfectly."}},
+        {"@type":"Question","name":"Can I reorder PDF pages?","acceptedAnswer":{"@type":"Answer","text":"Not directly with a rotate tool. Use the PDF Editor or merge the file with itself after extracting pages in the order you want."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Rotate &amp; Reorder Pages</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Organize</span>
+      <h1>Rotate &amp; Reorder PDF Pages</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-31">January 31, 2026</time>
+        <span>·</span>
+        <span>5 min read</span>
+      </div>
+
+      <p>My mother scanned a 30-page health insurance claim form last year. The scanner decided to orient every other page sideways. Some pages were upside down. None of this was obvious on the scanner's tiny preview screen. She discovered the problem when the insurance portal rejected the upload for "unreadable orientation."</p>
+
+      <p>Fixing it took two minutes once we knew which tool to use. This article covers the two most common scan-cleanup tasks: rotating pages and putting them back in order.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#why">Why scans get rotated</a></li>
+          <li><a href="#rotate">Rotating pages</a></li>
+          <li><a href="#reorder">Reordering pages</a></li>
+          <li><a href="#workflow">A cleanup workflow</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="why">Why scans get rotated</h2>
+
+      <p>Scanners have an orientation sensor that works by detecting where the "top" edge of a page is against the feeder. This works well for a clean, single-orientation stack. It fails in a few common situations:</p>
+
+      <ul>
+        <li><strong>Mixed orientation stacks.</strong> Portrait and landscape pages in the same feeder confuse the sensor.</li>
+        <li><strong>Thin or dark paper.</strong> The sensor can't reliably detect the page edge.</li>
+        <li><strong>Duplex scanning.</strong> The back side is often oriented differently from the front.</li>
+        <li><strong>Photos taken on a phone.</strong> The phone's orientation can shift during a multi-shot document scan.</li>
+        <li><strong>Stapled or folded originals.</strong> The scanner's page sensor gets confused by the physical distortion.</li>
+      </ul>
+
+      <p>The result is a PDF where some pages are rotated 90° or 180° from the rest. If the recipient's PDF reader doesn't auto-rotate, the document looks broken.</p>
+
+      <h2 id="rotate">Rotating pages</h2>
+
+      <p>Rotation in a PDF is metadata, not content. The page itself isn't re-rendered — the file records "when displaying this page, rotate it 90° clockwise." This is important because it means:</p>
+
+      <ul>
+        <li>Rotation is lossless. No quality reduction.</li>
+        <li>Rotation is instant. No re-rendering.</li>
+        <li>Rotation is reversible. Rotating 90° then 270° gets you back.</li>
+        <li>Rotation is per-page. You can rotate some pages and not others.</li>
+      </ul>
+
+      <p>The rotation value is stored in the page's <code>/Rotate</code> dictionary entry, in degrees. Values must be multiples of 90.</p>
+
+      <h3>How to rotate in DSPDF</h3>
+
+      <ol>
+        <li>Open the <a href="../../tools/rotate-pdf/index.html">Rotate PDF</a> tool.</li>
+        <li>Drop your PDF. Thumbnails appear.</li>
+        <li>Click the pages that need rotating (or use "Select all").</li>
+        <li>Click 90° left, 90° right, or 180°.</li>
+        <li>Repeat as needed for different pages.</li>
+        <li>Click "Apply &amp; Download".</li>
+      </ol>
+
+      <p>If you rotate a page by mistake, click the same direction button in reverse. Or start over — the original file is never modified.</p>
+
+      <h3>When rotation doesn't work</h3>
+
+      <p>Some scanned PDFs have the rotation baked into the image itself — the page is set to portrait, but the scanned image is stored sideways. In that case, rotating the page metadata won't help; the image is still sideways, just rotated at the page level. Fixing this requires re-encoding the image, which is more involved.</p>
+
+      <p>How to tell: if you rotate 90° and the result looks correct at first glance but printing re-orients it back, the rotation is baked in. Our tool can't fix this case. A desktop image editor or a proper scanning app can.</p>
+
+      <h2 id="reorder">Reordering pages</h2>
+
+      <p>Reordering is a harder operation than rotating because it means restructuring the PDF's page tree. Most PDF tools that "reorder pages" actually do this by creating a new PDF and copying pages in the new order.</p>
+
+      <p>DSPDF's <a href="../../tools/pdf-editor/index.html">PDF Editor</a> doesn't currently offer per-page reordering as a standalone operation, but you can achieve it with two other tools:</p>
+
+      <h3>Method: extract in the desired order</h3>
+
+      <ol>
+        <li>Split the PDF into individual pages (or into small groups).</li>
+        <li>Rename them to indicate the desired order.</li>
+        <li>Merge them back in the order you want.</li>
+      </ol>
+
+      <p>This works but is tedious for large documents. It's fine for a 5-page fix, less so for 200 pages.</p>
+
+      <h3>Method: for small documents, use the editor</h3>
+
+      <p>Load the PDF into the <a href="../../tools/pdf-editor/index.html">PDF Editor</a>. If you need to move a page, extract it, save, then merge it back at the right position. The editor's strength is adding content, not restructuring the file.</p>
+
+      <p>We've documented reordering as a "planned" feature for a future tool update — it requires deeper PDF tree manipulation than pdf-lib currently exposes conveniently.</p>
+
+      <h2 id="workflow">A cleanup workflow</h2>
+
+      <p>For a poorly scanned document, the sequence that works best:</p>
+
+      <h3>Step 1: Preview all pages</h3>
+
+      <p>Open the PDF and page through it quickly. Note which pages need rotating. It helps to write down the page numbers on a scrap of paper or a notes app.</p>
+
+      <h3>Step 2: Rotate in one pass</h3>
+
+      <p>In the <a href="../../tools/rotate-pdf/index.html">Rotate PDF</a> tool, click all pages that need the same rotation, apply, download. Then repeat for pages needing a different rotation.</p>
+
+      <p>Rotating in multiple passes is fine — each pass is a new file. Keep the intermediate files until the final one looks right, in case you made a mistake.</p>
+
+      <h3>Step 3: Compress if size matters</h3>
+
+      <p>After rotation, the file size is unchanged (since rotation is metadata). If the recipient has a size limit, run through <a href="../../tools/compress-pdf/index.html">Compress PDF</a> — but be aware that compression rasterizes pages, which converts text to images. For a scan, this is fine (it was already image content). For a text PDF, think twice.</p>
+
+      <h3>Step 4: Verify and send</h3>
+
+      <p>Open the rotated file one more time. Page through it. Confirm every page is correct. Then send.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Does rotating reduce quality?</summary>
+          <p>No. Rotation is a metadata change, not a re-render. Content is untouched.</p>
+        </details>
+        <details>
+          <summary>Can I reorder PDF pages?</summary>
+          <p>Not directly with the rotate tool. Use extract + merge, or wait for a dedicated reorder tool. For most cases extract + merge works fine.</p>
+        </details>
+        <details>
+          <summary>Why does my rotation not stick?</summary>
+          <p>If the source image is stored sideways (not the page), rotation of the page doesn't fix it. The visual content stays sideways. This happens when scans are done in the wrong mode.</p>
+        </details>
+        <details>
+          <summary>Can I rotate just the last page?</summary>
+          <p>Yes — click only the last thumbnail and apply rotation. Or select multiple pages with Ctrl+click (depending on the tool).</p>
+        </details>
+        <details>
+          <summary>Does rotating a password-protected PDF work?</summary>
+          <p>Not until you unlock it. Unlock first with the password you know.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/rotate-pdf/index.html">DSPDF Rotate PDF</a> lets you select pages individually, rotate in 90° increments, and download — with quality preserved.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-split-pdf/index.html">
+            <h3 class="tool-card__title">How to Split a PDF</h3>
+            <p class="tool-card__desc">When pages need to go separate ways.</p>
+          </a>
+          <a class="tool-card" href="../how-to-compress-pdf/index.html">
+            <h3 class="tool-card__title">How to Compress a PDF</h3>
+            <p class="tool-card__desc">Reducing size after cleanup.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>How to Convert PDF to JPG — DPI, Quality, and Pitfalls | DSPDF</title>
+<meta name="description" content="Convert PDF pages to images without pixelation. Understand the DPI setting and pick the right quality for your use case." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-pdf-to-jpg/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Convert PDF to JPG" />
+<meta property="og:description" content="DPI, quality, and pitfalls explained." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-pdf-to-jpg/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"How to Convert PDF to JPG",
+      "description":"DPI, quality, and pitfalls explained.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-pdf-to-jpg/",
+      "datePublished":"2026-01-19",
+      "dateModified":"2026-01-19",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"How to Convert PDF to JPG","item":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-pdf-to-jpg/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"What DPI should I use?","acceptedAnswer":{"@type":"Answer","text":"72 DPI for screen previews, 150 DPI for most documents, 300 DPI for printing. Higher DPI means larger files and slower processing."}},
+        {"@type":"Question","name":"Will I get one JPG per page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each PDF page becomes its own JPG. The output is bundled in a ZIP."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">How to Convert PDF to JPG</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Convert</span>
+      <h1>How to Convert PDF to JPG</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-19">January 19, 2026</time>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p>A teacher friend once sent me a screenshot of a PDF that looked like it had been photographed through a jam jar. "This is what the conversion tool gave me," she said. She'd converted at 72 DPI, which is the resolution of a 1990s fax machine.</p>
+
+      <p>PDF-to-JPG conversion is one of those things where a single setting — DPI — makes the entire difference between "sharp and usable" and "why bother". Here's what to know.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#why">Why convert PDF to JPG?</a></li>
+          <li><a href="#dpi">Understanding DPI</a></li>
+          <li><a href="#quality">JPEG quality vs DPI</a></li>
+          <li><a href="#workflows">Common workflows</a></li>
+          <li><a href="#pitfalls">Pitfalls</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="why">Why convert PDF to JPG?</h2>
+
+      <p>PDF is the right format when you need pages. JPG is the right format when you need an <em>image</em>. Situations where JPG wins:</p>
+
+      <ul>
+        <li>WhatsApp and some messaging apps handle images more gracefully than PDFs</li>
+        <li>Slide decks or social posts need images, not PDFs</li>
+        <li>You need to embed one page of a PDF into another document</li>
+        <li>You're uploading to a system that accepts images but not PDFs</li>
+        <li>You want to preview what the PDF page looks like without opening a PDF reader</li>
+      </ul>
+
+      <p>The reverse situation — you need a multi-page document with consistent page structure — is where PDF wins. So if you're converting a 20-page report to JPGs, ask yourself: do you actually want 20 images?</p>
+
+      <h2 id="dpi">Understanding DPI</h2>
+
+      <p>DPI stands for "dots per inch" — how many pixels the renderer produces for each inch of the page. PDF pages are defined in points (1/72 inch), and the conversion multiplies by DPI to get pixel dimensions.</p>
+
+      <p>Here's what the same A4 page produces at different DPIs:</p>
+
+      <table>
+        <thead>
+          <tr><th>DPI</th><th>Pixel size (A4 portrait)</th><th>Use case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>72</td><td>595 × 842</td><td>Quick previews — text is barely readable</td></tr>
+          <tr><td>150</td><td>1240 × 1754</td><td>Screen reading, embedding, most documents</td></tr>
+          <tr><td>300</td><td>2480 × 3508</td><td>Printing, archiving, high-quality sharing</td></tr>
+          <tr><td>600</td><td>4960 × 7016</td><td>Rarely needed; enormous files</td></tr>
+        </tbody>
+      </table>
+
+      <p>At 72 DPI, a body-text line of 11pt type renders as roughly 11 pixels tall. That's barely legible. At 150 DPI it's comfortable. At 300 DPI it's crisp on retina displays and fine for print.</p>
+
+      <p><strong>Rule of thumb:</strong> if you're going to display the result on a screen, 150 DPI is right. If you might print it, 300. If you're just checking what the page looks like, 72 is fine.</p>
+
+      <h2 id="quality">JPEG quality vs DPI</h2>
+
+      <p>These two settings get confused constantly, but they control different things.</p>
+
+      <ul>
+        <li><strong>DPI</strong> controls the <em>dimensions</em> of the output image (pixels per inch of page).</li>
+        <li><strong>JPEG quality</strong> controls the <em>compression</em> within those dimensions (how aggressively the encoder throws away data).</li>
+      </ul>
+
+      <p>A 300 DPI image at quality 30% could easily be smaller than a 150 DPI image at quality 95% — but visually the 300 DPI one will look softer and blockier where the compression kicked in.</p>
+
+      <p>For most documents: 150 DPI at quality 85% is a sweet spot. You get a clean image under 1 MB per page.</p>
+
+      <p>For scanned or photographic pages: 150–200 DPI at quality 90% preserves visual detail well.</p>
+
+      <p>For text-heavy documents you'll read on screen: 150 DPI at quality 85% is fine — JPEG compression artefacts around text are barely visible at this quality.</p>
+
+      <h2 id="workflows">Common workflows</h2>
+
+      <h3>The teacher sharing a page with a class</h3>
+
+      <p>She needs page 7 of a 40-page PDF as a single image she can paste into a slideshow. Workflow: convert at 150 DPI, quality 90%. Result: a 1200×1700 JPEG that's readable on any projector.</p>
+
+      <h3>The freelancer sending a receipt</h3>
+
+      <p>She needs a small, clean image of a single receipt PDF to upload to an expense system. Workflow: 150 DPI, quality 85%. Result: a 200 KB JPG that opens instantly.</p>
+
+      <h3>The author archiving a manuscript</h3>
+
+      <p>He wants each page as an image for a personal website. Workflow: 300 DPI, quality 90%. Result: 1.5 MB per page, suitable for retina displays and printing.</p>
+
+      <h3>The student screenshotting an equation</h3>
+
+      <p>She needs a specific formula from a PDF to paste into her notes app. Workflow: 200 DPI, quality 95%. Result: crisp equation image that doesn't look pixelated when she zooms.</p>
+
+      <h2 id="pitfalls">Pitfalls</h2>
+
+      <h3>1. Everything comes out too small</h3>
+
+      <p>If every image looks tiny, you're probably at 72 DPI. Bump to 150 or 300.</p>
+
+      <h3>2. Everything is huge</h3>
+
+      <p>At 300 DPI with quality 95%, an A4 page produces a 2-3 MB JPG. Multiply by 20 pages and you have a 50 MB ZIP. That's often more than needed. For most web/screen uses, 150 DPI at 85% is enough.</p>
+
+      <h3>3. Text looks slightly fuzzy</h3>
+
+      <p>JPEG compression creates artefacts around text. At lower qualities, these become visible as grey halos around letters. Fix: raise JPEG quality to 90% or above for text-heavy pages.</p>
+
+      <h3>4. Transparent regions turn black</h3>
+
+      <p>Some PDFs have transparent backgrounds. If the conversion renders onto a transparent canvas and then encodes as JPEG (which doesn't support transparency), the transparent area becomes black. Our <a href="../../tools/pdf-to-jpg/index.html">PDF to JPG tool</a> fills white before rendering to avoid this — but if you use a different tool and see black backgrounds, that's why.</p>
+
+      <h3>5. Multi-page files produce a ZIP, not a single image</h3>
+
+      <p>If your PDF has 20 pages, converting to JPG gives you 20 files. You can't fit 20 images into one JPG. This surprises people who expected a single output. It's not a bug — it's geometry.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>What DPI should I use?</summary>
+          <p>72 for previews, 150 for screen, 300 for print. Start at 150 and adjust based on whether the result looks good.</p>
+        </details>
+        <details>
+          <summary>How many images do I get?</summary>
+          <p>One per page, all bundled into a ZIP. A 20-page PDF produces 20 JPGs.</p>
+        </details>
+        <details>
+          <summary>Can I convert just one page?</summary>
+          <p>Not in our current tool — we convert the whole document. If you only need a specific page, split it out first with <a href="../../tools/split-pdf/index.html">Split PDF</a>, then convert.</p>
+        </details>
+        <details>
+          <summary>Can I get PNG instead of JPG?</summary>
+          <p>Not from this tool. JPG is smaller and adequate for most uses. If you need PNG (for transparency or lossless quality), convert the JPG afterward in an image editor.</p>
+        </details>
+        <details>
+          <summary>Is there a page limit?</summary>
+          <p>No hard limit. But 300 DPI on a 200-page PDF can exhaust memory on older devices. Convert in batches if needed.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/pdf-to-jpg/index.html">DSPDF PDF to JPG</a> supports DPI and quality control, with output delivered as a ZIP.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-convert-jpg-to-pdf/index.html">
+            <h3 class="tool-card__title">How to Convert JPG to PDF</h3>
+            <p class="tool-card__desc">The other direction.</p>
+          </a>
+          <a class="tool-card" href="../extract-images-from-pdf/index.html">
+            <h3 class="tool-card__title">Extract Images from PDF</h3>
+            <p class="tool-card__desc">For embedded images, not page renders.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

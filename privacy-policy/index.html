@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Privacy Policy — DSPDF</title>
+<meta name="description" content="DSPDF's privacy policy. Short version: your files never leave your device. Full details here." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/privacy-policy/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Privacy Policy — DSPDF" />
+<meta property="og:description" content="How DSPDF handles your data (spoiler: it doesn't)." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/privacy-policy/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://YOUR-USERNAME.github.io/dspdf/privacy-policy/"}
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../tools/index.html">All Tools</a></li>
+      <li><a href="../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../faq/index.html">FAQ</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><a href="../contact/index.html">Contact</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../index.html">Home</a></li>
+        <li><span aria-current="page">Privacy Policy</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <p class="text-muted"><strong>Last updated:</strong> <span data-year>2026</span></p>
+
+      <div class="article__callout">
+        <strong>Short version:</strong> Your files never leave your device. DSPDF does not upload, store, or transmit your files. There is no account, no tracking by default, and no server processing your content. The rest of this page explains the details.
+      </div>
+
+      <h2>1. Who we are</h2>
+
+      <p>DSPDF ("we", "us", "our") operates a suite of client-side PDF tools available at our website. This Privacy Policy explains what data (if any) we collect and how we handle it.</p>
+
+      <p>👉 OWNER: Add your legal entity name, registered address, and jurisdiction here if applicable. If you operate as an individual, a simple statement like "DSPDF is operated by [name] based in [country]" is acceptable in most jurisdictions.</p>
+
+      <h2>2. The core commitment: your files stay on your device</h2>
+
+      <p>Every tool on DSPDF runs entirely inside your web browser. When you open a file in a DSPDF tool:</p>
+
+      <ul>
+        <li>The file is read into your browser's memory using standard browser APIs (FileReader, File, Blob).</li>
+        <li>All processing — merging, splitting, compressing, signing, whatever — happens on your device's CPU.</li>
+        <li>The result is created as a Blob in memory and offered as a download.</li>
+        <li>No file content is sent over the network to us or anyone else.</li>
+      </ul>
+
+      <p>You can verify this yourself:</p>
+
+      <ul>
+        <li>Open your browser's Developer Tools (F12 or Ctrl+Shift+I), go to the Network tab, and use any tool. No outgoing request will carry your file.</li>
+        <li>Or: load a tool page, disconnect from the internet, and use the tool. It still works.</li>
+      </ul>
+
+      <h2>3. What data we do collect</h2>
+
+      <h3>By default: essentially nothing</h3>
+
+      <p>Out of the box, DSPDF does not collect personal data. Specifically:</p>
+
+      <ul>
+        <li><strong>No file uploads.</strong> See Section 2.</li>
+        <li><strong>No account system.</strong> There is no signup, login, or user database.</li>
+        <li><strong>No analytics.</strong> We ship with analytics disabled. If you enable it yourself (see below), the behaviour is described.</li>
+        <li><strong>No advertising.</strong> We ship with ads disabled. If AdSense is enabled by the site owner, the behaviour is described below.</li>
+        <li><strong>No cookies for our own tracking.</strong> We don't set cookies unless you enable analytics or ads.</li>
+      </ul>
+
+      <h3>Optional analytics (if enabled)</h3>
+
+      <p>The site owner can enable privacy-respecting analytics (for example, Google Analytics 4). If enabled, the following may be collected:</p>
+
+      <ul>
+        <li>Anonymous page-view counts</li>
+        <li>Approximate country/region (from IP, not stored by us)</li>
+        <li>Browser type, operating system, device category</li>
+        <li>Referring website (if you clicked a link to reach us)</li>
+      </ul>
+
+      <p>What is <strong>never</strong> collected by analytics: your file content, file names, or any user-identifying information. The analytics system cannot see inside your browser's file-handling code.</p>
+
+      <h3>Optional advertising (if enabled)</h3>
+
+      <p>The site owner can enable Google AdSense. If enabled, Google and its partners may set cookies to serve personalised ads based on your browsing history across sites. See <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google's Partner Sites policy</a> for details.</p>
+
+      <p>If ads are enabled, you can typically opt out of personalised advertising via your Google Ad Settings or through industry opt-out tools like <a href="https://www.youronlinechoices.com/" rel="noopener">YourOnlineChoices</a>.</p>
+
+      <p>What is <strong>never</strong> shared with advertisers: your files, file content, file names, or any information derived from your use of the tools.</p>
+
+      <h2>4. Third-party libraries and CDNs</h2>
+
+      <p>DSPDF loads open-source JavaScript libraries from public content delivery networks (CDNs) such as Cloudflare, jsDelivr, and unpkg. These libraries include pdf-lib, pdf.js, Tesseract.js, jsPDF, JSZip, and FileSaver.js.</p>
+
+      <p>When your browser loads a CDN resource, the CDN receives standard web request information: your IP address, the URL being requested, and headers like your User-Agent. This is how any CDN works and is outside our control.</p>
+
+      <p>The CDN does not receive your file content. It only serves the library code, which is the same for every visitor.</p>
+
+      <p>If you prefer, you can self-host these libraries by downloading them and adjusting the script tags. The tools will function identically.</p>
+
+      <h2>5. Hosting</h2>
+
+      <p>DSPDF is hosted as a static site (typically on GitHub Pages). Our hosting provider may log standard request information for operational and security purposes: IP addresses, request paths, response codes, and timestamps.</p>
+
+      <p>These logs are typically retained for a short period (hours to days) and are used only to diagnose problems and prevent abuse. We do not have access to your file content because, again, no file content is ever sent to the server.</p>
+
+      <h2>6. Your rights (GDPR, CCPA, DPDP)</h2>
+
+      <p>Depending on where you live, you have certain rights regarding your personal data:</p>
+
+      <ul>
+        <li><strong>Right to access.</strong> You can request a copy of any personal data we hold about you.</li>
+        <li><strong>Right to deletion.</strong> You can request deletion of any personal data we hold about you.</li>
+        <li><strong>Right to rectification.</strong> You can request corrections to inaccurate personal data.</li>
+        <li><strong>Right to object.</strong> You can object to processing of your personal data.</li>
+        <li><strong>Right to data portability.</strong> You can request your data in a machine-readable format.</li>
+      </ul>
+
+      <p><strong>Important:</strong> since DSPDF does not maintain user accounts and does not process your file content, in most cases we hold no personal data about you that could be accessed, deleted, or modified. If you believe we hold data about you (for example, an email you sent us), you can request access or deletion using the contact details below.</p>
+
+      <p>For GDPR (European Economic Area), CCPA (California), and India's Digital Personal Data Protection Act (DPDP), the same principle applies: we hold minimal or no personal data about you, and we will respond to legitimate requests as required by the applicable law.</p>
+
+      <h2>7. Children's privacy</h2>
+
+      <p>DSPDF is not directed at children under 13 (or under 16 in some jurisdictions). We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us so we can delete it.</p>
+
+      <h2>8. Data retention</h2>
+
+      <p>Since we don't collect file content or maintain accounts, there is nothing to retain in that sense. The only data that might persist is:</p>
+
+      <ul>
+        <li>Emails you send us — retained as long as necessary to respond and for record-keeping.</li>
+        <li>Server access logs (from hosting) — retained according to the hosting provider's policy.</li>
+        <li>Analytics data (if enabled) — retained according to the analytics provider's policy.</li>
+      </ul>
+
+      <h2>9. Security</h2>
+
+      <p>The strongest security feature of DSPDF is architectural: since we don't receive your files, there's no server-side copy to breach. Your file security depends on your own device's security, which is where it should be.</p>
+
+      <p>For the site itself, we use HTTPS, load resources from reputable CDNs, and keep dependencies up to date.</p>
+
+      <h2>10. Changes to this policy</h2>
+
+      <p>If we update this policy, we'll change the "Last updated" date at the top. Material changes will be noted prominently on the homepage. Continuing to use DSPDF after changes are posted constitutes acceptance of the updated policy.</p>
+
+      <h2>11. Contact</h2>
+
+      <p>For any privacy-related questions, requests, or complaints, contact us at:</p>
+
+      <p>
+        <strong id="privacy-email-display">hello@example.com</strong>
+        👉 OWNER: this email is set in <code>js/config.js</code>.
+      </p>
+
+      <p>Or use the <a href="../contact/index.html">Contact page</a>.</p>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We wrote this policy to reflect what the code actually does — nothing more, nothing less.</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script>
+(function () {
+  var CFG = window.DSPDF_CONFIG || {};
+  var el = document.getElementById("privacy-email-display");
+  if (el) el.textContent = CFG.contactEmail || "hello@example.com";
+})();
+</script>
+</body>
+</html>

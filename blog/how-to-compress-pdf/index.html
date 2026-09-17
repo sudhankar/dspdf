@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>How to Compress a PDF (and When Not To) — DSPDF</title>
+<meta name="description" content="A practical guide to PDF compression — what actually works, when quality suffers, and why 'compress to 100 KB' is often a lie." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-compress-pdf/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Compress a PDF (and When Not To)" />
+<meta property="og:description" content="Email limits, quality trade-offs, and honest expectations." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-compress-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"How to Compress a PDF (and When Not To)",
+      "description":"A practical guide to PDF compression.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-compress-pdf/",
+      "datePublished":"2026-01-14",
+      "dateModified":"2026-01-14",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"How to Compress a PDF","item":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-compress-pdf/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"How small can I compress a PDF?","acceptedAnswer":{"@type":"Answer","text":"It depends entirely on what's inside. Image-heavy scans can shrink by 90%. Text-only documents are already near minimum and may only shrink 5-10%."}},
+        {"@type":"Question","name":"Will compression make text blurry?","acceptedAnswer":{"@type":"Answer","text":"If the tool rasterizes pages, yes at low quality settings. Text-only PDFs that are compressed without rasterization stay sharp."}},
+        {"@type":"Question","name":"Why is my compressed PDF still large?","acceptedAnswer":{"@type":"Answer","text":"Because it was already near its minimum size. A good tool tells you this rather than pretending it succeeded."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">How to Compress a PDF</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Optimize</span>
+      <h1>How to Compress a PDF (and When Not To)</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-14">January 14, 2026</time>
+        <span>·</span>
+        <span>7 min read</span>
+      </div>
+
+      <p>A few months ago I watched someone try to email a 47 MB PDF by "compressing" it six times in a row with different tools. The file ended up at 43 MB and looked worse. The recipient, it turned out, had a 50 MB attachment limit anyway. The whole exercise was unnecessary.</p>
+
+      <p>Compression is one of those things where a small amount of understanding saves a lot of frustration. So here's the honest version.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#what-compression-does">What compression actually does</a></li>
+          <li><a href="#two-types">The two types of compression</a></li>
+          <li><a href="#realistic-numbers">Realistic size expectations</a></li>
+          <li><a href="#when-not">When NOT to compress</a></li>
+          <li><a href="#practical">The practical workflow</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="what-compression-does">What compression actually does</h2>
+
+      <p>A PDF contains several kinds of things: text (encoded as character codes plus font references), images (usually JPEG or PNG streams), vector drawings (line and shape commands), and metadata.</p>
+
+      <p>Compression reduces size by attacking one or more of these:</p>
+
+      <ul>
+        <li><strong>Re-encoding images at lower quality</strong> — this is the biggest lever. A JPEG at quality 90 takes about four times the space of the same JPEG at quality 50.</li>
+        <li><strong>Downsampling image resolution</strong> — a 300 DPI image displayed at 72 DPI in the PDF wastes pixels. Downsampling to 150 DPI halves size without visible quality loss on screen.</li>
+        <li><strong>Recompressing text streams</strong> — PDFs already use Flate (zlib) compression on text. Some tools try harder.</li>
+        <li><strong>Deduplicating resources</strong> — the same font embedded twice becomes one copy.</li>
+        <li><strong>Removing metadata and unused objects</strong> — a small win, maybe 1-5%.</li>
+      </ul>
+
+      <p>What compression <em>cannot</em> do: make a 100-page document small enough for a 5 MB email attachment without visible degradation. Physics wins.</p>
+
+      <h2 id="two-types">The two types of compression</h2>
+
+      <p>There are two fundamentally different approaches, and most tools don't tell you which one they use.</p>
+
+      <h3>Approach 1: Image re-encoding (good)</h3>
+
+      <p>The tool identifies embedded images, decodes them, re-encodes them at a lower quality or resolution, and replaces them in the PDF. Text remains text — searchable, selectable, sharp at any zoom.</p>
+
+      <p>This is what dedicated tools like Ghostscript do, and what most desktop compression tools do. It's the correct approach. It preserves document fidelity where it matters and only trades quality in the regions where quality was already JPEG-compressed anyway.</p>
+
+      <h3>Approach 2: Page rasterization (lossy)</h3>
+
+      <p>The tool renders each page to a JPEG image, then rebuilds a PDF where each page is just that image. Text is no longer text — it's pixels. You can no longer search, select, or copy it.</p>
+
+      <p>This is the approach used by many browser-based tools, including ours, because <strong>re-encoding embedded images is much harder in JavaScript</strong>. To do it properly you have to parse the PDF's internal object structure, decode every image stream, re-encode, and rewrite the object references — all without breaking the file.</p>
+
+      <p>The trade-offs are substantial:</p>
+
+      <table>
+        <thead>
+          <tr><th></th><th>Image re-encoding</th><th>Page rasterization</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Text searchable</td><td>Yes</td><td>No</td></tr>
+          <tr><td>Text sharp at any zoom</td><td>Yes</td><td>Only up to render DPI</td></tr>
+          <tr><td>File size reduction</td><td>Moderate</td><td>Large</td></tr>
+          <tr><td>Works on text-only PDFs</td><td>Poorly</td><td>Often worse</td></tr>
+          <tr><td>Widely available in browser</td><td>No</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+
+      <p>Our <a href="../../tools/compress-pdf/index.html">Compress PDF tool</a> uses page rasterization, and says so explicitly on the tool page. If you need searchable text after compressing, our <a href="../../tools/ocr-pdf/index.html">OCR PDF tool</a> can rebuild a text layer — but it will be approximate, not the original text.</p>
+
+      <h2 id="realistic-numbers">Realistic size expectations</h2>
+
+      <p>Here's a rough guide, based on real files we've seen.</p>
+
+      <table>
+        <thead>
+          <tr><th>Type of document</th><th>Typical compression</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Scanned document at 300 DPI, 10 pages</td><td>60–90% reduction</td></tr>
+          <tr><td>Photo-heavy magazine, 20 pages</td><td>40–70% reduction</td></tr>
+          <tr><td>Mixed report with charts, 30 pages</td><td>20–40% reduction</td></tr>
+          <tr><td>Text-only report, 50 pages</td><td>5–15% reduction</td></tr>
+          <tr><td>Already-compressed PDF from an online tool</td><td>0–5% reduction</td></tr>
+        </tbody>
+      </table>
+
+      <p>Notice the last row. Re-compressing an already-compressed file rarely helps. We've seen people run the same file through three different tools hoping for a different result. The tools all use similar algorithms; they'll all produce similar output.</p>
+
+      <h3>The "compress to 100 KB" myth</h3>
+
+      <p>Some websites advertise "compress PDF to 100 KB" as if it's a service they can guarantee. Here's what actually happens: they run the same rasterization, and if the result isn't under 100 KB, they either lie about the output size, or they crank quality down to 5% and produce something unreadable.</p>
+
+      <p>Our approach is different: we offer a target-size mode, but if the target is unreachable without destroying the document, we tell you the best result we achieved and let you decide. No fake success.</p>
+
+      <h2 id="when-not">When NOT to compress</h2>
+
+      <p>Compression isn't always the right move. Skip it when:</p>
+
+      <ul>
+        <li><strong>The file needs to be searchable.</strong> Rasterization kills text search. If your recipient will Ctrl+F, don't rasterize.</li>
+        <li><strong>The document is a contract or legal record.</strong> Any alteration to the file content can be questioned. Keep the original bytes.</li>
+        <li><strong>The file is under 5 MB.</strong> It's almost certainly fine to send as-is. Most email services handle 25 MB.</li>
+        <li><strong>You'll need to edit it later.</strong> Text in a compressed PDF is images. Editing requires rebuilding the document from scratch.</li>
+        <li><strong>Archival copies.</strong> Compression is lossy by definition. Keep the original uncompressed version for archives.</li>
+      </ul>
+
+      <div class="article__callout article__callout--warn">
+        <strong>Important:</strong> compression tools that rasterize pages also <em>remove the file's original metadata</em>. If the PDF has an author field that matters (or a digital signature), it's gone after compression.
+      </div>
+
+      <h2 id="practical">The practical workflow</h2>
+
+      <p>Here's what I actually do when someone sends me an oversized PDF:</p>
+
+      <h3>Step 1: Check what's actually in the file</h3>
+
+      <p>Open the PDF and look at a few pages. Is it mostly scanned images? Mostly text? A mix? If it's mostly images, compression will help a lot. If it's mostly text, you probably can't compress much.</p>
+
+      <h3>Step 2: Ask whether compression is needed</h3>
+
+      <p>This sounds obvious, but: does your email client actually reject the file? Most accept up to 25 MB. Google Drive, Dropbox, and WeTransfer handle anything bigger. Sometimes a share link is better than a smaller file.</p>
+
+      <h3>Step 3: If you must compress, compress once</h3>
+
+      <p>Run it through once with a moderate quality setting (say 70%). Check the result. If it's good enough, stop. If not, try once more at a lower quality. Then stop.</p>
+
+      <p>Running the output through again rarely helps because the tool is re-compressing an already-compressed file — same algorithm, diminishing returns.</p>
+
+      <h3>Step 4: Verify before sending</h3>
+
+      <p>Open the compressed PDF. Check that:</p>
+
+      <ul>
+        <li>All pages are present</li>
+        <li>Text is readable (or at least legible)</li>
+        <li>Charts and images are recognisable</li>
+        <li>Nothing important got cut off</li>
+      </ul>
+
+      <p>It's worth the thirty seconds. We've seen people send compressed documents where signatures became illegible blobs.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>How small can I get a PDF?</summary>
+          <p>Depends entirely on content. A scan-heavy 20 MB file might compress to 2 MB. A 500 KB text-only report might only reach 470 KB. A good tool tells you honestly when the target is unreachable.</p>
+        </details>
+        <details>
+          <summary>Will compression make my text blurry?</summary>
+          <p>If the tool rasterizes pages, yes — at low quality settings. Our Compress PDF tool warns you below 40% quality. If text sharpness matters, don't compress, or use a desktop tool that re-encodes images without rasterizing.</p>
+        </details>
+        <details>
+          <summary>Why is the output sometimes larger?</summary>
+          <p>Because rasterizing at high DPI produces bigger images than the original vector content. Our tool checks for this and refuses to call it "compressed" if the result is larger.</p>
+        </details>
+        <details>
+          <summary>Can I compress just the images and keep the text?</summary>
+          <p>Not with browser-based tools at the moment — that requires low-level PDF object manipulation that hasn't been ported to JavaScript reliably. Desktop tools (Ghostscript, qpdf, Adobe Acrobat) do this well.</p>
+        </details>
+        <details>
+          <summary>Is compressing a PDF safe?</summary>
+          <p>Yes if you keep a copy of the original. Compression is destructive — you can't recover original quality from a compressed file. Always keep the source.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/compress-pdf/index.html">DSPDF Compress PDF</a> shows before/after previews and honest results — including "we couldn't reduce this further" when that's the truth.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../compress-pdf-for-email/index.html">
+            <h3 class="tool-card__title">Compress PDF for Email</h3>
+            <p class="tool-card__desc">Realistic targets per email provider.</p>
+          </a>
+          <a class="tool-card" href="../how-to-merge-pdf-files/index.html">
+            <h3 class="tool-card__title">How to Merge PDF Files</h3>
+            <p class="tool-card__desc">The other half of file-size math.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

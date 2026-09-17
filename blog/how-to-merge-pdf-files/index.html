@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>How to Merge PDF Files (the Right Way) — DSPDF</title>
+<meta name="description" content="A practical, honest guide to merging PDFs — the workflow that works, the pitfalls to avoid, and when you shouldn't merge at all." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-merge-pdf-files/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Merge PDF Files (the Right Way)" />
+<meta property="og:description" content="Real workflow, real pitfalls." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-merge-pdf-files/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"How to Merge PDF Files (the Right Way)",
+      "description":"A practical, honest guide to merging PDFs.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-merge-pdf-files/",
+      "datePublished":"2026-01-12",
+      "dateModified":"2026-01-12",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"How to Merge PDF Files","item":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-merge-pdf-files/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Can I merge PDFs without uploading them?","acceptedAnswer":{"@type":"Answer","text":"Yes. DSPDF's Merge tool runs entirely in your browser using pdf-lib. Your files never leave your device."}},
+        {"@type":"Question","name":"What happens to bookmarks when I merge?","acceptedAnswer":{"@type":"Answer","text":"PDF bookmarks (the outline tree in the sidebar) are not preserved by most client-side merge tools, including ours. Page content and text are preserved faithfully."}},
+        {"@type":"Question","name":"Can I merge password-protected PDFs?","acceptedAnswer":{"@type":"Answer","text":"Not directly. You must unlock them first. Our Unlock PDF tool can remove passwords you already know."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">How to Merge PDF Files</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Organize</span>
+      <h1>How to Merge PDF Files (the Right Way)</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-12">January 12, 2026</time>
+        <span>·</span>
+        <span>8 min read</span>
+      </div>
+
+      <p>Last month a friend asked me to combine her thesis chapters into a single PDF. She had seven files, each one a chapter, plus a cover page and a bibliography. She'd already tried two online tools. One had produced a file where chapter three appeared before chapter two. Another had silently stripped the bookmarks her supervisor had added. She sent me a very frustrated voice note at 11 PM.</p>
+
+      <p>We fixed it in about ten minutes. But the exercise reminded me how much room there is for a merge tool to go wrong — and how few of them are upfront about what they actually do with your file.</p>
+
+      <p>This is a practical guide: the workflow that works, the pitfalls to watch for, and the cases where you really shouldn't be merging at all.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#what-merge">What merging actually does</a></li>
+          <li><a href="#steps">Step-by-step workflow</a></li>
+          <li><a href="#pitfalls">Five pitfalls to avoid</a></li>
+          <li><a href="#bookmarks">The bookmark problem</a></li>
+          <li><a href="#when-not">When NOT to merge</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="what-merge">What merging actually does</h2>
+
+      <p>A PDF is a container. Inside it: pages, fonts, images, metadata, and various catalogues describing how all of that fits together. Merging means: create a new empty PDF container, then copy pages from the source files into it, one by one.</p>
+
+      <p>Sounds simple. And structurally it is. But "copy the pages" is where things get interesting, because each source file brings its own fonts, its own page size, its own coordinate system, and its own security settings. A good merge tool handles all of this gracefully. A bad one produces something that looks right at first glance but isn't.</p>
+
+      <h2 id="steps">Step-by-step workflow</h2>
+
+      <p>Here's the workflow that worked for my friend's thesis. It's the same one I'd recommend for most documents.</p>
+
+      <h3>1. Merge in the final intended order</h3>
+
+      <p>Don't merge first and reorder later. Some tools make reordering after the fact impossible, and even the ones that don't make it fiddly. Load your files in the order you want them to appear — cover, chapter one, chapter two, and so on.</p>
+
+      <p>In <a href="../../tools/merge-pdf/index.html">DSPDF's Merge tool</a>, after adding files you can drag the cards to reorder. Do that before clicking Merge.</p>
+
+      <h3>2. Watch file sizes as you go</h3>
+
+      <p>Merging twenty PDFs into one can produce a single file large enough to break email clients, browser memory, and some older PDF readers. If the total is over ~80 MB, consider whether you really need them combined. Often a ZIP of individual files is more useful.</p>
+
+      <h3>3. Merge in one operation</h3>
+
+      <p>Merging in stages — two files, then two more, then combine the results — compounds any small errors. Do it in one go when your device can handle it. Our tool uses a Web Worker precisely so you can throw a large merge at it and the UI stays responsive.</p>
+
+      <h3>4. Verify the result before sharing</h3>
+
+      <p>Open the merged PDF. Scroll through it. Check:</p>
+
+      <ul>
+        <li>Page count matches what you expect</li>
+        <li>Page order matches your intended order</li>
+        <li>The first page isn't blank (a common artifact of bad merges)</li>
+        <li>Text is selectable (try Ctrl+F for a phrase you know is in there)</li>
+        <li>Metadata didn't leak a previous author's name</li>
+      </ul>
+
+      <p>That last one surprises people. If you merged a template you downloaded and your own chapter, the merged file may inherit the template's creator field — which might say "Adobe InDesign" or worse, someone else's name. Check via <code>File → Properties</code> in your PDF reader, or use our <a href="../../tools/metadata-editor/index.html">Metadata Editor</a>.</p>
+
+      <h2 id="pitfalls">Five pitfalls to avoid</h2>
+
+      <h3>1. Password-protected source files</h3>
+
+      <p>You can't merge what you can't open. If one file in your list is encrypted, most merge tools will either fail silently or skip it. Some will hang.</p>
+
+      <p><strong>Fix:</strong> unlock each protected file first. Our <a href="../../tools/unlock-pdf/index.html">Unlock PDF</a> tool removes a password you already know. This is not a cracking tool — you must know the password.</p>
+
+      <h3>2. Mixed page sizes and orientations</h3>
+
+      <p>Merging an A4 portrait chapter with a landscape appendix is fine — the merged PDF will simply have mixed page sizes. But if you plan to print the result, mixed sizes cause the printer to switch trays or scale content unpredictably.</p>
+
+      <p><strong>Fix:</strong> normalize page sizes <em>before</em> merging. Use our <a href="../../tools/rotate-pdf/index.html">Rotate PDF</a> tool to fix orientations, and your PDF reader's "Print to PDF" with a fixed paper size if you need uniformity.</p>
+
+      <h3>3. Duplicate fonts bloating the file</h3>
+
+      <p>If three source files each embed the same 400 KB Helvetica variant, a naive merge embeds it three times. The merged file ends up larger than the sum of its parts. Sophisticated tools deduplicate; simple ones don't.</p>
+
+      <p><strong>Fix:</strong> if size matters, merge, then run the result through <a href="../../tools/compress-pdf/index.html">Compress PDF</a>. Note that our compression rasterizes pages, which trades searchable text for size — read that page carefully before using it on a text-heavy document.</p>
+
+      <h3>4. Bookmarks and form fields get dropped</h3>
+
+      <p>This is the one that made my friend's voice note so frustrated. PDF bookmarks (the navigation tree in the sidebar) are stored at the document level, not the page level. A merge tool that just copies pages loses all of them.</p>
+
+      <p>Form fields are worse — a form field has a name, and if two source files both have a field called "Date", the merge creates a conflict. Some tools silently pick one; others corrupt the field.</p>
+
+      <p><strong>Fix:</strong> there isn't a clean one at the browser level. Accept that bookmarks will be lost and rebuild them in your PDF reader afterwards (most readers let you add bookmarks). Or merge with a desktop tool like <em>qpdf</em> that handles bookmarks properly.</p>
+
+      <h3>5. Digital signatures get invalidated</h3>
+
+      <p>If any source file carries a cryptographic digital signature, merging invalidates it. This isn't a bug — it's how digital signatures work. A signature guarantees "this exact byte sequence is what was signed." Merge changes the byte sequence. Signature broken.</p>
+
+      <p>Visual signature images (the ones you drew or typed) are unaffected — they're just images on a page. But if you have a <em>certified</em> signature from a service like DocuSign, merging will break it.</p>
+
+      <p><strong>Fix:</strong> don't merge signed contracts. Keep them separate. If you need a bundle, package the individual signed PDFs in a ZIP.</p>
+
+      <h2 id="bookmarks">The bookmark problem, in more detail</h2>
+
+      <p>I want to spend a bit more time on bookmarks because it's the pitfall most people don't discover until it's too late.</p>
+
+      <p>PDF bookmarks are stored in a structure called the "outline tree", hanging off the document catalogue. It looks roughly like this:</p>
+
+      <pre>Document Catalog
+  → /Outlines
+      → Chapter 1 → [destination: page 5]
+      → Chapter 2 → [destination: page 18]
+          → Section 2.1 → [destination: page 24]
+          → Section 2.2 → [destination: page 31]</pre>
+
+      <p>Each destination points to a specific page object. When you merge, page objects get copied into a new document — but they get <em>new</em> object IDs. The old outline tree points to page IDs that no longer exist. A robust merge tool rebuilds the outline tree with new references. Most don't bother.</p>
+
+      <p>This is why DSPDF's Merge tool page explicitly says: <em>"Existing PDF bookmarks and form fields are not preserved by pdf-lib during merge. Page content and text are preserved faithfully."</em> We'd rather tell you upfront than have you discover it after sending a document to your thesis committee.</p>
+
+      <p>If bookmarks matter to you, the honest answer is: use a desktop tool. <code>qpdf</code> and <code>pdftk</code> both handle this better than any browser-based tool can. They're command-line utilities, so they're not for everyone, but they're free and they work.</p>
+
+      <h2 id="when-not">When NOT to merge</h2>
+
+      <p>There are cases where merging makes things worse, not better:</p>
+
+      <ul>
+        <li><strong>Legal filings.</strong> Many courts require individual documents filed separately. Merging can cause rejection.</li>
+        <li><strong>Signed contracts.</strong> Merging breaks digital signatures, as discussed.</li>
+        <li><strong>Interactive PDFs.</strong> If any source has form fields, JavaScript, or embedded video, merging tends to mangle them.</li>
+        <li><strong>Accessible documents.</strong> Merging can strip tagging and alt text, damaging screen-reader accessibility.</li>
+        <li><strong>Files you'll edit later.</strong> A single 200-page PDF is much harder to edit than the seven originals. Keep them separate if there's any chance of future revision.</li>
+      </ul>
+
+      <p>If your reason for merging is "one attachment is easier than seven", a ZIP file achieves the same thing without the downsides.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Can I merge PDFs without uploading them to a server?</summary>
+          <p>Yes — that's how DSPDF works. Our <a href="../../tools/merge-pdf/index.html">Merge PDF</a> tool uses the pdf-lib library inside your browser. Your files never leave your device. You can verify this by opening your browser's DevTools Network tab while merging — you'll see no outgoing file uploads.</p>
+        </details>
+        <details>
+          <summary>What's the maximum number of PDFs I can merge?</summary>
+          <p>There's no hard limit. The practical ceiling depends on your device's memory. Most modern laptops handle 20–50 files comfortably. Older phones may struggle above 10.</p>
+        </details>
+        <details>
+          <summary>Can I merge PDFs with different page sizes?</summary>
+          <p>Yes. The merged file will have mixed page sizes. This is fine for digital viewing but may cause issues when printing — some printers scale non-standard pages unpredictably.</p>
+        </details>
+        <details>
+          <summary>Why did my merged file come out larger than the sum of its parts?</summary>
+          <p>Duplicate resources — usually fonts or images shared across source files — get embedded multiple times. Running the result through a compression tool reduces this, at the cost of some quality.</p>
+        </details>
+        <details>
+          <summary>Can I merge a PDF with a password-protected one?</summary>
+          <p>Not directly. Unlock the protected file first using a tool that accepts the password you already know. Then merge.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> the <a href="../../tools/merge-pdf/index.html">DSPDF Merge PDF tool</a> does everything described here — drag-to-reorder, worker-based processing, honest error messages. No upload, no signup, no watermark on the output.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-split-pdf/index.html">
+            <h3 class="tool-card__title">How to Split a PDF</h3>
+            <p class="tool-card__desc">The reverse operation, and when it's the better choice.</p>
+          </a>
+          <a class="tool-card" href="../why-pdfs-never-leave-your-device/index.html">
+            <h3 class="tool-card__title">Why PDFs Should Never Leave Your Device</h3>
+            <p class="tool-card__desc">The privacy story behind local processing.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

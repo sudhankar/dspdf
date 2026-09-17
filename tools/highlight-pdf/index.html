@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Highlight PDF Online — Yellow, Green, Pink | DSPDF</title>
+<meta name="description" content="Add highlights to your PDF — yellow, green, pink, or blue with adjustable opacity. Free, private, in-browser." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/highlight-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Highlight PDF — DSPDF" />
+<meta property="og:description" content="Add highlights to PDF pages. Free and private." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/highlight-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"Highlight PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/highlight-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"Highlight PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/highlight-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Are highlights searchable annotations?","acceptedAnswer":{"@type":"Answer","text":"No. We draw highlight rectangles directly on the page. They are visual, not PDF annotation objects."}},
+    {"@type":"Question","name":"Can I use my own color?","acceptedAnswer":{"@type":"Answer","text":"Yes — pick any color from the color picker, along with opacity."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">Highlight PDF</span></li>
+    </ol></nav>
+
+    <h1>Highlight PDF</h1>
+    <p class="lead">Click and drag to highlight any area of a page — with your choice of color and opacity.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
+
+    <section class="tool-panel mt-6">
+      <div id="uz-hl" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-zone__title">Drop a PDF here or click to select</p>
+        <input type="file" accept="application/pdf,.pdf" hidden />
+      </div>
+
+      <div id="hl-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div id="hl-toolbar" class="mt-6" hidden>
+        <p class="text-muted" id="hl-info"></p>
+
+        <div class="opt-group mt-4">
+          <div class="opt-row">
+            <label>Color</label>
+            <button type="button" class="btn btn-sm" data-hl-color="#FDE047" style="background:#FDE047;color:#000;">Yellow</button>
+            <button type="button" class="btn btn-sm" data-hl-color="#86EFAC" style="background:#86EFAC;color:#000;">Green</button>
+            <button type="button" class="btn btn-sm" data-hl-color="#F9A8D4" style="background:#F9A8D4;color:#000;">Pink</button>
+            <button type="button" class="btn btn-sm" data-hl-color="#93C5FD" style="background:#93C5FD;color:#000;">Blue</button>
+            <input type="color" id="hl-color-custom" value="#FDE047" />
+          </div>
+          <div class="opt-row">
+            <label>Opacity</label>
+            <input type="range" id="hl-opacity" min="10" max="90" value="45" />
+            <span id="hl-opacity-val" style="min-width:48px;">45%</span>
+          </div>
+        </div>
+
+        <div id="hl-stage" hidden>
+          <p class="text-muted" style="font-size:0.9rem;">Click and drag on the page to highlight an area.</p>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
+            <canvas id="hl-canvas" style="display:block;background:#fff;cursor:crosshair;margin:0 auto;"></canvas>
+          </div>
+          <div class="mt-4">
+            <button type="button" class="btn btn-ghost btn-sm" id="hl-undo">Undo last</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="hl-clear">Clear all</button>
+            <span class="text-muted" style="font-size:0.85rem;margin-left:8px;" id="hl-count">0 highlights</span>
+          </div>
+        </div>
+
+        <div id="hl-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress"><div class="progress__bar"></div></div>
+          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
+        </div>
+
+        <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-primary btn-lg" id="hl-save" disabled>Save PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to highlight a PDF</h2>
+      <ol class="how-to">
+        <li>Drop your PDF into the box above.</li>
+        <li>Pick a highlight color and opacity.</li>
+        <li>Click and drag on the page to draw a highlight rectangle.</li>
+        <li>Repeat as needed (undo or clear any time).</li>
+        <li>Click <strong>Save PDF</strong>.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations</h2>
+      <ul>
+        <li>Highlights are drawn as solid rectangles on the page. They are <strong>not</strong> PDF text-highlight annotation objects, so they won't move with text reflow.</li>
+        <li>Only the current page is highlighted. Switch pages via the file menu — actually, this tool works with one page at a time. For multi-page highlighting, use the <a href="../pdf-editor/index.html">PDF Editor</a>.</li>
+        <li>Highlights use multiply-blend-like effect — text remains readable beneath them.</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>Are highlights searchable?</summary><p>No. They're visual rectangles drawn over the page content.</p></details>
+        <details><summary>Can I highlight on multiple pages?</summary><p>Currently this tool works on the first page only for simplicity. Use the <a href="../pdf-editor/index.html">PDF Editor</a> for multi-page highlighting.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">Multi-page highlights + more.</p></a>
+        <a class="tool-card" href="../annotate-pdf/index.html"><h3 class="tool-card__title">Annotate PDF</h3><p class="tool-card__desc">Stamps, notes, and markup.</p></a>
+        <a class="tool-card" href="../redact-pdf/index.html"><h3 class="tool-card__title">Redact PDF</h3><p class="tool-card__desc">Black out sensitive content.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/protect-sensitive-pdfs/index.html"><h3 class="tool-card__title">Protect Sensitive PDFs</h3><p class="tool-card__desc">Annotate vs redact — what's the difference.</p></a>
+        <a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">Privacy story.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/highlight-pdf.js"></script>
+</body>
+</html>

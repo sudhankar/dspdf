@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>How to Add a Signature to a PDF (Honest Guide) | DSPDF</title>
+<meta name="description" content="Draw, type, or upload a signature to PDF. Plus the legal reality most online tools don't tell you about electronic signatures." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/add-signature-to-pdf/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Add a Signature to a PDF" />
+<meta property="og:description" content="Options, workflows, and the legal reality." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/add-signature-to-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"How to Add a Signature to a PDF",
+      "description":"Draw, type, or upload. Plus the legal reality.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/add-signature-to-pdf/",
+      "datePublished":"2026-01-24",
+      "dateModified":"2026-01-24",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Add a Signature to PDF","item":"https://YOUR-USERNAME.github.io/dspdf/blog/add-signature-to-pdf/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Is a drawn signature legally binding?","acceptedAnswer":{"@type":"Answer","text":"Depends on jurisdiction and receiving party. Many jurisdictions accept electronic signatures in the same way as ink signatures for most contracts. But you need more than an image — you typically need an audit trail proving who signed and when."}},
+        {"@type":"Question","name":"What's the difference between a visual and cryptographic signature?","acceptedAnswer":{"@type":"Answer","text":"A visual signature is an image on the page. A cryptographic signature uses a certificate to prove the document hasn't been altered since signing. Only cryptographic signatures are legally robust."}},
+        {"@type":"Question","name":"Can I remove a signature I added?","acceptedAnswer":{"@type":"Answer","text":"Once baked into the PDF as an image, no. Keep your original file if you might need to remove or re-place the signature."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Add a Signature to PDF</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Security</span>
+      <h1>How to Add a Signature to a PDF (Honest Guide)</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-24">January 24, 2026</time>
+        <span>·</span>
+        <span>7 min read</span>
+      </div>
+
+      <p>A landlord once sent me a lease as a PDF and asked me to "just sign it and send it back." I'd never signed a digital document before. I did what most people do: I opened an online PDF signer, drew my signature on my laptop's trackpad (a terrible experience), and emailed the result.</p>
+
+      <p>The lease worked out fine. But I later learned that what I'd done was technically an "electronic signature" in the weakest possible sense — a visual mark, no audit trail, no cryptographic proof. For a residential lease this was acceptable. For a mortgage or a legal affidavit it might not have been.</p>
+
+      <p>Here's the honest version of what signing a PDF actually involves.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#three-ways">Three ways to add a signature</a></li>
+          <li><a href="#which-way">Which one should you use?</a></li>
+          <li><a href="#legal">The legal reality</a></li>
+          <li><a href="#workflow">A practical workflow</a></li>
+          <li><a href="#pitfalls">Pitfalls</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="three-ways">Three ways to add a signature</h2>
+
+      <h3>1. Draw with mouse, finger, or stylus</h3>
+
+      <p>Most tools, including <a href="../../tools/sign-pdf/index.html">DSPDF's Sign PDF</a>, offer a canvas where you draw. On a phone or tablet with a finger or stylus, this produces something close to a real signature. On a trackpad, it's usually a wobbly mess that doesn't look like your actual signature.</p>
+
+      <p>If you draw, the quality of the output depends entirely on the input device. Touch screens are best. Mouse is acceptable. Trackpad is a joke.</p>
+
+      <h3>2. Type your name in a script font</h3>
+
+      <p>Type your name, and the tool renders it in a font that resembles handwriting (Dancing Script, Caveat, or similar). Fast, clean, and consistent every time.</p>
+
+      <p>Downsides: it doesn't look like your real signature, and some recipients find it off-putting. It's a reasonable choice for casual documents and internal forms. Not great for anything formal.</p>
+
+      <h3>3. Upload an image of your signature</h3>
+
+      <p>Sign on paper, photograph or scan it, crop to just the signature, and upload the image. This is what most people with a scanned signature do — you sign once, reuse forever.</p>
+
+      <p>Downsides: you need to produce a clean image (transparent background is ideal). And having a signature image sitting in your files is a security consideration — if someone gets it, they can sign as you.</p>
+
+      <h2 id="which-way">Which one should you use?</h2>
+
+      <table>
+        <thead>
+          <tr><th>Use case</th><th>Recommended method</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Casual internal document</td><td>Type signature (quick, clean)</td></tr>
+          <tr><td>Residential lease, simple contract</td><td>Draw on phone/tablet, or upload</td></tr>
+          <tr><td>Business contract</td><td>Upload pre-scanned signature + audit trail</td></tr>
+          <tr><td>Legal / notarised documents</td><td>Dedicated eSignature service (DocuSign, Adobe Sign, similar)</td></tr>
+          <tr><td>Government forms</td><td>Check requirements — many need physical signature and wet stamp</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="legal">The legal reality</h2>
+
+      <p>This is the section most online tools skip, and it's the most important.</p>
+
+      <p>There are three levels of signature in the digital world, and they're not equivalent:</p>
+
+      <h3>Level 1: Visual signature (what most online tools produce)</h3>
+
+      <p>A picture of a signature placed on the PDF. Anyone with basic image tools could copy it, modify it, or add it to a different document. No proof of who signed or when.</p>
+
+      <p>This is what "sign a PDF" tools generally produce, including ours. It's fine for informal documents. It is <em>not</em> proof of anything in a dispute.</p>
+
+      <h3>Level 2: Electronic signature with audit trail</h3>
+
+      <p>A platform that requires identity verification (email confirmation, OTP, sometimes ID) and logs every action — when the document was viewed, signed, and by whom. The signature is still a visual mark, but the audit trail proves who did it.</p>
+
+      <p>Examples: DocuSign, Adobe Sign, HelloSign, and similar services. Usually paid. The audit trail is the whole point.</p>
+
+      <h3>Level 3: Cryptographic digital signature</h3>
+
+      <p>A mathematical signature using a certificate. The document is hashed, and the hash is signed with a private key. Anyone with the corresponding public key can verify both <em>who</em> signed and that the document <em>hasn't been altered</em> since.</p>
+
+      <p>This is what "digital signature" actually means in the technical sense. Common formats: PDF signed with a certificate from a Certificate Authority (DigiCert, GlobalSign, etc.). In India: signatures under the IT Act 2000 using Aadhaar-based eSign are legally equivalent to handwritten signatures.</p>
+
+      <p>Our tool does not do this. It cannot — certificate-based signing requires accessing a private key or a cloud signing service, neither of which is available to a purely client-side web app.</p>
+
+      <div class="article__callout article__callout--warn">
+        <strong>Important:</strong> If your document needs to hold up in court, in front of a regulator, or against a disputing counterparty, do not use a visual signature tool. Use a service that provides a cryptographic signature or an audit trail.
+      </div>
+
+      <h2 id="workflow">A practical workflow</h2>
+
+      <p>For most everyday documents — leases, permission slips, internal forms — here's the workflow that produces good results:</p>
+
+      <h3>Step 1: Create a reusable signature image once</h3>
+
+      <p>Sign on a blank white piece of paper with a dark pen. Photograph it in good lighting. Open the photo in an image editor. Crop tightly to just the signature. If your editor supports background removal or "levels", use it to make the paper pure white and the ink dark black. Save as PNG at around 800×300 pixels.</p>
+
+      <p>You now have a signature image you can reuse for years.</p>
+
+      <h3>Step 2: Place it on the PDF</h3>
+
+      <p>Use <a href="../../tools/sign-pdf/index.html">Sign PDF</a> or the <a href="../../tools/pdf-editor/index.html">PDF Editor</a>. Upload the image, click where it should go, and resize.</p>
+
+      <h3>Step 3: Add a date</h3>
+
+      <p>Many contracts are technically incomplete without a date. Use <a href="../../tools/add-text-to-pdf/index.html">Add Text to PDF</a> to place today's date next to the signature.</p>
+
+      <h3>Step 4: Save a copy of the original</h3>
+
+      <p>Always keep the unsigned original. If you need to re-sign later, you don't want to be stuck with a signature you can't remove.</p>
+
+      <h2 id="pitfalls">Pitfalls</h2>
+
+      <h3>1. Signature too small or too large</h3>
+
+      <p>A signature that's 5% of the page width looks wrong. Most signatures occupy about 20-25% of the page width. Test the placement visually before saving.</p>
+
+      <h3>2. Signing in the wrong place</h3>
+
+      <p>Common mistake: signing on the "Date" line instead of the "Signature" line. Read the form carefully.</p>
+
+      <h3>3. Signature image with a visible box</h3>
+
+      <p>If your signature image has a white rectangle around it (because you cropped too loosely or didn't remove the background), it will look like a pasted sticker on the page. The best signature images have transparent or white backgrounds that match the page.</p>
+
+      <h3>4. Forgetting to date</h3>
+
+      <p>An undated signature is legally weaker than a dated one. Always add the date.</p>
+
+      <h3>5. Sending without verifying</h3>
+
+      <p>Open the signed PDF before sending. Scroll to the signed page. Check that the signature is in the right place and legible. Then send.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Is a drawn signature legally binding?</summary>
+          <p>Depends on jurisdiction and what the receiving party accepts. In many countries, electronic signatures are legally valid for most contracts. But "electronic signature" in the legal sense usually requires more than just an image — a signature platform with identity verification and audit trail is typically what courts want to see.</p>
+        </details>
+        <details>
+          <summary>What's the difference between a visual and cryptographic signature?</summary>
+          <p>A visual signature is a picture on the page. A cryptographic signature uses a certificate to prove two things: who signed, and that the document hasn't been altered since. Only cryptographic signatures provide non-repudiation.</p>
+        </details>
+        <details>
+          <summary>Can I remove a signature I added?</summary>
+          <p>Once baked into the PDF, no. Always keep the original unsigned file.</p>
+        </details>
+        <details>
+          <summary>Can I use the same signature image on multiple documents?</summary>
+          <p>Yes, and most people do. Just be aware that a scan of your signature is a security asset — store it in an encrypted folder if your device supports it.</p>
+        </details>
+        <details>
+          <summary>Is my signature uploaded?</summary>
+          <p>Not with DSPDF. Your signature image and PDF are processed entirely in your browser. Nothing is uploaded.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/sign-pdf/index.html">DSPDF Sign PDF</a> supports draw, type, and upload. Everything runs locally — no upload, no account, no watermark.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../protect-sensitive-pdfs/index.html">
+            <h3 class="tool-card__title">Protecting Sensitive PDFs</h3>
+            <p class="tool-card__desc">Password, encryption, and redaction.</p>
+          </a>
+          <a class="tool-card" href="../pdf-metadata-explained/index.html">
+            <h3 class="tool-card__title">PDF Metadata Explained</h3>
+            <p class="tool-card__desc">Check what your signed PDF reveals.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

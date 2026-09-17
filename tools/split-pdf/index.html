@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Split PDF Online — Free, Private, No Upload | DSPDF</title>
+<meta name="description" content="Split a PDF by page ranges, every N pages, or individual pages — output as separate PDFs in a ZIP. 100% private, runs in your browser." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/split-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Split PDF — DSPDF" />
+<meta property="og:description" content="Split by range or every N pages. Free and private." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/split-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"Split PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/split-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"Split PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/split-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Do I get one file or many?","acceptedAnswer":{"@type":"Answer","text":"Multiple files, bundled into a ZIP. Choose 'every N pages' or define ranges to control how many."}},
+    {"@type":"Question","name":"Can I split a protected PDF?","acceptedAnswer":{"@type":"Answer","text":"No — unlock it first using the Unlock PDF tool."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">Split PDF</span></li>
+    </ol></nav>
+
+    <h1>Split PDF</h1>
+    <p class="lead">Break one PDF into several. Choose "every N pages" or specify exact ranges — output is delivered as a ZIP.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
+
+    <section class="tool-panel mt-6">
+      <div id="uz-split" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-zone__title">Drop a PDF here or click to select</p>
+        <input type="file" accept="application/pdf,.pdf" hidden />
+      </div>
+
+      <div id="split-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div id="split-toolbar" class="mt-6" hidden>
+        <p class="text-muted" id="split-info"></p>
+
+        <div class="opt-group mt-4">
+          <div class="opt-row">
+            <label><input type="radio" name="split-mode" value="every" checked /> Every N pages</label>
+            <input type="number" id="split-n" min="1" value="1" aria-label="Pages per chunk" style="max-width:120px;" />
+          </div>
+          <div class="opt-row">
+            <label><input type="radio" name="split-mode" value="ranges" /> Custom ranges</label>
+            <input type="text" id="split-ranges" placeholder="e.g. 1-3, 5, 7-10" aria-label="Ranges" />
+          </div>
+        </div>
+
+        <div id="split-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress"><div class="progress__bar"></div></div>
+          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
+        </div>
+
+        <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-primary btn-lg" id="split-apply">Split &amp; download ZIP</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to split a PDF</h2>
+      <ol class="how-to">
+        <li>Drop your PDF into the box above.</li>
+        <li>Choose "Every N pages" or enter custom ranges like <code>1-3, 5, 7-10</code>.</li>
+        <li>Click <strong>Split &amp; download ZIP</strong>.</li>
+        <li>You receive a ZIP file containing one PDF per chunk.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations</h2>
+      <ul>
+        <li>Password-protected PDFs must be unlocked first.</li>
+        <li>Ranges are inclusive of both endpoints. So <code>1-3</code> means pages 1, 2, and 3.</li>
+        <li>Bookmarks and form fields are not preserved.</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>Do I get one file or many?</summary><p>Many. They're bundled into a ZIP to save you clicks.</p></details>
+        <details><summary>Can I split a protected PDF?</summary><p>Not directly. Unlock it first with <a href="../unlock-pdf/index.html">Unlock PDF</a>.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine back into one.</p></a>
+        <a class="tool-card" href="../extract-pages/index.html"><h3 class="tool-card__title">Extract Pages</h3><p class="tool-card__desc">Single output file.</p></a>
+        <a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink each chunk.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/how-to-split-pdf/index.html"><h3 class="tool-card__title">How to Split a PDF</h3><p class="tool-card__desc">Every method explained.</p></a>
+        <a class="tool-card" href="../../blog/compress-pdf-for-email/index.html"><h3 class="tool-card__title">Compress PDF for Email</h3><p class="tool-card__desc">Size limits and tactics.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/split.js"></script>
+</body>
+</html>

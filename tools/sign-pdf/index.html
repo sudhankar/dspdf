@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Sign PDF Online — Draw, Type or Upload Signature | DSPDF</title>
+<meta name="description" content="Add your signature to any PDF — draw it, type it, or upload an image. Free, private, and 100% in-browser." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/sign-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Sign PDF — DSPDF" />
+<meta property="og:description" content="Sign PDFs privately in your browser." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/sign-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Dancing+Script:wght@500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<link rel="stylesheet" href="../../css/editor.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"Sign PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/sign-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"Sign PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/sign-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Is this a legally valid signature?","acceptedAnswer":{"@type":"Answer","text":"This tool creates a visual signature image on the PDF. Whether that counts as a valid electronic signature depends on your jurisdiction and the receiving party. It is NOT a cryptographic digital certificate signature."}},
+    {"@type":"Question","name":"Where is my signature stored?","acceptedAnswer":{"@type":"Answer","text":"Only in your browser's memory during the session. Nothing is uploaded. Closing the tab erases it."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">Sign PDF</span></li>
+    </ol></nav>
+
+    <h1>Sign PDF</h1>
+    <p class="lead">Draw, type, or upload a signature and place it on your PDF. Everything happens on your device.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
+
+    <div class="alert alert-warning mt-4" role="note">
+      <strong>⚠</strong>
+      <div>This is a <strong>visual signature image</strong> placed on the PDF. It is not a cryptographic digital signature. For contracts requiring legal digital signatures, use a dedicated eSignature service.</div>
+    </div>
+
+    <section class="tool-panel mt-6">
+      <div id="uz-sign" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-zone__title">Drop a PDF here or click to select</p>
+        <input type="file" accept="application/pdf,.pdf" hidden />
+      </div>
+
+      <div id="sign-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div id="sign-toolbar" class="mt-6" hidden>
+        <p class="text-muted" id="sign-info"></p>
+
+        <div class="mt-4" style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary" id="sign-draw-btn">✍ Draw signature</button>
+          <button type="button" class="btn btn-secondary" id="sign-type-btn">Aa Type signature</button>
+          <button type="button" class="btn btn-secondary" id="sign-upload-btn">⬆ Upload image</button>
+          <input type="file" accept="image/png,image/jpeg" id="sign-upload-file" hidden />
+        </div>
+
+        <div id="sign-sig-preview" class="mt-4" hidden>
+          <h4 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">Your signature</h4>
+          <img id="sign-sig-img" alt="Signature preview" style="max-height:110px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:6px;" />
+        </div>
+
+        <div id="sign-canvas-wrap" class="mt-4" hidden style="position:relative;">
+          <p class="text-muted" style="font-size:0.85rem;">Click on the page below to place your signature.</p>
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
+            <canvas id="sign-page-canvas" style="display:block;background:#fff;cursor:crosshair;margin:0 auto;"></canvas>
+          </div>
+        </div>
+
+        <div id="sign-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress"><div class="progress__bar"></div></div>
+          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
+        </div>
+
+        <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-primary btn-lg" id="sign-save" disabled>Save signed PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to sign a PDF</h2>
+      <ol class="how-to">
+        <li>Drop your PDF into the box above.</li>
+        <li>Create your signature — draw it, type it, or upload an image.</li>
+        <li>Click on the page where the signature should appear.</li>
+        <li>Click <strong>Save signed PDF</strong>.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations</h2>
+      <ul>
+        <li><strong>Not a cryptographic signature.</strong> This is a visual image placed on the page. If your counterparty requires a certified digital signature (e.g., for legal contracts), use a dedicated eSignature platform.</li>
+        <li>The signature image is a PNG. It's embedded in the PDF at the position you click.</li>
+        <li>Signature size and position are fixed at placement time (not editable after saving). For fine adjustments, use the <a href="../pdf-editor/index.html">PDF Editor</a>.</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>Is this legally valid?</summary><p>Depends on jurisdiction and what the receiving party accepts. This is a visual signature, not a certificate-based digital signature.</p></details>
+        <details><summary>Where is my signature stored?</summary><p>Only in your browser's memory during this session. Nothing is uploaded. Closing the tab erases it.</p></details>
+        <details><summary>Can I sign multiple pages?</summary><p>Yes — click on the page, save, reopen the file to sign another page. Or use the <a href="../pdf-editor/index.html">PDF Editor</a> which allows multiple placements in one session.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">Full overlay editor with signature tool.</p></a>
+        <a class="tool-card" href="../add-text-to-pdf/index.html"><h3 class="tool-card__title">Add Text to PDF</h3><p class="tool-card__desc">Add initials or dates.</p></a>
+        <a class="tool-card" href="../watermark-pdf/index.html"><h3 class="tool-card__title">Watermark PDF</h3><p class="tool-card__desc">Add a "SIGNED" stamp.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/add-signature-to-pdf/index.html"><h3 class="tool-card__title">Add a Signature to PDF</h3><p class="tool-card__desc">Options compared honestly.</p></a>
+        <a class="tool-card" href="../../blog/protect-sensitive-pdfs/index.html"><h3 class="tool-card__title">Protect Sensitive PDFs</h3><p class="tool-card__desc">What actually works.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Signature modals -->
+<div class="modal" id="sig-draw-modal" role="dialog" aria-modal="true">
+  <div class="modal__panel">
+    <h3>Draw signature</h3>
+    <p class="text-muted">Sign with mouse, finger, or stylus.</p>
+    <div class="sign-pad"><canvas id="sig-pad-canvas"></canvas></div>
+    <div style="margin-top:8px;"><button type="button" class="btn btn-ghost btn-sm" id="sig-pad-clear">Clear</button></div>
+    <div class="editor-modal-actions">
+      <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+      <button type="button" class="btn btn-primary" id="sig-draw-confirm">Use this signature</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="sig-type-modal" role="dialog" aria-modal="true">
+  <div class="modal__panel">
+    <h3>Type signature</h3>
+    <p class="text-muted">Type your name — it will render in a signature-style font.</p>
+    <input type="text" class="sign-type-input" id="sig-type-text" placeholder="Your name" />
+    <div class="sign-font-choice">
+      <button type="button" class="is-active" data-font="Dancing Script">Dancing Script</button>
+      <button type="button" data-font="Caveat">Caveat</button>
+      <button type="button" data-font="Georgia">Serif</button>
+    </div>
+    <div class="editor-modal-actions">
+      <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+      <button type="button" class="btn btn-primary" id="sig-type-confirm">Use this signature</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/sign-pdf.js"></script>
+</body>
+</html>

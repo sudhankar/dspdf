@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Compress PDF Online — Reduce File Size Privately | DSPDF</title>
+<meta name="description" content="Reduce PDF file size by quality or target — with honest results. No uploads, everything runs in your browser." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/compress-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Compress PDF — DSPDF" />
+<meta property="og:description" content="Reduce PDF size honestly. Free and private." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/compress-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"Compress PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/compress-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"Compress PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/compress-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How does compression work?","acceptedAnswer":{"@type":"Answer","text":"We rasterize each page to a JPEG at your chosen quality, then rebuild the PDF from those images. This reduces size but converts text to pixels — so text becomes unselectable. If you need searchable text, use our OCR tool after compressing."}},
+    {"@type":"Question","name":"What target size can I reach?","acceptedAnswer":{"@type":"Answer","text":"That depends entirely on the source document. Scanned or image-heavy PDFs compress well. Text-only PDFs are already small and often can't be reduced much without visible quality loss."}},
+    {"@type":"Question","name":"Will text become blurry?","acceptedAnswer":{"@type":"Answer","text":"At quality below 40% small text can blur. We warn you when you reach that level."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">Compress PDF</span></li>
+    </ol></nav>
+
+    <h1>Compress PDF</h1>
+    <p class="lead">Reduce your PDF's file size — either by picking a quality level or by naming a target size and letting us find the best achievable setting.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
+
+    <section class="tool-panel mt-6">
+      <div id="uz-compress" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-zone__title">Drop a PDF here or click to select</p>
+        <input type="file" accept="application/pdf,.pdf" hidden />
+      </div>
+
+      <div id="compress-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div id="compress-toolbar" class="mt-6" hidden>
+        <p class="text-muted" id="compress-info"></p>
+
+        <div class="opt-group mt-4">
+          <div class="opt-row">
+            <label><input type="radio" name="c-mode" value="quality" checked /> Quality</label>
+            <input type="range" id="c-quality" min="10" max="90" step="5" value="70" aria-label="JPEG quality" />
+            <span id="c-quality-val" style="font-variant-numeric: tabular-nums; min-width:44px;">70%</span>
+          </div>
+          <div class="opt-row">
+            <label><input type="radio" name="c-mode" value="target" /> Target size</label>
+            <input type="number" id="c-target-num" min="1" value="500" aria-label="Target size" style="max-width:130px;" />
+            <select id="c-target-unit" aria-label="Target unit">
+              <option value="KB">KB</option><option value="MB" selected>MB</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="alert alert-warning mt-4" role="note">
+          <strong>⚠</strong>
+          <div>
+            Compressing converts each page to an image, then rebuilds the PDF. Text becomes non-selectable.
+            If that matters, use our <a href="../ocr-pdf/index.html">OCR PDF</a> tool afterwards to add back a searchable layer.
+            <br /><strong>Below 40% quality, small text may become blurry.</strong>
+          </div>
+        </div>
+
+        <div id="compress-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress"><div class="progress__bar"></div></div>
+          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
+        </div>
+
+        <div id="compress-result" class="alert alert-info mt-4" hidden></div>
+
+        <div class="preview-pair mt-6" id="compress-preview" hidden>
+          <div>
+            <h4>Original — first page</h4>
+            <canvas id="prev-original" width="1" height="1"></canvas>
+          </div>
+          <div>
+            <h4>Compressed — first page</h4>
+            <canvas id="prev-compressed" width="1" height="1"></canvas>
+          </div>
+        </div>
+
+        <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-secondary btn-lg" id="compress-preview-btn" disabled>Preview</button>
+          <button type="button" class="btn btn-primary btn-lg" id="compress-apply" disabled>Compress</button>
+          <button type="button" class="btn btn-primary btn-lg" id="compress-download" hidden>Download result</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to compress a PDF</h2>
+      <ol class="how-to">
+        <li>Drop your PDF into the box above.</li>
+        <li>Pick a quality level, or enter a target size (e.g., 500 KB).</li>
+        <li>Optionally click <strong>Preview</strong> to see the first page before and after.</li>
+        <li>Click <strong>Compress</strong>. For target mode, we try a range of qualities.</li>
+        <li>Review the result — download if you're happy, or adjust and try again.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations — read this</h2>
+      <ul>
+        <li><strong>Text becomes image.</strong> Our compression rasterizes each page. The result is smaller but text is no longer selectable. If you need searchable text, compress <em>before</em> running OCR, or compress a scan.</li>
+        <li><strong>Already-small files.</strong> If your PDF is mostly text, it might already be near-minimal. We'll tell you honestly when we can't compress further.</li>
+        <li><strong>Target sizes are goals, not guarantees.</strong> If your target is unreachable without destroying quality, we'll show you the best we achieved and let you decide.</li>
+        <li><strong>Multipage performance.</strong> Files with hundreds of pages may take a while — rasterizing is CPU-heavy.</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>Can I keep text selectable?</summary><p>Not with our current approach. If you need both smaller size and selectable text, compress first (to images), then run <a href="../ocr-pdf/index.html">OCR PDF</a> to rebuild a text layer.</p></details>
+        <details><summary>Why is my PDF still large after compression?</summary><p>Because it was already near its minimum. PDFs made of text-only content are small; there's little to trim.</p></details>
+        <details><summary>Does target mode guarantee the size?</summary><p>No. It searches for the best quality that meets the target. If unreachable, we tell you the best result we achieved — never fake it.</p></details>
+        <details><summary>Is my file uploaded?</summary><p>Never. Everything runs in your browser.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../ocr-pdf/index.html"><h3 class="tool-card__title">OCR PDF</h3><p class="tool-card__desc">Add back a searchable text layer.</p></a>
+        <a class="tool-card" href="../split-pdf/index.html"><h3 class="tool-card__title">Split PDF</h3><p class="tool-card__desc">Divide before compressing.</p></a>
+        <a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine after compressing.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/how-to-compress-pdf/index.html"><h3 class="tool-card__title">How to Compress a PDF</h3><p class="tool-card__desc">And when not to.</p></a>
+        <a class="tool-card" href="../../blog/compress-pdf-for-email/index.html"><h3 class="tool-card__title">Compress PDF for Email</h3><p class="tool-card__desc">Realistic size targets.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/compress.js"></script>
+</body>
+</html>

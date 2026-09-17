@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>About DSPDF — Who We Are &amp; Why We Built This | DSPDF</title>
+<meta name="description" content="DSPDF is a suite of client-side PDF tools. Everything runs in your browser, nothing is uploaded. Here's the story and the principles." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/about/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="About DSPDF" />
+<meta property="og:description" content="Why we built a PDF tool suite that never uploads your files." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/about/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"About","item":"https://YOUR-USERNAME.github.io/dspdf/about/"}
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../tools/index.html">All Tools</a></li>
+      <li><a href="../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../faq/index.html">FAQ</a></li>
+      <li><a href="index.html">About</a></li>
+      <li><a href="../contact/index.html">Contact</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../index.html">Home</a></li>
+        <li><span aria-current="page">About</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">About</span>
+      <h1>About DSPDF</h1>
+      <p class="lead">DSPDF is a suite of PDF tools that run entirely in your browser. Nothing is uploaded. There are no accounts. There's no server processing your files.</p>
+
+      <h2>Why we built this</h2>
+
+      <p>We started DSPDF because we were tired of a specific problem: every time we needed to merge two PDFs, add a signature, or remove a page, we ended up on some website that wanted us to upload our file to a server we knew nothing about. Often the site was plastered with ads and buried under cookie banners. Sometimes it asked for an email address. Always, it was uploading our document to a random machine.</p>
+
+      <p>For a menu PDF, this doesn't matter. For a rental agreement, a tax return, or a medical record, it does. And it bothered us that the alternatives were (a) pay for a desktop app, (b) upload to a sketchy site, or (c) just not do the thing.</p>
+
+      <p>Modern browsers made option (d) possible: do the work in the browser, keep the file on the user's device, and don't have a server at all.</p>
+
+      <h2>How DSPDF works</h2>
+
+      <p>DSPDF is a static site. There's no backend. When you open a tool page:</p>
+
+      <ul>
+        <li>Your browser loads HTML, CSS, and JavaScript files (the same ones every visitor loads).</li>
+        <li>You pick a file from your device. The browser reads it into memory using the <code>FileReader</code> API — no network activity.</li>
+        <li>Processing happens using JavaScript libraries like <a href="https://github.com/Hopding/pdf-lib" rel="noopener">pdf-lib</a> and <a href="https://mozilla.github.io/pdf.js/" rel="noopener">pdf.js</a>, running on your CPU.</li>
+        <li>The result is created as a Blob in memory and saved to your disk via the browser's download mechanism.</li>
+      </ul>
+
+      <p>Throughout this sequence, no file content is sent over the network. This is provable: open your browser's DevTools, clear the Network tab, and use any tool. You'll see no outgoing requests carrying your file.</p>
+
+      <p>You can also test it differently: load a tool page, disconnect from the internet, and use the tool. It still works. That's the strongest possible proof that processing is local.</p>
+
+      <h2>Our principles</h2>
+
+      <h3>1. Honest about limits</h3>
+
+      <p>We won't claim a feature works unless it actually does. If a tool can't edit existing PDF text (which no browser tool can, reliably), we say so. If compression would degrade text quality, we warn you. If our encryption uses a weaker algorithm than you might expect, we tell you. Trust is more valuable to us than a slightly better-looking marketing page.</p>
+
+      <h3>2. Client-side by default</h3>
+
+      <p>If a task can be done in the browser, it should be. There are rare cases where servers are genuinely needed (massive-scale OCR, for example), but most PDF operations aren't one of them. We default to local processing and only move to a server when there's no alternative.</p>
+
+      <h3>3. No tracking by default</h3>
+
+      <p>Our site ships with analytics disabled. We don't use cookies unless you enable something that needs them. There are no third-party trackers. If you want to see how many people visit your site, you can turn analytics on in the config — but it's off out of the box.</p>
+
+      <h3>4. No dark patterns</h3>
+
+      <p>We don't put fake "Upload" buttons that lead to ad pages. We don't hide the download button behind a newsletter signup. We don't disable right-click. The tools work as advertised and the interface gets out of the way.</p>
+
+      <h3>5. Open-source foundation</h3>
+
+      <p>DSPDF is built on top of widely-used open-source libraries: pdf-lib, pdf.js, Tesseract.js, jsPDF, JSZip. These are maintained by communities and used by thousands of projects. If you want to audit what happens under the hood, everything is inspectable.</p>
+
+      <h2>What we don't do</h2>
+
+      <ul>
+        <li><strong>We don't edit existing PDF text.</strong> No browser-based tool can do this reliably. Anyone claiming to is either misrepresenting the capability or producing text overlays that look edited but aren't.</li>
+        <li><strong>We don't crack passwords.</strong> Our Unlock tool removes passwords you already know. It's not a brute-forcer and won't be.</li>
+        <li><strong>We don't provide cryptographic signatures.</strong> Adding a visual signature to a PDF is not the same as signing it with a certificate. We don't pretend otherwise.</li>
+        <li><strong>We don't use "AI" for anything.</strong> No machine-learning models are running behind these tools. They're deterministic file operations.</li>
+      </ul>
+
+      <h2>Who's behind DSPDF</h2>
+
+      <p>👉 OWNER: Replace this section with your own story. Consider mentioning:</p>
+      <ul>
+        <li>Your name or team</li>
+        <li>Your background (developer, designer, teacher, etc.)</li>
+        <li>Why you personally got interested in this problem</li>
+        <li>Where you're based (country/region is fine)</li>
+        <li>How to reach you (the Contact page has details)</li>
+      </ul>
+      <p>A few honest sentences here are worth more than paragraphs of generic marketing copy. Visitors want to know there's a real person behind the site.</p>
+
+      <h2>Roadmap</h2>
+
+      <p>Things we're working on, or would like to:</p>
+
+      <ul>
+        <li><strong>Page reordering tool.</strong> Drag-and-drop reordering of pages within a PDF, without needing to extract-and-merge.</li>
+        <li><strong>Custom TTF font embedding</strong> in the PDF editor and text tools. Currently only standard PDF fonts (Helvetica, Times, Courier) are supported.</li>
+        <li><strong>True invisible text rendering</strong> in OCR output. Currently we use a very-low-opacity overlay, which works but isn't ideal.</li>
+        <li><strong>Per-page cropping.</strong> Currently crop applies the same margins to every page.</li>
+        <li><strong>Better Hindi OCR.</strong> Tesseract's Hindi model works but is limited. We're watching for improvements.</li>
+      </ul>
+
+      <h2>Feedback and support</h2>
+
+      <p>If you find a bug, have a feature request, or want to say hello, see the <a href="../contact/index.html">Contact page</a>. We read everything, though we can't promise a fast reply.</p>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">Building quiet, private tools that do one thing well.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="navbar__brand" href="../index.html" aria-label="DSPDF home">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="130" height="30" aria-hidden="true"><defs><linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#fg)"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+        </a>
+        <p class="mt-4" style="font-size: 0.9rem; max-width: 34ch;">Powerful PDF tools that respect your privacy. Everything runs in your browser — nothing is uploaded.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="../tools/pdf-editor/index.html">PDF Editor</a></li>
+          <li><a href="../tools/merge-pdf/index.html">Merge PDF</a></li>
+          <li><a href="../tools/split-pdf/index.html">Split PDF</a></li>
+          <li><a href="../tools/compress-pdf/index.html">Compress PDF</a></li>
+          <li><a href="../tools/index.html">All tools</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../blog/index.html">Blog</a></li>
+          <li><a href="../faq/index.html">FAQ</a></li>
+          <li><a href="index.html">About</a></li>
+          <li><a href="../contact/index.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../privacy-policy/index.html">Privacy Policy</a></li>
+          <li><a href="../terms/index.html">Terms of Service</a></li>
+          <li><a href="../disclaimer/index.html">Disclaimer</a></li>
+          <li><a href="../cookie-policy/index.html">Cookie Policy</a></li>
+          <li><a href="../dmca/index.html">DMCA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF. All rights reserved.</span>
+      <span class="footer__badge"><span aria-hidden="true">🔒</span> All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

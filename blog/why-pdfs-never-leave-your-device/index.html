@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Why Your PDFs Should Never Leave Your Device | DSPDF</title>
+<meta name="description" content="What actually happens when you upload a contract to a random online tool — and why client-side processing matters." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/why-pdfs-never-leave-your-device/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Why Your PDFs Should Never Leave Your Device" />
+<meta property="og:description" content="The privacy story behind local processing." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/why-pdfs-never-leave-your-device/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Why Your PDFs Should Never Leave Your Device",
+      "description":"What actually happens when you upload a file to an online tool.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/why-pdfs-never-leave-your-device/",
+      "datePublished":"2026-01-21",
+      "dateModified":"2026-01-21",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Why PDFs Should Never Leave Your Device","item":"https://YOUR-USERNAME.github.io/dspdf/blog/why-pdfs-never-leave-your-device/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Do online PDF tools really keep my files?","acceptedAnswer":{"@type":"Answer","text":"Most claim to delete within hours, but you can't verify it. Even a temporary copy is a risk if it's on someone else's server."}},
+        {"@type":"Question","name":"How do I verify DSPDF doesn't upload my files?","acceptedAnswer":{"@type":"Answer","text":"Open your browser's DevTools Network tab, filter for requests, and use any tool. You'll see no outgoing file uploads."}},
+        {"@type":"Question","name":"Can I use DSPDF offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the first page load, disconnect from WiFi and the tools still work. Proof that processing is local."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Why PDFs Should Never Leave Your Device</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Privacy</span>
+      <h1>Why Your PDFs Should Never Leave Your Device</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-21">January 21, 2026</time>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p>A colleague once uploaded a rental agreement to a "free PDF compressor" she found on Google. She got a smaller file back. What she didn't notice was that the tool had asked for her email address "for the download link" — and that the terms of service mentioned her uploaded files "may be used to improve our services."</p>
+
+      <p>She never found out exactly what that meant. Nobody reads the terms of service on free online tools. That's the problem.</p>
+
+      <p>This article is about what happens to your files when you upload them to an online tool, and why "runs in your browser" is the only honest answer to the privacy question.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#what-happens">What actually happens on upload</a></li>
+          <li><a href="#claims">The claims vs reality</a></li>
+          <li><a href="#why-matters">Why this matters more than you think</a></li>
+          <li><a href="#how-verify">How to verify a tool is local</a></li>
+          <li><a href="#physics">The physics of client-side processing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="what-happens">What actually happens on upload</h2>
+
+      <p>When you drag a PDF into a web tool that uploads, the sequence looks roughly like this:</p>
+
+      <ol>
+        <li><strong>Your browser sends the file to a server.</strong> Over HTTPS, encrypted in transit. The server decrypts it as soon as it arrives.</li>
+        <li><strong>The server stores it somewhere.</strong> Usually in a temporary directory, sometimes in object storage like S3.</li>
+        <li><strong>The server processes it.</strong> Merges, compresses, signs — whatever the tool does.</li>
+        <li><strong>The server returns a link or file.</strong> Often through a CDN.</li>
+        <li><strong>The file is deleted</strong> — "within an hour", "within 24 hours", "within 7 days" — depending on the tool's claim.</li>
+      </ol>
+
+      <p>Between steps 2 and 5, your file exists in at least one other party's infrastructure. You can't verify what happens to it there. You can't verify the deletion actually happens. You can't verify it wasn't logged, cached, indexed, or backed up along the way.</p>
+
+      <p>For a public-domain recipe PDF, none of this matters. For a rental agreement, medical record, or legal contract, it matters a lot.</p>
+
+      <h2 id="claims">The claims vs the reality</h2>
+
+      <p>Most online PDF tools make privacy claims. Let's look at what those claims actually mean.</p>
+
+      <h3>"Files deleted within 1 hour"</h3>
+
+      <p>This means: the file is stored on their server, and they promise to delete it within an hour. It does not mean the file was never readable by their systems during that hour. It does not mean logs of the file's existence (or the filename, or your IP) weren't retained. It does not mean the file wasn't processed by third-party services like Cloudflare or AWS, each with their own retention.</p>
+
+      <p>Also: you're trusting the promise. You can't audit a server you don't control.</p>
+
+      <h3>"End-to-end encrypted"</h3>
+
+      <p>This phrase is widely misused. True end-to-end encryption means only you (the sender) and the recipient can decrypt — no server in the middle can read it. For a PDF tool that uploads, processes, and returns a file, end-to-end encryption is not possible by definition: the server has to decrypt the file to process it.</p>
+
+      <p>Some tools mean "we use HTTPS" (which only protects transit, not storage) and call it "encrypted". That's misleading at best.</p>
+
+      <h3>"We don't sell your data"</h3>
+
+      <p>Perhaps. But "don't sell" and "don't use" are different things. Many free tools monetise through:</p>
+
+      <ul>
+        <li>Ad networks that also get page-level analytics</li>
+        <li>Data brokers receiving aggregated metadata</li>
+        <li>AI training datasets (rarely disclosed for file content)</li>
+        <li>Being acquired later, with the files as part of the deal</li>
+      </ul>
+
+      <p>Even a well-intentioned free tool changes its terms when it's acquired. Your earlier files, if retained, become subject to the new terms.</p>
+
+      <h2 id="why-matters">Why this matters more than you think</h2>
+
+      <p>Three scenarios where "upload to a random server" is a genuine problem:</p>
+
+      <h3>Legal and financial documents</h3>
+
+      <p>Contracts, tax returns, bank statements, medical records, ID documents. In many jurisdictions, sending these to a third party without a lawful basis is itself a compliance issue. GDPR in Europe, DPDP in India, and CCPA in California all have provisions about this.</p>
+
+      <h3>Confidential work material</h3>
+
+      <p>Internal business plans, customer lists, employee records. If your employer has an information-security policy, using an online tool for these documents may be a policy violation — even if you only intended to compress a slide deck.</p>
+
+      <h3>Personal metadata</h3>
+
+      <p>Even if the content of a file is uninteresting, the file itself carries metadata: author name (often your real name or computer username), creation timestamp, and sometimes the full original filename. That's a fingerprint. Upload it to a server that logs access, and you've signed your name to a database entry.</p>
+
+      <p>We wrote about this in more detail in our article on <a href="../pdf-metadata-explained/index.html">PDF metadata</a>.</p>
+
+      <h2 id="how-verify">How to verify a tool is local</h2>
+
+      <p>You don't have to take a tool's word for it. Here's how to check:</p>
+
+      <h3>Method 1: Watch the network tab</h3>
+
+      <ol>
+        <li>Open your browser's Developer Tools (F12 or Ctrl+Shift+I).</li>
+        <li>Go to the Network tab.</li>
+        <li>Clear any existing requests.</li>
+        <li>Use the tool with a test file.</li>
+        <li>Watch for any request whose payload is roughly the size of your file.</li>
+      </ol>
+
+      <p>If your file is 5 MB and you see a 5 MB outgoing POST request, the tool is uploading. If you see no such request, the tool is processing locally.</p>
+
+      <h3>Method 2: Disconnect from the internet</h3>
+
+      <p>Load the tool page. Then turn off your Wi-Fi / unplug Ethernet. Try to use the tool.</p>
+
+      <p>If it works, the processing was local. If it fails, it needed the server.</p>
+
+      <p>This is the definitive test. It's also why we tell people: try DSPDF with the internet off. It works. That's the proof.</p>
+
+      <h3>Method 3: Read the JavaScript</h3>
+
+      <p>For the technically inclined: view the page source. Look for <code>FormData</code> with file appends, <code>fetch()</code> calls pointing to non-static endpoints, or <code>XMLHttpRequest</code> with file bodies. If you find one, the file is being sent somewhere.</p>
+
+      <p>Our tool pages load exactly two kinds of scripts: our own (from <code>/js/</code>) and well-known open-source libraries from public CDNs (pdf-lib, pdf.js, Tesseract). None of them transmit your file.</p>
+
+      <h2 id="physics">The physics of client-side processing</h2>
+
+      <p>Why is it even possible to do all this in the browser? Because browsers got genuinely powerful.</p>
+
+      <p>Modern browsers have:</p>
+
+      <ul>
+        <li><strong>FileReader and File APIs</strong> — read local files without uploading them</li>
+        <li><strong>Canvas and WebGL</strong> — render pages at any resolution</li>
+        <li><strong>WebAssembly</strong> — run near-native-speed code compiled from C++ (Tesseract OCR uses this)</li>
+        <li><strong>Web Workers</strong> — do heavy computation off the main thread without freezing the UI</li>
+        <li><strong>Blob and download APIs</strong> — save files without a server</li>
+        <li><strong>File System Access API</strong> — even read and write to local folders, with permission</li>
+      </ul>
+
+      <p>Ten years ago, some of these operations were genuinely impossible in a browser. Today they're routine. There's no longer a technical reason most PDF operations need a server.</p>
+
+      <p>The reason most tools still use servers is: servers are easier to build, easier to monetise, and easier to hide what's happening inside.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Do online PDF tools really keep my files?</summary>
+          <p>You can't verify that they don't. Even tools that claim to delete within minutes cannot be audited. The only way to be certain a file doesn't live on someone else's server is for it never to be sent there.</p>
+        </details>
+        <details>
+          <summary>How do I verify DSPDF doesn't upload?</summary>
+          <p>Open DevTools, clear the Network tab, use a tool, and watch for outgoing requests. Or disconnect from the internet and try again — the tools still work.</p>
+        </details>
+        <details>
+          <summary>Can I use DSPDF offline?</summary>
+          <p>Yes. After the first page load, disconnect from Wi-Fi and everything still functions. Since we don't fetch remote resources for processing, no internet is needed.</p>
+        </details>
+        <details>
+          <summary>Are there legitimately good server-based PDF tools?</summary>
+          <p>Yes. For operations that require a massive amount of compute — like high-quality OCR on hundreds of pages, or video-to-PDF, or AI-based document parsing — servers can do things browsers can't. In those cases, use a paid tool with a clear privacy policy and a real company behind it.</p>
+        </details>
+        <details>
+          <summary>What about analytics on DSPDF?</summary>
+          <p>We ship with analytics OFF by default. If you enable it yourself in the config, our privacy policy explains exactly what data is collected. Even then, file content is never sent.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try the offline test:</strong> open <a href="../../tools/merge-pdf/index.html">any DSPDF tool</a>, then disconnect from Wi-Fi and use it. If it works, you've proven the processing is local.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../protect-sensitive-pdfs/index.html">
+            <h3 class="tool-card__title">Protecting Sensitive PDFs</h3>
+            <p class="tool-card__desc">Password vs encryption vs redaction.</p>
+          </a>
+          <a class="tool-card" href="../pdf-metadata-explained/index.html">
+            <h3 class="tool-card__title">PDF Metadata Explained</h3>
+            <p class="tool-card__desc">What's hidden in every file.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

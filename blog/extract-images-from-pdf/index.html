@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Extract Images from a PDF — What Works &amp; What Doesn't | DSPDF</title>
+<meta name="description" content="Recovering images embedded in a PDF, versus rendering pages as images. Two very different operations, often confused." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/extract-images-from-pdf/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Extract Images from a PDF" />
+<meta property="og:description" content="Embedded images vs page rendering." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/extract-images-from-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Extract Images from a PDF",
+      "description":"Embedded images vs page rendering — two very different operations.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/extract-images-from-pdf/",
+      "datePublished":"2026-02-02",
+      "dateModified":"2026-02-02",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Extract Images from a PDF","item":"https://YOUR-USERNAME.github.io/dspdf/blog/extract-images-from-pdf/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"What's the difference between extracting images and converting pages to images?","acceptedAnswer":{"@type":"Answer","text":"Extracting images pulls out the original embedded image files at their stored resolution. Converting pages to images renders each whole page as a new picture. The first gives you photos and logos; the second gives you screenshots of pages."}},
+        {"@type":"Question","name":"Will I get the original quality of the image?","acceptedAnswer":{"@type":"Answer","text":"If the PDF stored the image at full quality, yes. But many PDFs downsample images during creation, so what's embedded may already be lower resolution than the original."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Extract Images from PDF</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Convert</span>
+      <h1>Extract Images from a PDF</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-02-02">February 2, 2026</time>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p>A designer friend once received a 40-page brand guidelines PDF from a client and asked me how to extract the logo from it. She tried a "PDF to JPG" tool, got 40 page screenshots, and then spent an hour trying to crop the logo cleanly out of page 12. The pixel edges were fuzzy and the background wasn't the brand color.</p>
+
+      <p>What she actually needed was "extract embedded images" — a different operation, and much better suited to her goal. This article explains the difference, because the two are constantly confused.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#two-ops">Two operations, easily confused</a></li>
+          <li><a href="#embedded">How embedded images work</a></li>
+          <li><a href="#rendering">How page rendering works</a></li>
+          <li><a href="#which">Which one do you need?</a></li>
+          <li><a href="#limits">Limits and edge cases</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="two-ops">Two operations, easily confused</h2>
+
+      <p>When people say "extract images from PDF," they usually mean one of two things:</p>
+
+      <ul>
+        <li><strong>"I want the photos and logos that are inside this PDF, at their original quality."</strong> This is embedded image extraction.</li>
+        <li><strong>"I want each page as a picture."</strong> This is page rendering, also called "PDF to JPG."</li>
+      </ul>
+
+      <p>Both are legitimate. They produce very different outputs, and they're useful for different tasks.</p>
+
+      <h2 id="embedded">How embedded images work</h2>
+
+      <p>A PDF stores images as independent objects inside the file. Each image has its own stream of pixel data, an encoding (JPEG, PNG, CCITT fax, JBIG2, etc.), dimensions, and a color space. The page content stream then says "draw image #7 at position (x, y) with size w × h."</p>
+
+      <p>Extracting embedded images means walking the PDF's object tree, finding every image object, and saving each one as a standalone file. The output is the exact bytes that were stored in the PDF — no re-rendering, no quality loss (beyond whatever the PDF already did).</p>
+
+      <p>Why this is useful:</p>
+
+      <ul>
+        <li>You get the original image at the resolution the PDF stored it at.</li>
+        <li>You preserve the exact color data — no screen-rendering artifacts.</li>
+        <li>You might extract images that aren't visible on any page (used as backgrounds, watermarks, or hidden layers).</li>
+        <li>You can find images reused across many pages with one copy in the file.</li>
+      </ul>
+
+      <p>What you don't get: the layout. If a page has five images composed in a specific way, extracting them gives you five separate files with no indication of how they were arranged.</p>
+
+      <h2 id="rendering">How page rendering works</h2>
+
+      <p>Page rendering means: take each page, paint it to a canvas at a given resolution, and export the canvas as an image. The output is a fresh picture of the whole page, including text, vector graphics, and any images composed together.</p>
+
+      <p>This is what our <a href="../../tools/pdf-to-jpg/index.html">PDF to JPG tool</a> does. The advantages:</p>
+
+      <ul>
+        <li>You get the exact visual appearance of the page, including text and layout.</li>
+        <li>You can control resolution via the DPI setting (72 for screen, 150 for reading, 300 for print).</li>
+        <li>Output is consistent — every page comes out the same way.</li>
+      </ul>
+
+      <p>Disadvantages:</p>
+
+      <ul>
+        <li>The output is a raster image of the whole page, not the individual pieces.</li>
+        <li>Text becomes pixels (no copy/paste from the image).</li>
+        <li>Embedded images are re-rendered at the page DPI, which may be lower than the original image resolution.</li>
+      </ul>
+
+      <h2 id="which">Which one do you need?</h2>
+
+      <table>
+        <thead>
+          <tr><th>Goal</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Get a logo out of a PDF</td><td>Extract embedded images</td></tr>
+          <tr><td>Get product photos from a catalog PDF</td><td>Extract embedded images</td></tr>
+          <tr><td>Send someone page 3 as a picture</td><td>Page rendering</td></tr>
+          <tr><td>Archive each page as an image</td><td>Page rendering</td></tr>
+          <tr><td>Embed a page into a presentation</td><td>Page rendering</td></tr>
+          <tr><td>Get a chart from a report</td><td>Depends — if it's an embedded image, extract; if it's drawn as vectors, you can only render</td></tr>
+        </tbody>
+      </table>
+
+      <p>If you need the pieces (photos, logos, diagrams that exist as images), use embedded extraction. If you need the composed page, use page rendering.</p>
+
+      <div class="article__callout">
+        <strong>Honest note:</strong> our currently published tool is <a href="../../tools/pdf-to-jpg/index.html">PDF to JPG</a> — which does page rendering. Embedded image extraction is on our roadmap. For now, if you need to pull a specific image out, PDF to JPG at high DPI and crop afterwards is the practical workaround.
+      </div>
+
+      <h2 id="limits">Limits and edge cases</h2>
+
+      <h3>Vector graphics aren't images</h3>
+
+      <p>If a logo is drawn as vector paths (curves, fills), it isn't an embedded image — it's page content. Extracting images won't find it. Rendering the page will include it, but only as pixels. There's no way to recover a vector logo from a PDF without dedicated vector extraction tools.</p>
+
+      <h3>Images are sometimes already downsampled</h3>
+
+      <p>When a PDF is created, some tools automatically downsample images to reduce file size. So a photo that was originally 4000×3000 might be stored in the PDF at 1200×900. Extracting it gives you the 1200×900 version, not the original. This is the single most common surprise.</p>
+
+      <h3>Some formats are hard to extract</h3>
+
+      <p>Most PDFs store images as JPEG, JPEG2000, PNG, or raw pixel data. All are extractable. A few use proprietary or legacy encodings (CCITT Group 4 for faxes, JBIG2 for high-contrast scans) that require special decoders. Client-side tools may skip these or convert them.</p>
+
+      <h3>Transparency is lost in some conversions</h3>
+
+      <p>A PNG with transparency inside a PDF has the transparency preserved in the PDF's internal representation. But when you save it back out as a JPG (because JPEG doesn't support transparency), the transparent regions become black or white. If transparency matters, look for a tool that outputs PNG.</p>
+
+      <h3>Duplicate images inflate the count</h3>
+
+      <p>A PDF with the same logo on every page may have that logo stored once and referenced many times, or it may have a copy per page (depends on the PDF creator). If you extract "images," you might get 1 file or 20 duplicates. Neither is wrong; it depends on how the file was built.</p>
+
+      <h3>OCR text isn't an image</h3>
+
+      <p>If a PDF has an invisible text layer (from OCR), extracting images won't produce text — the text isn't an image, it's a drawing instruction. And rendering pages to images won't preserve searchability. Text extraction is a separate operation entirely.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>What's the difference between extracting images and converting pages to images?</summary>
+          <p>Extracting pulls out the individual image files stored inside the PDF at their embedded quality. Converting renders each whole page as a new picture. Use extraction for photos and logos; use rendering for page screenshots.</p>
+        </details>
+        <details>
+          <summary>Will I get the original image quality?</summary>
+          <p>You get whatever quality the PDF stored. Many PDFs downsample images during creation, so what's inside may already be reduced compared to the original file. There's no way to recover data that was never stored.</p>
+        </details>
+        <details>
+          <summary>Can I extract a vector logo from a PDF?</summary>
+          <p>Not with basic image extraction. Vector graphics aren't stored as images — they're drawing commands. Extracting them requires a vector editor like Inkscape or Illustrator, which can open PDFs directly.</p>
+        </details>
+        <details>
+          <summary>Why did I get more images than there are in the document?</summary>
+          <p>PDFs often store duplicate copies of the same image, or hold images that aren't currently visible on any page (unused resources, hidden layers). Extraction shows everything that's stored, not just what's displayed.</p>
+        </details>
+        <details>
+          <summary>Are extracted images safe to reuse?</summary>
+          <p>Legally, that's a separate question. Extracting an image doesn't grant you a license to use it. Respect copyright — especially for brand logos, stock photos, and illustrations that clearly belong to someone else.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it:</strong> <a href="../../tools/pdf-to-jpg/index.html">PDF to JPG</a> renders pages as images at your chosen DPI. For individual embedded images at their stored quality, embedded extraction is on our roadmap.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-convert-pdf-to-jpg/index.html">
+            <h3 class="tool-card__title">How to Convert PDF to JPG</h3>
+            <p class="tool-card__desc">Page rendering, explained in depth.</p>
+          </a>
+          <a class="tool-card" href="../how-to-convert-jpg-to-pdf/index.html">
+            <h3 class="tool-card__title">How to Convert JPG to PDF</h3>
+            <p class="tool-card__desc">The reverse direction.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

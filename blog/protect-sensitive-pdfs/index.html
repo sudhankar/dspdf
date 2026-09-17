@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Protecting Sensitive PDFs — Password, Encryption, Redaction | DSPDF</title>
+<meta name="description" content="What actually protects a PDF? Comparing passwords, encryption, and redaction — with honest limits of each approach." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/protect-sensitive-pdfs/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Protecting Sensitive PDFs" />
+<meta property="og:description" content="Password vs encryption vs redaction." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/protect-sensitive-pdfs/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Protecting Sensitive PDFs",
+      "description":"Password, encryption, and redaction compared.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/protect-sensitive-pdfs/",
+      "datePublished":"2026-01-26",
+      "dateModified":"2026-01-26",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Protecting Sensitive PDFs","item":"https://YOUR-USERNAME.github.io/dspdf/blog/protect-sensitive-pdfs/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Is a password-protected PDF truly secure?","acceptedAnswer":{"@type":"Answer","text":"PDF passwords range from weak (RC4 40-bit, crackable in seconds) to strong (AES-256, genuinely secure against brute force). Not all PDF passwords are equal. Ask what encryption your tool uses."}},
+        {"@type":"Question","name":"What's the safest way to redact a PDF?","acceptedAnswer":{"@type":"Answer","text":"Rasterize the page — convert it to an image and rebuild the PDF. This destroys underlying text data. Redaction boxes alone (black rectangles over text) are NOT secure — the text underneath remains extractable."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Protecting Sensitive PDFs</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Security</span>
+      <h1>Protecting Sensitive PDFs</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-26">January 26, 2026</time>
+        <span>·</span>
+        <span>7 min read</span>
+      </div>
+
+      <p>A lawyer friend once sent me a PDF with a black rectangle over a client's name. "There," she said, "redacted." I opened it in a text extractor and read the name in about four seconds. The black box was drawn as an overlay — the text underneath was fully intact and copy-pasteable.</p>
+
+      <p>She was mortified. The tool she'd used (a free online one) had presented redaction as a visual operation and never told her that it wasn't actually removing anything.</p>
+
+      <p>This is the article I wish she'd read first.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#what">What "protecting" a PDF can mean</a></li>
+          <li><a href="#passwords">Passwords and encryption</a></li>
+          <li><a href="#redaction">Redaction: the biggest misunderstanding</a></li>
+          <li><a href="#metadata">Metadata removal</a></li>
+          <li><a href="#layers">Stacking protections</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="what">What "protecting" a PDF can mean</h2>
+
+      <p>People say "protect" to mean five different things. Understanding which one you need saves real problems.</p>
+
+      <ul>
+        <li><strong>Prevent casual reading.</strong> A password stops a colleague from opening a file on a shared drive.</li>
+        <li><strong>Prevent copying.</strong> Restrict copy/paste actions. Weak protection — determined users can screenshot.</li>
+        <li><strong>Prevent editing.</strong> Lock the file from modification. Also weak — many readers ignore these flags.</li>
+        <li><strong>Prevent extraction of specific content.</strong> This is what real redaction does — removes data from the file.</li>
+        <li><strong>Prove authenticity.</strong> Cryptographic signatures prove who signed and that the document wasn't altered.</li>
+      </ul>
+
+      <p>Most online tools blur these distinctions. The result is that people think they've done one thing when they've done another.</p>
+
+      <h2 id="passwords">Passwords and encryption</h2>
+
+      <p>When a PDF is "password protected," it's actually encrypted with a key derived from the password. The level of protection depends entirely on the encryption algorithm used.</p>
+
+      <h3>Weak: RC4 40-bit or 128-bit</h3>
+
+      <p>The original PDF encryption standard from the 1990s. 40-bit RC4 is crackable in seconds on any modern computer. 128-bit RC4 takes longer but is still breakable with specialised tools and a few hours. Many older PDFs are protected with this.</p>
+
+      <h3>Strong: AES-128 or AES-256</h3>
+
+      <p>The modern standard. AES-256 with a strong password is genuinely uncrackable by brute force with current technology. This is the level you want if security actually matters.</p>
+
+      <h3>The catch: most "password protect PDF" tools don't tell you which one they use</h3>
+
+      <p>Some browsers and free online tools produce RC4-encrypted PDFs and call it "password protected." It's technically accurate but deeply misleading if you need real security. If a tool won't say which algorithm it uses, assume the weakest.</p>
+
+      <p>Our <a href="../../tools/protect-pdf/index.html">Protect PDF</a> tool is honest about this: we don't claim AES-256 unless the underlying library actually supports it, and we tell you if it doesn't. There are cases where client-side encryption isn't available and we say so rather than fake a "protected" file.</p>
+
+      <h3>What passwords don't protect against</h3>
+
+      <ul>
+        <li><strong>Screenshots.</strong> Anyone who can view the file can photograph the screen.</li>
+        <li><strong>Manual copying.</strong> If they can read it, they can retype it.</li>
+        <li><strong>Metadata leakage.</strong> The file's title, author, and creator fields are often not encrypted, even when the content is.</li>
+        <li><strong>Weak passwords.</strong> "123456" and "password" are cracked instantly regardless of encryption strength.</li>
+      </ul>
+
+      <h2 id="redaction">Redaction: the biggest misunderstanding</h2>
+
+      <p>Redaction is where almost everyone gets it wrong. The myth is: draw a black box over sensitive content, and it's gone. The reality: <strong>drawing a black box does not remove anything</strong>.</p>
+
+      <p>A PDF is essentially a stack of drawing instructions. "Draw this text at this position. Draw this image at this position." Drawing a black rectangle is just another instruction on top. The original text is still in the file, in the same place, ready to be extracted with a simple tool.</p>
+
+      <p>This is not a fringe concern. Real-world leaks have happened because government agencies, law firms, and companies have "redacted" documents by drawing boxes over them, then published the files online. Anyone with basic PDF tools can recover the redacted content. It's a well-documented category of security failure.</p>
+
+      <h3>How to actually redact</h3>
+
+      <p>Proper redaction removes the content from the file. The safest method:</p>
+
+      <ol>
+        <li><strong>Rasterize the page.</strong> Convert it to an image, with the redaction boxes already drawn on the image.</li>
+        <li><strong>Rebuild the PDF.</strong> The new PDF contains only the image — the original text is gone forever.</li>
+      </ol>
+
+      <p>The trade-off: text becomes non-selectable and non-searchable. The file may be larger. But the content is genuinely gone.</p>
+
+      <p>Our <a href="../../tools/redact-pdf/index.html">Redact PDF</a> tool offers both modes — the "visual only" default (fast, reversible in a sense) and the "rasterize" option (slow, permanent). We recommend rasterize for anything that matters.</p>
+
+      <h3>What about metadata after redaction?</h3>
+
+      <p>Rasterizing removes the text from the page content, but not necessarily from the file's metadata. If the sensitive word was in the document title, redacting the page doesn't touch the title. Check metadata separately with a <a href="../../tools/metadata-editor/index.html">Metadata Editor</a>.</p>
+
+      <h2 id="metadata">Metadata removal</h2>
+
+      <p>Every PDF carries metadata: title, author, creator application, producer library, creation date, modification date, sometimes keywords. It's invisible in normal viewing but present in the file. It's the first thing any serious investigator looks at.</p>
+
+      <p>Real examples we've seen:</p>
+
+      <ul>
+        <li>A "leaked" corporate document whose author field contained the email address of the person who created it</li>
+        <li>A public government report whose creator field read "M. Smith's MacBook Pro"</li>
+        <li>A "scanned" document whose producer field revealed it was made by a specific desktop scanner model, contradicting its claimed origin</li>
+      </ul>
+
+      <p>If you're sharing anything even slightly sensitive, clear the metadata. Our <a href="../../tools/metadata-editor/index.html">Metadata Editor</a> shows you what's there and lets you clear or replace it. It's a five-second habit that prevents most of these leaks.</p>
+
+      <h2 id="layers">Stacking protections</h2>
+
+      <p>For genuinely sensitive documents, one protection isn't enough. The right stack depends on the recipient and the stakes.</p>
+
+      <table>
+        <thead>
+          <tr><th>Document sensitivity</th><th>Recommended protections</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Internal draft, friendly recipient</td><td>None needed beyond normal sharing</td></tr>
+          <tr><td>Client information, professional context</td><td>Clear metadata, AES-256 password, share link with expiry</td></tr>
+          <tr><td>Legal contract, dispute possible</td><td>Clear metadata, AES-256, cryptographic signature, secure delivery channel</td></tr>
+          <tr><td>Medical records, identity docs</td><td>Rasterize, AES-256, unique password per recipient, verify recipient before sending</td></tr>
+          <tr><td>Public disclosure with redactions</td><td>Rasterize the pages, then clear metadata, then verify with a text extractor that no sensitive text remains</td></tr>
+        </tbody>
+      </table>
+
+      <p>One more thing: <strong>verify before sending.</strong> After applying protections, open the file and check they actually did what you expected. Open it with a PDF reader and confirm it asks for the password. Open it with a text extractor and confirm the redacted text is gone. Five seconds of verification beats a data breach.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Is a password-protected PDF truly secure?</summary>
+          <p>Depends on the algorithm. RC4 40-bit is trivially breakable. AES-256 with a strong password is genuinely secure. Ask your tool what it uses; if it doesn't say, assume the weakest.</p>
+        </details>
+        <details>
+          <summary>What's the safest way to redact a PDF?</summary>
+          <p>Rasterize the page. This converts it to an image, destroys the underlying text data, and rebuilds the PDF. Redaction boxes alone are not secure.</p>
+        </details>
+        <details>
+          <summary>Can someone recover a redacted PDF if I used black boxes?</summary>
+          <p>Yes. The text is still in the file. Anyone with basic PDF tools can extract it in seconds. Never use only visual redaction for anything that matters.</p>
+        </details>
+        <details>
+          <summary>Should I remove metadata before sending?</summary>
+          <p>Yes, as a habit. It's a five-second operation with an <a href="../../tools/metadata-editor/index.html">Metadata Editor</a> and it prevents an entire class of accidental leaks.</p>
+        </details>
+        <details>
+          <summary>Are password-protected PDFs encrypted end-to-end?</summary>
+          <p>No, and this is a common misuse of the term. "Password protected" means the file content is encrypted with a key derived from the password. If the file transits an email server, the server can theoretically access the content while the file is open on the recipient's device — but not while in transit, if it's within TLS. The term "end-to-end encrypted" doesn't apply to PDFs in this way.</p>
+        </details>
+      </div>
+
+      <div class="article__callout article__callout--warn">
+        <strong>Bottom line:</strong> if the content really matters, use rasterized redaction. Everything else is a visual illusion.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../pdf-metadata-explained/index.html">
+            <h3 class="tool-card__title">PDF Metadata Explained</h3>
+            <p class="tool-card__desc">Hidden information in every file.</p>
+          </a>
+          <a class="tool-card" href="../why-pdfs-never-leave-your-device/index.html">
+            <h3 class="tool-card__title">Why PDFs Should Never Leave Your Device</h3>
+            <p class="tool-card__desc">The privacy story.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

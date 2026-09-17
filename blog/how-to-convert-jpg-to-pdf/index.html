@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>How to Convert JPG to PDF — Real Workflows | DSPDF</title>
+<meta name="description" content="Turn photos of documents, receipts, and IDs into clean, shareable PDFs. Practical workflows and honest pitfalls." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-jpg-to-pdf/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Convert JPG to PDF" />
+<meta property="og:description" content="Real workflows for turning photos into PDFs." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-jpg-to-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"How to Convert JPG to PDF",
+      "description":"Real workflows for turning images into PDFs.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-jpg-to-pdf/",
+      "datePublished":"2026-01-18",
+      "dateModified":"2026-01-18",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"How to Convert JPG to PDF","item":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-convert-jpg-to-pdf/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Should I use 'fit to image' or A4 page size?","acceptedAnswer":{"@type":"Answer","text":"Use A4 for documents intended to be printed or read alongside other pages. Use 'fit to image' for photos, comics, or anything where you want the page to be exactly the image dimensions."}},
+        {"@type":"Question","name":"What image formats are supported?","acceptedAnswer":{"@type":"Answer","text":"JPG, PNG, and WebP. PNG and WebP transparency becomes white on the PDF page."}},
+        {"@type":"Question","name":"Can I add multiple images to one PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add as many as you like, reorder them, and they'll appear as sequential pages."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">How to Convert JPG to PDF</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Convert</span>
+      <h1>How to Convert JPG to PDF</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-18">January 18, 2026</time>
+        <span>·</span>
+        <span>7 min read</span>
+      </div>
+
+      <p>Last week my landlord asked me to send photos of the gas meter. "JPG is fine," he said. Then the property management system rejected JPGs and demanded PDF. So I had four photos on my phone, no laptop, and a deadline of "before end of day."</p>
+
+      <p>This is the situation JPG-to-PDF conversions exist for. It's a short operation, but there are a few decisions that change the output meaningfully. Let's go through them.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#why-pdf">Why PDF instead of JPG at all?</a></li>
+          <li><a href="#page-size">Page size: A4 vs "fit to image"</a></li>
+          <li><a href="#documents">Documents from phone photos</a></li>
+          <li><a href="#photos">Photos and design work</a></li>
+          <li><a href="#quality">Keeping quality without ballooning size</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="why-pdf">Why PDF instead of JPG at all?</h2>
+
+      <p>JPG is fine for a single photo. It becomes awkward when you have several and need to keep them together. A multi-page PDF:</p>
+
+      <ul>
+        <li>Is a single file (easier to attach, print, archive)</li>
+        <li>Maintains page order (JPGs from a phone often get sorted by timestamp, which is not always what you want)</li>
+        <li>Can include metadata like title, author, and subject</li>
+        <li>Prints consistently across systems</li>
+      </ul>
+
+      <p>Government portals, insurance systems, and legal filings generally demand PDF. This isn't arbitrary — it's a format with a formal page structure, which makes it easier to process and archive.</p>
+
+      <h2 id="page-size">Page size: A4 vs "fit to image"</h2>
+
+      <p>This is the biggest decision in the whole conversion, and it's easy to get wrong.</p>
+
+      <h3>A4 (or Letter)</h3>
+
+      <p>Every image is scaled to fit inside an A4 page, with margins. The PDF has consistent page dimensions. Printers handle it well. Scanning systems, page counters, and automated processors expect this format.</p>
+
+      <p><strong>Best for:</strong> receipts, ID documents, forms, and anything that needs to look like a page.</p>
+
+      <h3>Fit to image</h3>
+
+      <p>Each page is exactly the size of its image. No margins, no scaling. A 400×600 pixel image becomes a 400×600 point PDF page (which is tiny — about 5.5×8.3 inches).</p>
+
+      <p><strong>Best for:</strong> photos, comics, artwork, and anything where you want the PDF to reflect the image exactly.</p>
+
+      <p><strong>Watch out for:</strong> inconsistent page sizes across the document. If some images are portrait and some landscape, "fit to image" produces a PDF with mixed page orientations. Some viewers display it awkwardly; some printers scale unpredictably.</p>
+
+      <h2 id="documents">Documents from phone photos</h2>
+
+      <p>The most common JPG-to-PDF task is: someone photographed a document with their phone and needs it as a PDF. Here's the workflow that produces the best output.</p>
+
+      <h3>Step 1: Straighten and crop before converting</h3>
+
+      <p>Photos of documents are almost always skewed. Straightening them afterwards is a nightmare. Do it first in your phone's photo editor (or a dedicated scanner app like Adobe Scan or Microsoft Lens). The improvement in readability is dramatic.</p>
+
+      <p>If you can't straighten, don't worry — the PDF will still work. Just be prepared for occasional OCR or readability issues later.</p>
+
+      <h3>Step 2: Crop out the desk/floor/hand</h3>
+
+      <p>Also easy in a photo editor. The converted PDF will look cleaner and often be smaller (since you're storing less data).</p>
+
+      <h3>Step 3: Convert with A4 page size</h3>
+
+      <p>In <a href="../../tools/jpg-to-pdf/index.html">DSPDF's JPG to PDF tool</a>, choose "A4" as the page size, "Auto" orientation, and a margin of about 20 points (roughly 0.7 cm). This gives a clean, consistent document that any system will accept.</p>
+
+      <h3>Step 4: Reorder before saving</h3>
+
+      <p>If your photos are in the wrong order (very common with phone camera roll), drag the cards in the tool to fix the sequence before clicking Create PDF.</p>
+
+      <h2 id="photos">Photos and design work</h2>
+
+      <p>If you're converting photos or design mockups (as opposed to documents), the workflow is different.</p>
+
+      <h3>Use "fit to image" for exact dimensions</h3>
+
+      <p>A 4000×3000 photo should produce a PDF page that respects that aspect ratio at full resolution. "Fit to image" does this. A4 would shrink it and add margins.</p>
+
+      <h3>Watch the file size</h3>
+
+      <p>Modern phone cameras produce 3-8 MB JPGs. A ten-photo PDF can hit 50+ MB. If you're sending it anywhere, run the resulting PDF through compression or convert to smaller JPGs first (in your photo editor) before combining.</p>
+
+      <h3>Consider page order for readability</h3>
+
+      <p>If you're making a portfolio or comic, page order matters. Drag to reorder in our tool before saving. The order shown is the order in the PDF.</p>
+
+      <h2 id="quality">Keeping quality without ballooning size</h2>
+
+      <p>A few rules that save pain:</p>
+
+      <ul>
+        <li><strong>Don't upscale.</strong> A 1000×1000 image placed on an A4 page will look soft. Convert the original resolution, not a resized version.</li>
+        <li><strong>PNG screenshots are usually larger than JPG photos.</strong> If your images are screenshots, JPG compression might cut them down 5× with no visible difference.</li>
+        <li><strong>Beware HEIC.</strong> iPhone's default format is HEIC, not JPG. Our tool doesn't support HEIC because browsers don't decode it natively. Convert HEIC to JPG on your phone first (iOS: Settings → Camera → Formats → "Most Compatible").</li>
+        <li><strong>Watch for double compression.</strong> If you export a JPG at quality 60 in your photo editor, then the PDF tool re-encodes at 80, the total quality is closer to 55. Do quality adjustments once, at the source.</li>
+      </ul>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Should I use A4 or "fit to image"?</summary>
+          <p>A4 for documents, receipts, IDs — anything meant to be a page. "Fit to image" for photos, artwork, and comics. When in doubt, A4.</p>
+        </details>
+        <details>
+          <summary>What image formats work?</summary>
+          <p>JPG, PNG, and WebP. HEIC (iPhone default) is not supported — convert to JPG in your phone's settings first.</p>
+        </details>
+        <details>
+          <summary>Can I add multiple images to one PDF?</summary>
+          <p>Yes. Add them all at once or in batches. Reorder before saving. Each becomes one PDF page.</p>
+        </details>
+        <details>
+          <summary>Is there a file size limit?</summary>
+          <p>Technically bounded by your device's memory. In practice, if the total image data exceeds ~200 MB, older devices will struggle. Split into smaller batches if needed.</p>
+        </details>
+        <details>
+          <summary>Can I add text or annotations afterwards?</summary>
+          <p>Yes — once you have the PDF, use our <a href="../../tools/pdf-editor/index.html">PDF Editor</a> or <a href="../../tools/add-text-to-pdf/index.html">Add Text to PDF</a> tool to add captions, dates, or notes.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/jpg-to-pdf/index.html">DSPDF JPG to PDF</a> supports multi-image input, A4/Letter/Fit page sizes, auto orientation, and margin control. Everything runs locally — nothing gets uploaded.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-convert-pdf-to-jpg/index.html">
+            <h3 class="tool-card__title">How to Convert PDF to JPG</h3>
+            <p class="tool-card__desc">The reverse direction.</p>
+          </a>
+          <a class="tool-card" href="../ocr-explained/index.html">
+            <h3 class="tool-card__title">OCR Explained</h3>
+            <p class="tool-card__desc">Make your photo PDFs searchable.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

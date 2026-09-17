@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>HTML to PDF — Convert Web Pages or HTML | DSPDF</title>
+<meta name="description" content="Convert HTML snippets or simple web content into a PDF. Limited CSS support — basic documents work best. Runs in your browser." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/html-to-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="HTML to PDF — DSPDF" />
+<meta property="og:description" content="Basic HTML → PDF in your browser." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/html-to-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"HTML to PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/html-to-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"HTML to PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/html-to-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Can I convert a full web page?","acceptedAnswer":{"@type":"Answer","text":"No — browser security prevents fetching arbitrary external pages for rendering. You can paste HTML, or copy content into the editor box."}},
+    {"@type":"Question","name":"What CSS is supported?","acceptedAnswer":{"@type":"Answer","text":"Only simple inline CSS. Flexbox, grid, transforms, and CSS variables are not supported by our rendering engine."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">HTML to PDF</span></li>
+    </ol></nav>
+
+    <h1>HTML to PDF</h1>
+    <p class="lead">Paste HTML and convert it to a PDF. Best for simple documents — invoices, receipts, letters, and short notes.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
+
+    <div class="alert alert-warning mt-4" role="note">
+      <strong>⚠ Limited CSS support.</strong>
+      <div>Only simple inline styles work reliably. Flexbox, grid, transforms, external fonts, images from external URLs, and JavaScript-driven layouts will <em>not</em> render correctly. For complex pages, use your browser's built-in "Print → Save as PDF".</div>
+    </div>
+
+    <section class="tool-panel mt-6">
+      <div class="opt-group">
+        <div class="opt-row">
+          <label>Sheet size</label>
+          <select id="h2p-size">
+            <option value="a4">A4</option>
+            <option value="letter">Letter</option>
+          </select>
+          <label>Orientation</label>
+          <select id="h2p-orient">
+            <option value="portrait" selected>Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+          <label>Margin (pt)</label>
+          <input type="number" id="h2p-margin" value="36" min="0" max="80" style="max-width:90px;" />
+        </div>
+      </div>
+
+      <label for="h2p-input" style="display:block;margin:12px 0 6px;color:var(--text-secondary);font-size:0.9rem;">
+        HTML content — you can paste plain text or HTML tags
+      </label>
+      <textarea id="h2p-input" placeholder="<h1>Invoice</h1><p>Amount: <strong>$100</strong></p>" style="width:100%;min-height:220px;padding:12px;background:var(--bg-dark);color:var(--text-primary);border:1px solid var(--border);border-radius:6px;font-family:var(--font-mono);font-size:0.9rem;resize:vertical;"></textarea>
+
+      <div id="h2p-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div class="mt-4">
+        <button type="button" class="btn btn-ghost btn-sm" id="h2p-sample">Load sample HTML</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="h2p-clear">Clear</button>
+      </div>
+
+      <div id="h2p-preview-wrap" class="mt-6">
+        <h4 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">Preview</h4>
+        <div id="h2p-preview" style="background:#fff;color:#000;padding:20px;border:1px solid var(--border);border-radius:6px;min-height:120px;overflow:auto;max-height:400px;"></div>
+      </div>
+
+      <div class="tool-actions mt-6">
+        <button type="button" class="btn btn-primary btn-lg" id="h2p-apply">Download PDF</button>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to convert HTML to PDF</h2>
+      <ol class="how-to">
+        <li>Type or paste your HTML content into the box.</li>
+        <li>Watch the live preview update.</li>
+        <li>Choose page size, orientation, and margins.</li>
+        <li>Click <strong>Download PDF</strong>.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations — read this</h2>
+      <ul>
+        <li><strong>Only simple styling works.</strong> Inline styles on elements (e.g. <code>style="color:red"</code>) work. External stylesheets and CSS classes are not applied.</li>
+        <li><strong>No external resources.</strong> Images via URL, web fonts, and iframes will not load.</li>
+        <li><strong>No JavaScript.</strong> The page is parsed as static HTML.</li>
+        <li><strong>Layout uses simple text flow.</strong> Flexbox, grid, absolute positioning — none are honoured.</li>
+        <li>For faithful rendering of complex pages, use your browser's built-in print-to-PDF. This tool is a convenience for simple content.</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>Can I convert a full website?</summary><p>No — browsers block fetching arbitrary pages for security. Use your browser's "Print → Save as PDF" for full websites.</p></details>
+        <details><summary>Can I include images?</summary><p>Only inline base64 images. External URLs won't load.</p></details>
+        <details><summary>What CSS actually works?</summary><p>Inline styles for font-size, color, font-weight, text-align, and basic margin/padding. Everything else is stripped.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../jpg-to-pdf/index.html"><h3 class="tool-card__title">JPG to PDF</h3><p class="tool-card__desc">Images to PDF.</p></a>
+        <a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">Refine the output.</p></a>
+        <a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine with other files.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">Local processing story.</p></a>
+        <a class="tool-card" href="../../blog/pdf-metadata-explained/index.html"><h3 class="tool-card__title">PDF Metadata Explained</h3><p class="tool-card__desc">What's inside the output.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/html-to-pdf.js"></script>
+</body>
+</html>

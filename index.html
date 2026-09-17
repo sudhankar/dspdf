@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0A1929" />
+
+<title>DSPDF — Free Private PDF Tools That Run in Your Browser</title>
+<meta name="description" content="Merge, split, compress, sign, and edit PDFs entirely in your browser. No uploads, no accounts, no tracking. Your files never leave your device." />
+
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="DSPDF — Private PDF Tools in Your Browser" />
+<meta property="og:description" content="Free PDF tools that run 100% on your device. No uploads. No accounts. No tracking." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta property="og:site_name" content="DSPDF" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="DSPDF — Private PDF Tools in Your Browser" />
+<meta name="twitter:description" content="Free PDF tools that run 100% on your device. No uploads. No accounts. No tracking." />
+<meta name="twitter:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+<link rel="apple-touch-icon" href="images/favicon.svg" />
+<link rel="manifest" href="manifest.json" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+
+<!-- Structured Data: WebSite + Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://YOUR-USERNAME.github.io/dspdf/#website",
+      "url": "https://YOUR-USERNAME.github.io/dspdf/",
+      "name": "DSPDF",
+      "description": "Free private PDF tools that run entirely in your browser.",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://YOUR-USERNAME.github.io/dspdf/tools/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://YOUR-USERNAME.github.io/dspdf/#org",
+      "name": "DSPDF",
+      "url": "https://YOUR-USERNAME.github.io/dspdf/",
+      "logo": "https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ HEADER ============================ -->
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2563EB"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(2,4)">
+          <rect x="0" y="0" width="28" height="32" rx="4" fill="url(#hg)"/>
+          <path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/>
+          <text x="14" y="23" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text>
+        </g>
+        <text x="40" y="26" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.5" fill="currentColor">DSPDF</text>
+      </svg>
+    </a>
+
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+
+    <nav aria-label="Primary">
+      <ul class="navbar__menu" id="primary-nav" data-nav-menu>
+        <li><a href="tools/index.html">All Tools</a></li>
+        <li><a href="tools/pdf-editor/index.html">PDF Editor</a></li>
+        <li><a href="blog/index.html">Blog</a></li>
+        <li><a href="faq/index.html">FAQ</a></li>
+        <li><a href="about/index.html">About</a></li>
+        <li><a href="contact/index.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="navbar__actions">
+      <button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="hero__tagline">🔒 100% Client-Side · No Uploads · No Accounts</span>
+      <h1>Powerful PDF Tools. <span class="accent">100% Private.</span> Runs in Your Browser.</h1>
+      <p class="hero__sub">Your files never leave your device. Merge, split, compress, sign, and edit PDFs — all processed locally using modern browser technology.</p>
+
+      <div class="upload-zone" id="hero-drop" role="button" tabindex="0"
+           aria-label="Drop a PDF here or click to open the tool directory">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p class="upload-zone__title">Drop a PDF here — we'll show you the right tool</p>
+        <p class="upload-zone__hint">Or <a href="tools/index.html">browse all tools →</a></p>
+      </div>
+
+      <ul class="trust-badges">
+        <li><span class="dot" aria-hidden="true"></span> No file uploads</li>
+        <li><span class="dot" aria-hidden="true"></span> No sign-up</li>
+        <li><span class="dot" aria-hidden="true"></span> Open-source libraries</li>
+        <li><span class="dot" aria-hidden="true"></span> Works offline</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ POPULAR TOOLS ============================ -->
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Most Used</span>
+      <h2>Popular PDF Tools</h2>
+      <p class="lead mb-6">Everything you need to handle PDFs — all running privately in your browser.</p>
+
+      <div class="grid grid--3">
+        <a class="tool-card" href="tools/pdf-editor/index.html">
+          <span class="tool-card__icon" aria-hidden="true">✎</span>
+          <h3 class="tool-card__title">PDF Editor</h3>
+          <p class="tool-card__desc">Add text, images, shapes, signatures, and annotations on top of any PDF.</p>
+          <span class="tool-card__meta">Most popular</span>
+        </a>
+
+        <a class="tool-card" href="tools/merge-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">⇄</span>
+          <h3 class="tool-card__title">Merge PDF</h3>
+          <p class="tool-card__desc">Combine multiple PDFs into one document. Reorder before merging.</p>
+        </a>
+
+        <a class="tool-card" href="tools/split-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">✂</span>
+          <h3 class="tool-card__title">Split PDF</h3>
+          <p class="tool-card__desc">Break a PDF into separate files by range, every N pages, or selection.</p>
+        </a>
+
+        <a class="tool-card" href="tools/compress-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">⤓</span>
+          <h3 class="tool-card__title">Compress PDF</h3>
+          <p class="tool-card__desc">Reduce file size by quality or target size — with honest results.</p>
+        </a>
+
+        <a class="tool-card" href="tools/sign-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">✍</span>
+          <h3 class="tool-card__title">Sign PDF</h3>
+          <p class="tool-card__desc">Draw, type, or upload your signature and place it anywhere on the page.</p>
+        </a>
+
+        <a class="tool-card" href="tools/jpg-to-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">🖼</span>
+          <h3 class="tool-card__title">JPG to PDF</h3>
+          <p class="tool-card__desc">Convert multiple images into a single PDF with page size and margin control.</p>
+        </a>
+
+        <a class="tool-card" href="tools/rotate-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">↻</span>
+          <h3 class="tool-card__title">Rotate PDF</h3>
+          <p class="tool-card__desc">Rotate all pages or just specific ones by 90°, 180°, or 270°.</p>
+        </a>
+
+        <a class="tool-card" href="tools/delete-pages/index.html">
+          <span class="tool-card__icon" aria-hidden="true">🗑</span>
+          <h3 class="tool-card__title">Delete Pages</h3>
+          <p class="tool-card__desc">Remove unwanted pages with a visual thumbnail selector.</p>
+        </a>
+
+        <a class="tool-card" href="tools/ocr-pdf/index.html">
+          <span class="tool-card__icon" aria-hidden="true">🔍</span>
+          <h3 class="tool-card__title">OCR PDF</h3>
+          <p class="tool-card__desc">Make scanned PDFs searchable. English &amp; Hindi supported.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CATEGORIES ============================ -->
+  <section class="section section--tight">
+    <div class="container">
+      <span class="eyebrow">Browse by Category</span>
+      <h2>Every PDF Task, One Place</h2>
+
+      <ul class="category-chips mt-4">
+        <li><a class="category-chip is-active" href="tools/index.html#organize">Organize</a></li>
+        <li><a class="category-chip" href="tools/index.html#convert">Convert</a></li>
+        <li><a class="category-chip" href="tools/index.html#edit">Edit &amp; Annotate</a></li>
+        <li><a class="category-chip" href="tools/index.html#security">Security</a></li>
+        <li><a class="category-chip" href="tools/index.html#optimize">Optimize</a></li>
+        <li><a class="category-chip" href="tools/index.html#ocr">OCR</a></li>
+      </ul>
+
+      <div class="grid grid--4">
+        <a class="tool-card" href="tools/extract-pages/index.html">
+          <h3 class="tool-card__title">Extract Pages</h3>
+          <p class="tool-card__desc">Save selected pages into a new PDF.</p>
+        </a>
+        <a class="tool-card" href="tools/pdf-to-jpg/index.html">
+          <h3 class="tool-card__title">PDF to JPG</h3>
+          <p class="tool-card__desc">Convert each page to a JPEG image.</p>
+        </a>
+        <a class="tool-card" href="tools/watermark-pdf/index.html">
+          <h3 class="tool-card__title">Watermark PDF</h3>
+          <p class="tool-card__desc">Add text or image watermarks.</p>
+        </a>
+        <a class="tool-card" href="tools/protect-pdf/index.html">
+          <h3 class="tool-card__title">Protect PDF</h3>
+          <p class="tool-card__desc">Password-protect with real encryption.</p>
+        </a>
+        <a class="tool-card" href="tools/unlock-pdf/index.html">
+          <h3 class="tool-card__title">Unlock PDF</h3>
+          <p class="tool-card__desc">Remove a password you already know.</p>
+        </a>
+        <a class="tool-card" href="tools/page-numbers-pdf/index.html">
+          <h3 class="tool-card__title">Page Numbers</h3>
+          <p class="tool-card__desc">Add flexible numbering formats.</p>
+        </a>
+        <a class="tool-card" href="tools/crop-pdf/index.html">
+          <h3 class="tool-card__title">Crop PDF</h3>
+          <p class="tool-card__desc">Trim margins visually.</p>
+        </a>
+        <a class="tool-card" href="tools/metadata-editor/index.html">
+          <h3 class="tool-card__title">Metadata Editor</h3>
+          <p class="tool-card__desc">Edit title, author, and keywords.</p>
+        </a>
+      </div>
+
+      <div class="text-center mt-6">
+        <a class="btn btn-primary" href="tools/index.html">View all tools →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ WHY DSPDF ============================ -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2" style="align-items:center; gap: var(--space-7);">
+        <div>
+          <span class="eyebrow">Why DSPDF</span>
+          <h2>Your Files Never Leave Your Device</h2>
+          <p class="lead">Most online PDF tools upload your documents to a server, process them somewhere, and hope you don't read the privacy policy. We built DSPDF because that never sat right with us.</p>
+          <p>Every operation here — merging, splitting, editing, compressing — happens directly inside your browser tab using WebAssembly and modern JavaScript. Your file goes from your hard drive into your browser's memory and back out as a download. Nowhere else.</p>
+          <p>Disconnect from the internet and the tools still work. That's the proof.</p>
+          <a class="btn btn-secondary mt-4" href="blog/why-pdfs-never-leave-your-device/index.html">Read why this matters →</a>
+        </div>
+        <div>
+          <div class="grid" style="gap: var(--space-4);">
+            <div class="alert alert-info">
+              <strong>🔒</strong>
+              <div><strong>No uploads.</strong> Your file is read locally with the FileReader API — nothing is transmitted.</div>
+            </div>
+            <div class="alert alert-info">
+              <strong>🧠</strong>
+              <div><strong>Real processing.</strong> We use pdf-lib, pdf.js, and Tesseract.js — the same libraries that power tools you already trust.</div>
+            </div>
+            <div class="alert alert-info">
+              <strong>📴</strong>
+              <div><strong>Works offline.</strong> Turn off Wi-Fi after loading the page and everything still functions.</div>
+            </div>
+            <div class="alert alert-info">
+              <strong>🕵️</strong>
+              <div><strong>No tracking by default.</strong> Analytics is off unless you choose to turn it on.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ HOW IT WORKS ============================ -->
+  <section class="section section--tight" style="background: var(--bg-subtle);">
+    <div class="container">
+      <span class="eyebrow text-center" style="display:block;">Simple by Design</span>
+      <h2 class="text-center">How DSPDF Works</h2>
+      <p class="lead text-center mb-6" style="max-width: 640px; margin-left:auto; margin-right:auto;">Three steps. No accounts. No waiting in upload queues.</p>
+
+      <div class="grid grid--3">
+        <div class="step">
+          <span class="step__num">1</span>
+          <div>
+            <h3>Pick your file</h3>
+            <p>Choose a PDF, image, or document from your device. It opens directly in your browser — nothing is uploaded.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">2</span>
+          <div>
+            <h3>Use the tool</h3>
+            <p>Merge, split, add a signature, compress — whatever you need. Watch the live preview as you work.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">3</span>
+          <div>
+            <h3>Download the result</h3>
+            <p>Your finished file is generated right there and saved to your device. Refresh the page and it's gone from memory.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ BLOG PREVIEW ============================ -->
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">From the Blog</span>
+      <h2>Guides, Tips &amp; Honest Explainers</h2>
+      <p class="lead mb-6">Practical articles about working with PDFs — no fluff, no hype.</p>
+
+      <div class="grid grid--3">
+        <a class="tool-card" href="blog/how-to-merge-pdf-files/index.html">
+          <span class="tool-card__meta">Guide · 8 min read</span>
+          <h3 class="tool-card__title mt-4">How to Merge PDF Files (The Right Way)</h3>
+          <p class="tool-card__desc">A friend asked me to combine her thesis chapters — here's the workflow that actually works.</p>
+        </a>
+        <a class="tool-card" href="blog/why-pdfs-never-leave-your-device/index.html">
+          <span class="tool-card__meta">Privacy · 6 min read</span>
+          <h3 class="tool-card__title mt-4">Why Your PDFs Should Never Leave Your Device</h3>
+          <p class="tool-card__desc">What actually happens when you upload a contract to a random online tool.</p>
+        </a>
+        <a class="tool-card" href="blog/how-to-compress-pdf/index.html">
+          <span class="tool-card__meta">Guide · 7 min read</span>
+          <h3 class="tool-card__title mt-4">How to Compress a PDF (And When Not To)</h3>
+          <p class="tool-card__desc">Email limits, quality trade-offs, and the honest truth about "compress to 100 KB".</p>
+        </a>
+      </div>
+
+      <div class="text-center mt-6">
+        <a class="btn btn-secondary" href="blog/index.html">Read all articles →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FAQ ============================ -->
+  <section class="section section--tight">
+    <div class="container">
+      <span class="eyebrow text-center" style="display:block;">Questions</span>
+      <h2 class="text-center mb-6">Frequently Asked</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Are my files really not uploaded anywhere?</summary>
+          <p>Correct. Every tool on DSPDF runs entirely inside your browser. Your file is read using the browser's built-in FileReader API and processed with JavaScript libraries like pdf-lib and pdf.js. Nothing is sent to a server. You can verify this by opening your browser's DevTools → Network tab while using a tool — you'll see no outgoing file transfers.</p>
+        </details>
+        <details>
+          <summary>Do I need to create an account?</summary>
+          <p>No. There is no sign-up, no login, no email required. Just open a tool and drop your file in.</p>
+        </details>
+        <details>
+          <summary>Is DSPDF free?</summary>
+          <p>Yes — every tool is free to use. If ads are enabled later, they help cover hosting and development time, but they will never interfere with the tool itself.</p>
+        </details>
+        <details>
+          <summary>Can I use this on my phone?</summary>
+          <p>Yes. DSPDF is built mobile-first and works on modern Android and iOS browsers. Larger files process more slowly on phones, but everything works.</p>
+        </details>
+        <details>
+          <summary>What's the maximum file size?</summary>
+          <p>It depends on your device's RAM, not on us — since we don't upload anything. As a rule of thumb, most laptops handle 100 MB PDFs comfortably; older phones may struggle above 30–40 MB.</p>
+        </details>
+        <details>
+          <summary>Does the PDF Editor let me edit existing text?</summary>
+          <p>No — and we're upfront about that. Editing existing PDF text in a browser is technically not feasible with current open-source libraries. Our editor lets you <em>add</em> new text, images, shapes, signatures, and annotations on top of your PDF. See <a href="tools/pdf-editor/index.html">the editor page</a> for details.</p>
+        </details>
+      </div>
+
+      <div class="text-center mt-6">
+        <a class="btn btn-ghost" href="faq/index.html">See all questions →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD SLOT: Leaderboard below content -->
+  <!-- 👉 OWNER: Paste AdSense <ins> code here after approval -->
+  <div class="container">
+    <div class="ad-slot">Ad space — reserved for after AdSense approval</div>
+  </div>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="navbar__brand" href="index.html" aria-label="DSPDF home">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="130" height="30" aria-hidden="true">
+            <defs>
+              <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2563EB"/>
+                <stop offset="100%" stop-color="#1D4ED8"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(2,4)">
+              <rect x="0" y="0" width="28" height="32" rx="4" fill="url(#fg)"/>
+              <text x="14" y="23" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text>
+            </g>
+            <text x="40" y="26" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="800" letter-spacing="-0.5" fill="currentColor">DSPDF</text>
+          </svg>
+        </a>
+        <p class="mt-4" style="font-size: 0.9rem; max-width: 34ch;">
+          Powerful PDF tools that respect your privacy. Everything runs in your browser — nothing is uploaded.
+        </p>
+      </div>
+
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="tools/pdf-editor/index.html">PDF Editor</a></li>
+          <li><a href="tools/merge-pdf/index.html">Merge PDF</a></li>
+          <li><a href="tools/split-pdf/index.html">Split PDF</a></li>
+          <li><a href="tools/compress-pdf/index.html">Compress PDF</a></li>
+          <li><a href="tools/index.html">All tools</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="blog/index.html">Blog</a></li>
+          <li><a href="faq/index.html">FAQ</a></li>
+          <li><a href="about/index.html">About</a></li>
+          <li><a href="contact/index.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy/index.html">Privacy Policy</a></li>
+          <li><a href="terms/index.html">Terms of Service</a></li>
+          <li><a href="disclaimer/index.html">Disclaimer</a></li>
+          <li><a href="cookie-policy/index.html">Cookie Policy</a></li>
+          <li><a href="dmca/index.html">DMCA</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF. All rights reserved.</span>
+      <span class="footer__badge">
+        <span aria-hidden="true">🔒</span> All processing happens in your browser.
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+/* Hero drop zone — redirects to tool directory with the file list.
+   A real "which tool?" chooser will be added later; for now, keep it
+   honest: dropping a file takes you to the tools index. */
+(function () {
+  var zone = document.getElementById("hero-drop");
+  if (!zone) return;
+
+  function go() { window.location.href = "tools/index.html"; }
+  zone.addEventListener("click", go);
+  zone.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
+  });
+
+  ["dragenter","dragover"].forEach(function (ev) {
+    zone.addEventListener(ev, function (e) {
+      e.preventDefault(); e.stopPropagation();
+      zone.classList.add("is-dragover");
+    });
+  });
+  ["dragleave","drop"].forEach(function (ev) {
+    zone.addEventListener(ev, function (e) {
+      e.preventDefault(); e.stopPropagation();
+      zone.classList.remove("is-dragover");
+    });
+  });
+  zone.addEventListener("drop", function (e) {
+    // Redirect — actual per-tool drop handling happens on tool pages.
+    window.location.href = "tools/index.html";
+  });
+})();
+</script>
+
+</body>
+</html>

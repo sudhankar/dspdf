@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>FAQ — Frequently Asked Questions | DSPDF</title>
+<meta name="description" content="Answers to common questions about DSPDF's PDF tools — privacy, file limits, features, limitations, and how local processing works." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/faq/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="FAQ — DSPDF" />
+<meta property="og:description" content="Common questions about DSPDF." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/faq/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"FAQ","item":"https://YOUR-USERNAME.github.io/dspdf/faq/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Are my files really not uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"Correct. Every tool runs entirely inside your browser using JavaScript libraries. Your file is read locally and never transmitted. You can verify this in your browser's DevTools Network tab, or by disconnecting from the internet and using a tool."}},
+        {"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. There is no sign-up, login, or email required. Just open a tool and use it."}},
+        {"@type":"Question","name":"Is DSPDF free?","acceptedAnswer":{"@type":"Answer","text":"Yes, all tools are free to use. If advertising is enabled by the site owner, it helps cover hosting and development, but never interferes with the tools."}},
+        {"@type":"Question","name":"Can I edit existing PDF text?","acceptedAnswer":{"@type":"Answer","text":"No — and no browser-based tool can, reliably. Our PDF Editor lets you add new text, images, shapes, and signatures on top of your PDF, but cannot modify the existing content."}},
+        {"@type":"Question","name":"What's the maximum file size?","acceptedAnswer":{"@type":"Answer","text":"Depends on your device's RAM, since processing is local. Most laptops handle 100 MB PDFs comfortably. Older phones may struggle above 30-40 MB."}},
+        {"@type":"Question","name":"Does DSPDF work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. After loading a tool page, you can disconnect from the internet and everything still works. This is a direct consequence of local processing."}},
+        {"@type":"Question","name":"Can DSPDF crack PDF passwords?","acceptedAnswer":{"@type":"Answer","text":"No. Our Unlock PDF tool removes passwords you already know. It does not perform brute-force cracking."}},
+        {"@type":"Question","name":"Is a PDF signature I add legally binding?","acceptedAnswer":{"@type":"Answer","text":"Depends on jurisdiction and receiving party. Our signature tool produces visual signatures, not cryptographic digital signatures. For legally critical documents, use a dedicated eSignature service with an audit trail."}},
+        {"@type":"Question","name":"Can I use DSPDF on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. DSPDF is built mobile-first and works on modern Android and iOS browsers. Large files process more slowly on phones."}},
+        {"@type":"Question","name":"Do you store any of my data?","acceptedAnswer":{"@type":"Answer","text":"No file content. The only local storage is your theme preference (dark/light). Analytics and ads are off by default and can be enabled by the site owner, in which case the behaviour is described in the Privacy Policy."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../tools/index.html">All Tools</a></li>
+      <li><a href="../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="index.html">FAQ</a></li>
+      <li><a href="../about/index.html">About</a></li>
+      <li><a href="../contact/index.html">Contact</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../index.html">Home</a></li>
+        <li><span aria-current="page">FAQ</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Help</span>
+      <h1>Frequently Asked Questions</h1>
+      <p class="lead">Answers to the questions we get most often. If yours isn't here, see the <a href="../contact/index.html">Contact page</a>.</p>
+
+      <h2>Privacy &amp; files</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Are my files really not uploaded anywhere?</summary>
+          <p>Correct. Every tool on DSPDF runs entirely inside your web browser. Your file is read with the browser's FileReader API and processed locally by JavaScript libraries. Nothing is transmitted over the network. You can verify this yourself: open DevTools (F12), go to the Network tab, clear requests, then use a tool. You'll see no outgoing request carrying your file. Or disconnect from the internet entirely and use any tool — it still works.</p>
+        </details>
+        <details>
+          <summary>Do you store any of my data?</summary>
+          <p>No file content, ever. The only thing stored on your device is your theme preference (dark/light), kept in local storage. If the site owner enables analytics or ads, additional cookies may be set — see the <a href="../cookie-policy/index.html">Cookie Policy</a>.</p>
+        </details>
+        <details>
+          <summary>Do I need to create an account?</summary>
+          <p>No. There is no sign-up, login, email, or verification. Open a tool and use it.</p>
+        </details>
+        <details>
+          <summary>Is DSPDF free? What's the catch?</summary>
+          <p>Yes, all tools are free. There's no catch — no "premium tier", no export watermark, no waiting queue. If the site owner enables advertising, ads help cover hosting costs, but they never interfere with the tools.</p>
+        </details>
+        <details>
+          <summary>What about analytics?</summary>
+          <p>Analytics is off by default. If the site owner enables it, it collects anonymous page-view statistics. It never sees your files, filenames, or any user-identifying information.</p>
+        </details>
+      </div>
+
+      <h2>Files &amp; limits</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>What's the maximum file size?</summary>
+          <p>There's no fixed limit — the practical ceiling depends on your device's RAM, since all processing is local. Most modern laptops handle 100 MB PDFs comfortably. Older phones may struggle above 30-40 MB. If a tool fails on a large file, try a device with more memory, or split the PDF first.</p>
+        </details>
+        <details>
+          <summary>Can I use DSPDF on my phone?</summary>
+          <p>Yes. DSPDF is built mobile-first and works on modern Android and iOS browsers. Large files process more slowly on phones because mobile CPUs are slower and memory is more constrained. All features work; performance varies.</p>
+        </details>
+        <details>
+          <summary>Can I use DSPDF offline?</summary>
+          <p>Yes. Once a tool page has loaded, you can disconnect from the internet and everything still works. This is the strongest proof that processing is local. (Note: the first visit needs internet to load the page and any libraries from CDN.)</p>
+        </details>
+        <details>
+          <summary>What file formats do you accept?</summary>
+          <p>For PDF tools: PDF files. For JPG to PDF: JPG, PNG, and WebP. For signature upload: PNG or JPG. For HTML to PDF: HTML or plain text.</p>
+        </details>
+        <details>
+          <summary>Do you support HEIC images from iPhone?</summary>
+          <p>Not directly — browsers don't decode HEIC natively. Convert HEIC to JPG on your phone first (iPhone: Settings → Camera → Formats → "Most Compatible").</p>
+        </details>
+      </div>
+
+      <h2>Features</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Can I edit existing PDF text?</summary>
+          <p>No — and no browser-based tool can, reliably. Editing existing PDF text requires reconstructing the layout, which current open-source libraries can't do. Our PDF Editor lets you add <em>new</em> content on top of your PDF: text, images, shapes, signatures, and annotations.</p>
+        </details>
+        <details>
+          <summary>What's the difference between Split and Extract?</summary>
+          <p>Split produces multiple output files. Extract produces one output file containing selected pages. Both are useful — pick based on how many files you want at the end.</p>
+        </details>
+        <details>
+          <summary>Does compression reduce quality?</summary>
+          <p>Yes. Our compression converts each page to an image, then rebuilds the PDF. This reduces file size significantly but makes text non-selectable. If you need searchable text afterwards, use OCR to rebuild a text layer, or accept that the text is now an image.</p>
+        </details>
+        <details>
+          <summary>Can I edit metadata?</summary>
+          <p>Yes — use the <a href="../tools/metadata-editor/index.html">Metadata Editor</a> to view and edit title, author, subject, keywords, creator, and producer. Clearing metadata before sharing is a good privacy habit.</p>
+        </details>
+        <details>
+          <summary>Does the watermark tool remove my watermarks later?</summary>
+          <p>No. Watermarks are drawn into the PDF's page content and can't be removed from the output file. Always keep your original.</p>
+        </details>
+        <details>
+          <summary>Is my OCR accurate?</summary>
+          <p>Depends on your input. Clean, printed, 300 DPI scans work well (~95%+ character accuracy in English). Handwriting, low-resolution scans, and complex multi-column layouts produce poor results. See the <a href="../blog/ocr-explained/index.html">OCR article</a> for detailed accuracy figures.</p>
+        </details>
+      </div>
+
+      <h2>Security &amp; signing</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Can DSPDF crack PDF passwords?</summary>
+          <p>No. Our <a href="../tools/unlock-pdf/index.html">Unlock PDF</a> tool removes protection from files where you already know the password. It does not brute-force or crack unknown passwords, and never will.</p>
+        </details>
+        <details>
+          <summary>Does the Protect PDF tool really encrypt?</summary>
+          <p>It depends on whether the underlying library exposes encryption in the browser build. Our tool checks at runtime. If encryption isn't available, it tells you honestly and offers a rasterization fallback rather than faking a "protected" file. See the Protect PDF page for the details.</p>
+        </details>
+        <details>
+          <summary>Is a PDF signature I add legally binding?</summary>
+          <p>Depends on jurisdiction and receiving party. Our signature tool produces <em>visual</em> signatures — an image on the page — not cryptographic digital signatures. For legally critical documents (contracts, affidavits, government forms), use a dedicated eSignature service with identity verification and audit trail, or check with a lawyer about requirements in your jurisdiction.</p>
+        </details>
+        <details>
+          <summary>Is redaction secure?</summary>
+          <p>Only if you use the rasterize option. Drawing black boxes over content without rasterizing does NOT remove the underlying text — it's still extractable. Our <a href="../tools/redact-pdf/index.html">Redact PDF</a> tool offers both modes and warns clearly which is safe.</p>
+        </details>
+        <details>
+          <summary>Do you sell my data?</summary>
+          <p>No, and we couldn't if we wanted to — we never receive it in the first place. See the <a href="../privacy-policy/index.html">Privacy Policy</a>.</p>
+        </details>
+      </div>
+
+      <h2>Technical</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Which browsers are supported?</summary>
+          <p>Modern browsers: Chrome, Edge, Firefox, Safari, and their mobile counterparts. Older browsers (Internet Explorer) are not supported. If something doesn't work, try updating your browser.</p>
+        </details>
+        <details>
+          <summary>Why is processing slow?</summary>
+          <p>Because it's happening on your CPU. Server-based tools can parallelise across many machines; browsers use one device. Large files, high DPI settings, and OCR are the slowest operations. Patience is real — our progress bars reflect actual work, not animation.</p>
+        </details>
+        <details>
+          <summary>Why does my device get hot during compression or OCR?</summary>
+          <p>Because your CPU is doing genuine work. Compression rasterizes every page; OCR runs neural networks on each word. This uses real compute and generates real heat. It's normal, especially on phones.</p>
+        </details>
+        <details>
+          <summary>Which libraries power DSPDF?</summary>
+          <p>pdf-lib (PDF creation and editing), pdf.js (PDF rendering), Tesseract.js (OCR), jsPDF (PDF generation for some tools), JSZip (ZIP creation), FileSaver.js (downloads). All open-source, all running client-side.</p>
+        </details>
+        <details>
+          <summary>Can I self-host DSPDF?</summary>
+          <p>Yes. DSPDF is a static site — clone the repository, edit <code>js/config.js</code> with your own URLs and email, and host anywhere (GitHub Pages, Netlify, Vercel, your own server). See the README for details.</p>
+        </details>
+      </div>
+
+      <h2>Still have a question?</h2>
+      <p>If your question isn't answered here, <a href="../contact/index.html">contact us</a>. We read every message.</p>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We answer every genuine question we receive.</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

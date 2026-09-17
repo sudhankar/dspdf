@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>How to Split a PDF — Every Method Explained | DSPDF</title>
+<meta name="description" content="Split a PDF by page range, every N pages, or individual pages. Practical guide with real workflows and honest limitations." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-split-pdf/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Split a PDF" />
+<meta property="og:description" content="Every method explained, with real workflows." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/how-to-split-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"How to Split a PDF",
+      "description":"Every splitting method explained.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-split-pdf/",
+      "datePublished":"2026-01-15",
+      "dateModified":"2026-01-15",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"How to Split a PDF","item":"https://YOUR-USERNAME.github.io/dspdf/blog/how-to-split-pdf/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"What's the difference between split and extract?","acceptedAnswer":{"@type":"Answer","text":"Split produces multiple output files. Extract produces one output file containing selected pages. Both are useful for different tasks."}},
+        {"@type":"Question","name":"Can I split a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"No. You must unlock it first with a tool that accepts the password you know."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">How to Split a PDF</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Organize</span>
+      <h1>How to Split a PDF</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-15">January 15, 2026</time>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p>Before I started building PDF tools, I thought "split a PDF" was one operation. It's actually four, and picking the right one saves you time and prevents mistakes.</p>
+
+      <p>This guide walks through when each makes sense, with real examples from people who've asked me for help.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#four-methods">The four splitting methods</a></li>
+          <li><a href="#choosing">Choosing the right one</a></li>
+          <li><a href="#real-examples">Real-world examples</a></li>
+          <li><a href="#pitfalls">Pitfalls to avoid</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="four-methods">The four splitting methods</h2>
+
+      <h3>1. Split by range</h3>
+
+      <p>You specify one or more ranges like <code>1-3</code>, <code>5</code>, <code>7-10</code> and get one output file per range. Ranges are inclusive: <code>1-3</code> means pages 1, 2, and 3.</p>
+
+      <p><strong>Best for:</strong> documents where the boundaries are already known — chapters, sections, appendices.</p>
+
+      <p><strong>Common mistake:</strong> forgetting that PDF page numbers don't always match what's printed on the page. A book with roman-numeral front matter might have "Chapter 1" on what is actually page 7.</p>
+
+      <h3>2. Split every N pages</h3>
+
+      <p>Chop the document into equal chunks. N=10 gives you files with pages 1-10, 11-20, 21-30, and so on. The last file may be shorter.</p>
+
+      <p><strong>Best for:</strong> archiving, printing in batches, sending excerpts to a mailing list with a size limit.</p>
+
+      <p><strong>Common mistake:</strong> using this when the natural boundaries don't align with N. A 47-page report split every 10 pages gives you an awkward 7-page last file.</p>
+
+      <h3>3. Extract specific pages into one file</h3>
+
+      <p>You select pages (say 3, 7, and 12) and get one output file with just those pages.</p>
+
+      <p><strong>Best for:</strong> pulling specific pages out of a large document — a single chart, a signature page, a reference section.</p>
+
+      <p>In DSPDF this is the <a href="../../tools/extract-pages/index.html">Extract Pages tool</a>, separate from split.</p>
+
+      <h3>4. Split into individual pages</h3>
+
+      <p>Every page becomes its own file. A 30-page PDF produces 30 files in a ZIP.</p>
+
+      <p><strong>Best for:</strong> prepping scans for OCR, feeding pages into another system one at a time, or distributing single-page items.</p>
+
+      <p><strong>Common mistake:</strong> using this when you only need a few pages. You'll end up with 30 files and no easy way to find the one you want.</p>
+
+      <h2 id="choosing">Choosing the right one</h2>
+
+      <p>The easiest way to choose is to answer two questions:</p>
+
+      <ol>
+        <li><strong>Do I want one output file or many?</strong> One → extract. Many → split.</li>
+        <li><strong>Do the boundaries follow a rule?</strong> Yes (every N) → use that. No (chapters) → use custom ranges.</li>
+      </ol>
+
+      <table>
+        <thead>
+          <tr><th>You want</th><th>Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Just pages 5-8 in a new PDF</td><td>Extract Pages</td></tr>
+          <tr><td>Every chapter as its own file</td><td>Split by custom ranges</td></tr>
+          <tr><td>Ten-page packets for printing</td><td>Split every 10 pages</td></tr>
+          <tr><td>One file per page</td><td>Split every 1 page</td></tr>
+          <tr><td>Remove pages 3 and 7</td><td>Delete Pages (the inverse)</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="real-examples">Real-world examples</h2>
+
+      <h3>The student with a 200-page textbook scan</h3>
+
+      <p>She only needed chapters 4-6 for a class. Scanned PDFs don't preserve chapter boundaries as metadata, so she had to find the page ranges manually. Then she used <strong>extract pages</strong> to pull just those chapters into one file for easier annotation.</p>
+
+      <p>Result: a 62-page annotated chapter file instead of a 200-page book.</p>
+
+      <h3>The freelancer with a combined invoice packet</h3>
+
+      <p>He'd been emailing a single 40-page PDF containing all his invoices for the quarter. Clients complained. He now uses <strong>split every 1 page</strong> once a quarter, then names each resulting file with the invoice number. Now clients get one invoice per email.</p>
+
+      <h3>The lawyer with a signed contract</h3>
+
+      <p>She needed to send only the signature page to her records system, keeping the rest of the contract separate. She used <strong>extract pages</strong> to pull page 12 (the signature page) and saved it separately.</p>
+
+      <p><strong>Important:</strong> extracting pages from a signed contract invalidates any cryptographic digital signature on the original. For visual signatures (drawn or typed), extraction is harmless. This distinction matters.</p>
+
+      <h3>The teacher with lecture slides</h3>
+
+      <p>She had one big PDF of all her slides and wanted a handout per lecture. She used <strong>split by range</strong> to produce 12 files, one per lecture, based on the slide numbers she already had in her notes.</p>
+
+      <h2 id="pitfalls">Pitfalls to avoid</h2>
+
+      <h3>1. Page numbers in the printed content vs PDF page indices</h3>
+
+      <p>The number printed at the bottom of a page is often not the PDF's page index. Front matter (copyright page, table of contents) usually uses roman numerals. This means "page 5" in your head might be page 11 in the PDF.</p>
+
+      <p><strong>Fix:</strong> open the PDF, scroll to the page you want, and note the PDF reader's page number (usually shown in the toolbar), not the printed one.</p>
+
+      <h3>2. Password-protected files</h3>
+
+      <p>You can't split what you can't open. Unlock first with a tool that accepts the password you know.</p>
+
+      <h3>3. Bookmarks and form fields</h3>
+
+      <p>Same issue as merging: bookmarks and interactive fields usually get lost when pages are recombined into new files. Documented limitation of client-side tools.</p>
+
+      <h3>4. Output filename collisions</h3>
+
+      <p>If you split three different PDFs on the same day and they all produce files named "pages_1-10.pdf", you'll have a bad time. Our split tool prefixes filenames with the source PDF name to avoid this.</p>
+
+      <h3>5. Large outputs</h3>
+
+      <p>Splitting a 500-page PDF every 1 page produces a ZIP with 500 files. That ZIP can be slow to build in a browser. If you're hitting performance limits, split in batches.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>What's the difference between split and extract?</summary>
+          <p>Split produces <em>multiple</em> output files. Extract produces <em>one</em> output file containing selected pages. Pick based on how many files you want at the end.</p>
+        </details>
+        <details>
+          <summary>Can I split a password-protected PDF?</summary>
+          <p>Not directly. Unlock it first with the password you know. See our <a href="../../tools/unlock-pdf/index.html">Unlock PDF</a> tool.</p>
+        </details>
+        <details>
+          <summary>Does splitting reduce quality?</summary>
+          <p>No. Splitting rearranges pages into new containers without re-encoding content. Page content is preserved byte-for-byte (modulo the container rebuild).</p>
+        </details>
+        <details>
+          <summary>How do I split into more than 100 files?</summary>
+          <p>Split in batches: pages 1-100, 101-200, and so on. Browser memory limits make very large single operations risky.</p>
+        </details>
+        <details>
+          <summary>Can I split a PDF by chapters?</summary>
+          <p>Yes — if you know the page ranges for each chapter. Split by custom ranges: <code>1-24, 25-47, 48-72</code>. There's no automatic chapter detection.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/split-pdf/index.html">DSPDF Split PDF</a> supports every N pages or custom ranges, and outputs a ZIP. <a href="../../tools/extract-pages/index.html">Extract Pages</a> handles the single-file case.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-merge-pdf-files/index.html">
+            <h3 class="tool-card__title">How to Merge PDF Files</h3>
+            <p class="tool-card__desc">The reverse operation.</p>
+          </a>
+          <a class="tool-card" href="../rotate-reorder-pages/index.html">
+            <h3 class="tool-card__title">Rotate &amp; Reorder Pages</h3>
+            <p class="tool-card__desc">Prep pages before or after splitting.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

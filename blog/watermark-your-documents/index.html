@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Watermark Your Documents — Practical Uses and Pitfalls | DSPDF</title>
+<meta name="description" content="When to watermark a PDF, which style to use, and the mistakes that make watermarks annoying instead of helpful." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/watermark-your-documents/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Watermark Your Documents" />
+<meta property="og:description" content="Practical uses and pitfalls." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/watermark-your-documents/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Watermark Your Documents",
+      "description":"Practical uses and pitfalls of PDF watermarks.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/watermark-your-documents/",
+      "datePublished":"2026-01-29",
+      "dateModified":"2026-01-29",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Watermark Your Documents","item":"https://YOUR-USERNAME.github.io/dspdf/blog/watermark-your-documents/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Can a watermark be removed?","acceptedAnswer":{"@type":"Answer","text":"Once baked into the PDF page content, no. Watermarks become part of the visual content and can't be selectively removed without editing the PDF structure."}},
+        {"@type":"Question","name":"Which opacity should I use?","acceptedAnswer":{"@type":"Answer","text":"For readable documents, 10-25% opacity is typical. Higher opacity (40%+) is appropriate only for stamps that must be unmistakable."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Watermark Your Documents</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Optimize</span>
+      <h1>Watermark Your Documents</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-29">January 29, 2026</time>
+        <span>·</span>
+        <span>5 min read</span>
+      </div>
+
+      <p>A friend works as a translator. She once sent a sample chapter to a potential client with no watermark. Six months later she found her translation embedded on another translator's portfolio, credited to that person. She had no proof it was hers.</p>
+
+      <p>That experience is why she now watermarks every sample she sends. It's a small operational step that prevents a real problem.</p>
+
+      <p>Watermarking isn't glamorous, but it's a useful hygiene practice for anyone who shares documents they care about. Here's what to know.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#why">Why watermark anything?</a></li>
+          <li><a href="#styles">Choosing a style</a></li>
+          <li><a href="#settings">Settings that matter</a></li>
+          <li><a href="#pitfalls">Pitfalls</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="why">Why watermark anything?</h2>
+
+      <p>People watermark documents for several reasons, and it's worth knowing which one applies to you before you pick a style:</p>
+
+      <ul>
+        <li><strong>Attribution.</strong> "This is my work" — the translator's case. A visible name or handle in the corner.</li>
+        <li><strong>Status marking.</strong> DRAFT, CONFIDENTIAL, SAMPLE — signals to the reader that this version isn't final.</li>
+        <li><strong>Deterrence.</strong> A repeated watermark across the page makes casual screenshot-and-republish less appealing.</li>
+        <li><strong>Tracking (weakly).</strong> A unique identifier per recipient (a serial number, or the recipient's name). Not forensic-grade but useful if a leak happens.</li>
+        <li><strong>Branding.</strong> For marketing materials — a subtle logo or URL.</li>
+      </ul>
+
+      <p>Attribution and status marking are the two most common. Both are useful. Neither is a security measure.</p>
+
+      <h2 id="styles">Choosing a style</h2>
+
+      <h3>Centered diagonal text</h3>
+
+      <p>The classic. A big "CONFIDENTIAL" running diagonally across the page at low opacity. Unmissable, but it also dominates the page. Use only when you want the marking to be the visual focus.</p>
+
+      <p>Best for: strongly confidential documents, drafts that must not be mistaken for finals.</p>
+
+      <h3>Corner text</h3>
+
+      <p>A small marking in one corner — a name, a URL, a version number. Discrete. Doesn't obscure content.</p>
+
+      <p>Best for: attribution, versioning, subtle branding.</p>
+
+      <h3>Tiled / repeated</h3>
+
+      <p>The watermark repeats in a grid across the page. Much harder to crop out than a single central mark. Slightly noisy but very effective for deterrence.</p>
+
+      <p>Best for: samples where the goal is preventing easy reuse, or documents that shouldn't be photographed cleanly.</p>
+
+      <h3>Stamp format</h3>
+
+      <p>A rectangular border with bold text — like a rubber stamp. APPROVED, PAID, VOID. Different from a watermark in intent: it's a declaration of status, not a background marking.</p>
+
+      <p>Best for: invoices, applications, anything with a workflow state.</p>
+
+      <h2 id="settings">Settings that matter</h2>
+
+      <table>
+        <thead>
+          <tr><th>Setting</th><th>Recommendation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Opacity</td><td>10–25% for background marks; 40–60% for status declarations</td></tr>
+          <tr><td>Rotation</td><td>45° for diagonal; 0° for horizontal; 90° for vertical side text</td></tr>
+          <tr><td>Font size</td><td>40–60pt for centered marks; 10–14pt for corner marks</td></tr>
+          <tr><td>Color</td><td>Grey or muted for background; red or blue for status</td></tr>
+          <tr><td>Position</td><td>Center or tile; corners only for small attribution marks</td></tr>
+        </tbody>
+      </table>
+
+      <p>For anything you intend people to actually read, err on the side of lower opacity. A 40% watermark that makes text hard to read will get complaints.</p>
+
+      <h2 id="pitfalls">Pitfalls</h2>
+
+      <h3>1. Watermarking before the document is final</h3>
+
+      <p>If you watermark a draft, then continue editing, you have to remove and re-apply the watermark. Since watermarks can't be removed from a PDF easily, most people end up regenerating the whole file. Apply the watermark as the last step.</p>
+
+      <h3>2. Watermarking every page when only some need it</h3>
+
+      <p>Some documents (cover pages, title pages) look worse with a diagonal watermark across them. Use a page-range option if your tool has one.</p>
+
+      <h3>3. Assuming a watermark prevents copying</h3>
+
+      <p>A watermark is a visual mark. Anyone can screenshot, retype, or in many cases crop it out. It's a deterrent, not a lock. For content that genuinely must not be copied, redaction or non-distribution is the only real answer.</p>
+
+      <h3>4. Using the same watermark for every recipient</h3>
+
+      <p>If your goal is to trace leaks, a common watermark defeats the purpose. Per-recipient unique identifiers (a name, a code) are the way — but they require per-recipient generation, which is more effort.</p>
+
+      <h3>5. Forgetting about metadata</h3>
+
+      <p>You can watermark a PDF visually and still leave the author field pointing to your real name. Watermarking isn't a substitute for metadata cleaning. Do both — see our <a href="../pdf-metadata-explained/index.html">metadata article</a> for the details.</p>
+
+      <h3>6. Watermarking the wrong layer</h3>
+
+      <p>Some tools draw watermarks underneath the existing page content (which hides them behind images) instead of over it. Check the preview before saving. Our <a href="../../tools/watermark-pdf/index.html">Watermark PDF tool</a> draws over the content so it's always visible.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Can a watermark be removed?</summary>
+          <p>Once baked into the PDF page content, no — not easily. It becomes part of the visual content. Some PDF editors can remove watermarks if they're stored as separate layers, but most watermarks are drawn directly into the page.</p>
+        </details>
+        <details>
+          <summary>Which opacity should I use?</summary>
+          <p>10-25% for background marks. Higher if the marking is meant to be prominent. Test on a real page — a watermark that looks good on a white page may become invisible on a colored one.</p>
+        </details>
+        <details>
+          <summary>Will a watermark protect my work from plagiarism?</summary>
+          <p>It deters casual misuse and provides attribution if someone republishes your work. It doesn't prevent a determined plagiarist from retyping your content. For stronger protections, use a proper copyright notice and consider formal registration.</p>
+        </details>
+        <details>
+          <summary>Can I put a different watermark on each page?</summary>
+          <p>Yes, if your tool supports it. Our Watermark PDF tool applies the same watermark to all pages (or a specified range). For per-page customization, use the <a href="../../tools/pdf-editor/index.html">PDF Editor</a> and place a text box on each page.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/watermark-pdf/index.html">DSPDF Watermark PDF</a> supports text and image watermarks, tiling, and opacity control. All processing is local.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../pdf-metadata-explained/index.html">
+            <h3 class="tool-card__title">PDF Metadata Explained</h3>
+            <p class="tool-card__desc">The invisible companion to watermarks.</p>
+          </a>
+          <a class="tool-card" href="../protect-sensitive-pdfs/index.html">
+            <h3 class="tool-card__title">Protecting Sensitive PDFs</h3>
+            <p class="tool-card__desc">When watermarking isn't enough.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Redact PDF Online — Black Out Sensitive Content | DSPDF</title>
+<meta name="description" content="Cover sensitive content with black redaction boxes and optionally flatten them into the PDF. 100% private, in-browser redaction." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/redact-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Redact PDF — DSPDF" />
+<meta property="og:description" content="Black out sensitive content. Free and private." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/redact-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"Redact PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/redact-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"Redact PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/redact-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Does redaction remove the underlying data?","acceptedAnswer":{"@type":"Answer","text":"No. Our redaction draws black rectangles over the content. The text underneath remains in the PDF data layer and could potentially be recovered. For true cryptographic redaction you need dedicated server-side tools like Adobe Acrobat Pro."}},
+    {"@type":"Question","name":"How can I make redaction safer?","acceptedAnswer":{"@type":"Answer","text":"Use the 'Rasterize pages' option — this converts each page to an image, permanently destroying the underlying text data. The trade-off is that text becomes non-selectable."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">Redact PDF</span></li>
+    </ol></nav>
+
+    <h1>Redact PDF</h1>
+    <p class="lead">Draw black boxes over sensitive content. Optionally rasterize pages to make redaction permanent.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
+
+    <div class="alert alert-warning mt-4" role="note">
+      <strong>⚠ Important — read this</strong>
+      <div>By default, redaction boxes only <em>cover</em> content visually. The text underneath remains in the PDF data layer and could theoretically be extracted. For <strong>safe redaction</strong>, enable "Rasterize pages" below — this converts pages to images and permanently destroys the underlying text. Trade-off: text becomes non-selectable.</div>
+    </div>
+
+    <section class="tool-panel mt-6">
+      <div id="uz-red" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-zone__title">Drop a PDF here or click to select</p>
+        <input type="file" accept="application/pdf,.pdf" hidden />
+      </div>
+
+      <div id="red-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div id="red-toolbar" class="mt-6" hidden>
+        <p class="text-muted" id="red-info"></p>
+
+        <div class="opt-group mt-4">
+          <div class="opt-row">
+            <label>Page</label>
+            <button type="button" class="btn btn-sm" id="red-prev">‹ Prev</button>
+            <span id="red-page-label" style="font-variant-numeric:tabular-nums;">1 / 1</span>
+            <button type="button" class="btn btn-sm" id="red-next">Next ›</button>
+          </div>
+          <div class="opt-row">
+            <label>Color</label>
+            <input type="color" id="red-color" value="#000000" />
+            <label style="min-width:auto;"><input type="checkbox" id="red-rasterize" /> Rasterize pages (permanent redaction)</label>
+          </div>
+        </div>
+
+        <p class="text-muted" style="font-size:0.9rem;">Click and drag on the page to draw a redaction box.</p>
+        <div style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
+          <canvas id="red-canvas" style="display:block;background:#fff;cursor:crosshair;margin:0 auto;"></canvas>
+        </div>
+
+        <div class="mt-4">
+          <button type="button" class="btn btn-ghost btn-sm" id="red-undo">Undo last</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="red-clear-page">Clear this page</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="red-clear-all">Clear all pages</button>
+          <span class="text-muted" style="font-size:0.85rem;margin-left:8px;" id="red-count">0 boxes</span>
+        </div>
+
+        <div id="red-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress"><div class="progress__bar"></div></div>
+          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
+        </div>
+
+        <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-primary btn-lg" id="red-save" disabled>Save redacted PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to redact a PDF</h2>
+      <ol class="how-to">
+        <li>Drop your PDF into the box above.</li>
+        <li>Navigate to the page you want to redact.</li>
+        <li>Click and drag to draw black boxes over sensitive content.</li>
+        <li>Decide: leave as-is (visual cover) or enable <strong>Rasterize pages</strong> for permanent redaction.</li>
+        <li>Click <strong>Save redacted PDF</strong>.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations — please read</h2>
+      <ul>
+        <li><strong>Default redaction is NOT secure.</strong> A black box drawn over text does not remove the text from the PDF. Anyone with a PDF parser can extract the underlying content.</li>
+        <li><strong>Enable "Rasterize pages"</strong> for true removal. This converts each page to an image, destroying all text and vector data. Text will no longer be selectable or searchable, and the file may get larger.</li>
+        <li>Rasterization affects the whole page, not just redacted areas.</li>
+        <li>For legal, government, or compliance-grade redaction, use a dedicated tool with certified redaction (e.g., Adobe Acrobat Pro).</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>Is visual redaction safe?</summary><p>No — a determined reader can extract the underlying text. It's fine for casual sharing, but not for privacy-critical documents.</p></details>
+        <details><summary>What does Rasterize do?</summary><p>It converts each page into an image. Text and metadata are permanently destroyed. The resulting PDF looks identical but text is no longer selectable.</p></details>
+        <details><summary>Can I redact just one page?</summary><p>Yes — rasterization is applied page by page, but with this option enabled, every page you save is rasterized (they're all part of the same output). Plan accordingly.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../highlight-pdf/index.html"><h3 class="tool-card__title">Highlight PDF</h3><p class="tool-card__desc">Non-destructive markup.</p></a>
+        <a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">Full overlay editing.</p></a>
+        <a class="tool-card" href="../protect-pdf/index.html"><h3 class="tool-card__title">Protect PDF</h3><p class="tool-card__desc">Password-protect instead.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/protect-sensitive-pdfs/index.html"><h3 class="tool-card__title">Protect Sensitive PDFs</h3><p class="tool-card__desc">Redaction vs password vs encryption.</p></a>
+        <a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">The privacy story.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/redact-pdf.js"></script>
+</body>
+</html>

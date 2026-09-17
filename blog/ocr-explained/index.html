@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>OCR Explained (English + Hindi) — When It Works, When It Fails | DSPDF</title>
+<meta name="description" content="What OCR actually does, why handwriting breaks it, and how well it handles Hindi and English documents." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/ocr-explained/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="OCR Explained (English + Hindi)" />
+<meta property="og:description" content="What works and what doesn't." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/ocr-explained/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"OCR Explained (English + Hindi)",
+      "description":"What OCR actually does and when it fails.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/ocr-explained/",
+      "datePublished":"2026-01-22",
+      "dateModified":"2026-01-22",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"OCR Explained","item":"https://YOUR-USERNAME.github.io/dspdf/blog/ocr-explained/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Does OCR work on handwriting?","acceptedAnswer":{"@type":"Answer","text":"Rarely well. Tesseract and most free OCR engines are trained on printed text. Cursive and stylised handwriting produce garbage output."}},
+        {"@type":"Question","name":"How accurate is OCR on Hindi?","acceptedAnswer":{"@type":"Answer","text":"Good on clean, standard Devanagari text at 300 DPI. Worse on mixed Hindi-English documents and handwritten Hindi."}},
+        {"@type":"Question","name":"What resolution do I need?","acceptedAnswer":{"@type":"Answer","text":"300 DPI is the standard recommendation. Below 150 DPI, error rates rise sharply."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">OCR Explained</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">OCR</span>
+      <h1>OCR Explained (English + Hindi)</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-22">January 22, 2026</time>
+        <span>·</span>
+        <span>8 min read</span>
+      </div>
+
+      <p>The first time I ran OCR on a scanned contract, I was amazed. The tool pulled out every word in about twenty seconds. Then I scrolled to the signature block and found that the tool had cheerfully converted a paragraph of handwritten notes into "8 - . 4 amass. See 34--". Not so amazing.</p>
+
+      <p>OCR is a genuinely useful technology that comes with genuinely sharp limits. This guide explains what it is, what it does well, what it fails at, and how to get the best results — especially for Hindi and English documents.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#what-ocr">What OCR actually does</a></li>
+          <li><a href="#stages">The four stages of OCR</a></li>
+          <li><a href="#good">When it works brilliantly</a></li>
+          <li><a href="#bad">When it fails</a></li>
+          <li><a href="#hindi">Hindi OCR in practice</a></li>
+          <li><a href="#searchable">Searchable PDFs: how they work</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="what-ocr">What OCR actually does</h2>
+
+      <p>OCR stands for Optical Character Recognition. Its job is to turn pictures of text into actual text — characters that a computer can search, copy, and process.</p>
+
+      <p>An image file has no notion of "words". It's just pixels. OCR is the process of looking at those pixels, finding patterns that look like letters, and outputting the character codes those letters represent.</p>
+
+      <p>For a printed A4 page at 300 DPI, modern OCR engines achieve accuracy in the 97-99% range. That sounds great until you realise 99% accuracy means roughly one wrong character every hundred. On a 5000-character page, that's 50 errors. For a legal contract, 50 errors is a disaster.</p>
+
+      <h2 id="stages">The four stages of OCR</h2>
+
+      <h3>1. Image preprocessing</h3>
+
+      <p>The engine first normalises the image. It detects the text angle and rotates it straight, converts to greyscale, then to a binary black/white threshold, and removes noise.</p>
+
+      <p>This stage is where most OCR problems originate. A skewed scan, an overexposed photo, or a low-contrast document confuses every downstream stage. Fix the image before OCR, and everything improves.</p>
+
+      <h3>2. Layout analysis</h3>
+
+      <p>The engine identifies regions of the image: text paragraphs, headings, tables, images, margins. It has to guess where one column ends and another begins, and in what order to read them.</p>
+
+      <p>Layout is where multi-column documents often break. A newspaper-style two-column page can get read straight across, mixing up sentences. Tables confuse the engine into reading cell contents in the wrong order.</p>
+
+      <h3>3. Character recognition</h3>
+
+      <p>For each detected text region, the engine slices the image into character-sized chunks and classifies each one. Modern engines use neural networks trained on millions of examples.</p>
+
+      <p>Character recognition works brilliantly on clean printed text in Latin scripts. It works much worse on Devanagari's conjunct characters (where multiple letters combine into one glyph) and on cursive handwriting.</p>
+
+      <h3>4. Post-processing with a language model</h3>
+
+      <p>Finally, the engine runs the raw output through a language model to fix obvious errors. If it sees "teh" and knows English, it corrects to "the". If it sees "app1e" it guesses "apple".</p>
+
+      <p>For English, this is a big help. For Hindi, less so — the language models are smaller and the concatenation rules are different. For technical text with jargon, chemical formulas, or code, post-processing can make things worse by over-correcting.</p>
+
+      <h2 id="good">When it works brilliantly</h2>
+
+      <ul>
+        <li><strong>Printed documents at 300 DPI.</strong> Clean scans of book pages, contracts, reports — this is OCR's sweet spot.</li>
+        <li><strong>Simple single-column layouts.</strong> Standard paragraphs, headings, and lists are handled well.</li>
+        <li><strong>Common English vocabulary.</strong> News articles, textbooks, business documents.</li>
+        <li><strong>Machine-printed forms.</strong> Text fields filled by a printer, not a pen.</li>
+      </ul>
+
+      <p>If your document fits these criteria, expect 98-99% accuracy. That means a few errors per page, usually obvious ones that context can resolve. Not perfect, but genuinely useful for search and rough extraction.</p>
+
+      <h2 id="bad">When it fails</h2>
+
+      <ul>
+        <li><strong>Handwriting.</strong> This is the biggest disappointment. Tesseract — the engine we use — was not trained on handwriting. Cursive produces garbage. Even block handwriting produces many errors.</li>
+        <li><strong>Low resolution.</strong> Below 150 DPI, characters blur together. Errors rise to 10-30%.</li>
+        <li><strong>Complex layouts.</strong> Newspapers, magazines, brochures with text wrapping around images — the engine can't reliably determine reading order.</li>
+        <li><strong>Tables.</strong> Cell contents often get misread or merged. There's no standard way to represent a table in plain text output, so results vary wildly.</li>
+        <li><strong>Unusual fonts.</strong> Decorative fonts, script fonts, and very small type (<8pt) confuse the character classifier.</li>
+        <li><strong>Multi-language documents.</strong> A page with Hindi and English text is harder than either alone — the engine has to guess script and can pick wrong.</li>
+        <li><strong>Chemical formulas and mathematics.</strong> Special symbols and layout are outside the training data.</li>
+      </ul>
+
+      <h2 id="hindi">Hindi OCR in practice</h2>
+
+      <p>Hindi uses the Devanagari script, which is more complex than Latin for OCR in several ways:</p>
+
+      <ul>
+        <li><strong>Conjunct characters.</strong> Two consonants can combine into a single glyph — क + ष = क्ष. The engine has to recognise these combinations, not individual letters.</li>
+        <li><strong>Vowel signs (matras).</strong> Vowels appear as marks above, below, before, or after consonants. Their placement relative to the base letter is significant.</li>
+        <li><strong>Aspirated consonants.</strong> भ vs ब — a small detail distinguishes the two.</li>
+        <li><strong>Danda and other punctuation.</strong> The sentence-ending "।" needs to be recognised as distinct from other marks.</li>
+      </ul>
+
+      <p>In our experience with Tesseract's Hindi model:</p>
+
+      <ul>
+        <li>Clean, standard printed Hindi at 300 DPI: <strong>~95% accuracy</strong> character-wise. Word-level is lower because Devanagari words are harder to correct via dictionary.</li>
+        <li>Printed Hindi from low-resolution scans: <strong>~70-80% accuracy</strong>. Errors compound.</li>
+        <li>Handwritten Hindi: <strong>very poor</strong> — under 40% accuracy, often unusable.</li>
+        <li>Hindi + English mixed: <strong>~80% accuracy</strong>, with occasional script confusion (English words getting Devanagari interpretations or vice versa).</li>
+      </ul>
+
+      <p>So Hindi OCR is genuinely useful for printed material, but the bar for quality is higher than English.</p>
+
+      <h2 id="searchable">Searchable PDFs: how they work</h2>
+
+      <p>A common OCR task is: turn a scanned PDF (which is really just images of pages) into a <em>searchable</em> PDF. The output looks identical but supports Ctrl+F.</p>
+
+      <p>What actually happens under the hood:</p>
+
+      <ol>
+        <li>Each page is rendered to an image at the requested DPI.</li>
+        <li>The OCR engine extracts text <em>and</em> positions for each word — its bounding box on the page.</li>
+        <li>A new PDF is created. The original page image is embedded as the visible content.</li>
+        <li>An invisible text layer is drawn on top of the image, with each word positioned to match where it appears visually.</li>
+      </ol>
+
+      <p>The result: visually identical to the original scan. But now a PDF reader can find text, and copying text works.</p>
+
+      <p>There's an important nuance: the invisible text is often not exactly aligned with the visual text. Tiny offsets of a pixel or two mean copying a passage sometimes picks up characters from adjacent words. It's not perfect.</p>
+
+      <p>Our <a href="../../tools/ocr-pdf/index.html">OCR PDF tool</a> produces searchable PDFs in this way. We use a very low opacity white text layer, which most PDF readers index properly. It's documented as an approximation — true invisible rendering mode isn't exposed by the client-side PDF library we use.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>Does OCR work on handwriting?</summary>
+          <p>Rarely well. Tesseract and most free engines are trained on printed text. Cursive produces garbage. Block letters produce maybe 50% accuracy. If you need handwriting transcription, use a paid service trained specifically on it.</p>
+        </details>
+        <details>
+          <summary>What resolution do I need?</summary>
+          <p>300 DPI for best results. 200 DPI is a reasonable compromise. Below 150 DPI, accuracy drops sharply. If your scan is lower resolution, rescan at higher DPI if possible rather than upscaling (upscaling doesn't add detail).</p>
+        </details>
+        <details>
+          <summary>Can I OCR Hindi?</summary>
+          <p>Yes — printed Hindi at 300 DPI works reasonably well. Handwritten Hindi is out of scope for our tool. Mixed Hindi-English is possible but slower and less accurate.</p>
+        </details>
+        <details>
+          <summary>Why is OCR so slow?</summary>
+          <p>It's computationally intensive. For each page, the engine runs a neural network on thousands of small character images. In-browser OCR uses WebAssembly, which is fast but still bound by your CPU. 10-30 seconds per page is normal.</p>
+        </details>
+        <details>
+          <summary>Is my scanned PDF uploaded for OCR?</summary>
+          <p>Not with DSPDF. OCR runs entirely in your browser using WebAssembly. The only download is the language model from Tesseract's CDN — which contains no data about your file.</p>
+        </details>
+        <details>
+          <summary>Can OCR recover text from a picture of a screen?</summary>
+          <p>Sometimes. Screenshots of text are usually clean and high-contrast, which OCR likes. Moiré patterns from photographing a screen can cause errors. If possible, use the screenshot itself, not a photo of the screen.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Try it yourself:</strong> <a href="../../tools/ocr-pdf/index.html">DSPDF OCR PDF</a> supports English and Hindi, with DPI control, and delivers a searchable PDF. All processing happens locally.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../how-to-convert-jpg-to-pdf/index.html">
+            <h3 class="tool-card__title">How to Convert JPG to PDF</h3>
+            <p class="tool-card__desc">Often the step before OCR.</p>
+          </a>
+          <a class="tool-card" href="../extract-images-from-pdf/index.html">
+            <h3 class="tool-card__title">Extract Images from PDF</h3>
+            <p class="tool-card__desc">Pull out embedded images.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

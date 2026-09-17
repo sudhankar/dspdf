@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>PDF Metadata Explained — What's Hidden in Every File | DSPDF</title>
+<meta name="description" content="Every PDF carries hidden metadata: author, creator, dates, sometimes paths and usernames. Here's what's inside and how to clean it." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/pdf-metadata-explained/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="PDF Metadata Explained" />
+<meta property="og:description" content="What's hidden in every PDF." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/pdf-metadata-explained/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"PDF Metadata Explained",
+      "description":"What's hidden in every PDF file.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/pdf-metadata-explained/",
+      "datePublished":"2026-01-27",
+      "dateModified":"2026-01-27",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"PDF Metadata Explained","item":"https://YOUR-USERNAME.github.io/dspdf/blog/pdf-metadata-explained/"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"What metadata does a PDF contain?","acceptedAnswer":{"@type":"Answer","text":"Title, author, subject, keywords, creator application, producer library, creation date, modification date. Some PDFs also embed paths, usernames, and application-specific fields."}},
+        {"@type":"Question","name":"Is PDF metadata dangerous?","acceptedAnswer":{"@type":"Answer","text":"It can reveal more than you intend. Author fields often contain your real name or computer username. Creation paths may reveal folder structure. Clear metadata before sharing anything sensitive."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">PDF Metadata Explained</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Privacy</span>
+      <h1>PDF Metadata Explained</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-01-27">January 27, 2026</time>
+        <span>·</span>
+        <span>6 min read</span>
+      </div>
+
+      <p>A journalist I know once received a leaked corporate document. Within a minute of opening it, she knew more about the file than the sender had intended: the creator's full name, the laptop's hostname, the exact software version used, and the local file path — which revealed the name of an internal project folder.</p>
+
+      <p>None of this was visible on the page. It was metadata — the file's hidden annotation about itself.</p>
+
+      <p>This article explains what metadata a PDF contains, why it matters, and how to clean it.</p>
+
+      <div class="article__toc">
+        <h4>What's in this guide</h4>
+        <ol>
+          <li><a href="#what">What "metadata" means</a></li>
+          <li><a href="#fields">The standard fields</a></li>
+          <li><a href="#extra">Non-standard fields you don't see</a></li>
+          <li><a href="#why">Why this matters</a></li>
+          <li><a href="#clean">How to clean metadata</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </div>
+
+      <h2 id="what">What "metadata" means</h2>
+
+      <p>Metadata is data about data. In a PDF, it's information stored alongside the content, not visible when you read the document, but available to anyone who opens the file with a tool that inspects it.</p>
+
+      <p>There are two flavours of PDF metadata:</p>
+
+      <ul>
+        <li><strong>The Info dictionary</strong> — a small set of standard fields defined in the PDF specification (title, author, etc.).</li>
+        <li><strong>XMP metadata</strong> — an XML-based format that can hold far more, including custom fields, rights information, and application-specific data.</li>
+      </ul>
+
+      <p>Both are optional, but most PDF-creation software writes to at least some of them by default.</p>
+
+      <h2 id="fields">The standard fields</h2>
+
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Typical content</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Title</td><td>The document's title (often pulled from the original document, sometimes blank)</td></tr>
+          <tr><td>Author</td><td>The name registered with the software — often your real name or username</td></tr>
+          <tr><td>Subject</td><td>Free-text subject (rarely filled in)</td></tr>
+          <tr><td>Keywords</td><td>Comma-separated words for indexing</td></tr>
+          <tr><td>Creator</td><td>The application that created the source document (e.g. "Microsoft Word")</td></tr>
+          <tr><td>Producer</td><td>The library that wrote the PDF (e.g. "Adobe PDF Library 15.0")</td></tr>
+          <tr><td>CreationDate</td><td>When the PDF was first created</td></tr>
+          <tr><td>ModDate</td><td>When it was last modified</td></tr>
+        </tbody>
+      </table>
+
+      <p>None of these are dangerous on their own. But they add up. The combination of "created on this date with this software by this author" is a fingerprint. It can be cross-referenced with other files the same person has produced.</p>
+
+      <h2 id="extra">Non-standard fields you don't see</h2>
+
+      <p>Beyond the standard fields, PDFs often carry extra information that isn't part of the format specification:</p>
+
+      <ul>
+        <li><strong>Original file paths.</strong> Some PDF creators store the full local path of the source document, e.g. <code>C:\Users\jsmith\Documents\Project_Nightingale\draft_v3.docx</code>. That's a folder name leaked in full.</li>
+        <li><strong>Application state.</strong> Embedded application-specific data — bookmarks, printer settings, view preferences — sometimes with usernames.</li>
+        <li><strong>Digital signature metadata.</strong> If the PDF was signed, the signature block stores the signer's identity (from the certificate) and sometimes their email.</li>
+        <li><strong>Embedded font names.</strong> Custom fonts sometimes include the foundry's name and version in the file, which can hint at the author's design software.</li>
+        <li><strong>XMP history.</strong> Some software maintains an XML-based edit history inside the file, listing previous saving operations.</li>
+      </ul>
+
+      <p>Not every PDF has all of these. But most have <em>some</em>, and the ones that do often reveal more than the author expects.</p>
+
+      <h2 id="why">Why this matters</h2>
+
+      <p>Three concrete scenarios where metadata has caused problems:</p>
+
+      <h3>Anonymity slips</h3>
+
+      <p>A whistleblower sends a "sanitised" document to a journalist. The document's author field contains their real name. The anonymity is gone before the document is even opened.</p>
+
+      <h3>Location leaks</h3>
+
+      <p>A public government report contains the internal file path of the source draft. The path includes a project codename that reveals an unannounced policy. The path is readable by anyone with a PDF metadata tool.</p>
+
+      <h3>Identity of a "neutral" source</h3>
+
+      <p>A company publishes a "third-party review" of its own product. The PDF's creator field reads a name that turns out to be a current employee. The independence claim collapses.</p>
+
+      <p>None of these require advanced technical skills to discover. Basic PDF tools expose metadata directly, and browsers' built-in PDF viewers sometimes show it in file properties.</p>
+
+      <h2 id="clean">How to clean metadata</h2>
+
+      <p>Cleaning metadata is straightforward. In DSPDF, use the <a href="../../tools/metadata-editor/index.html">Metadata Editor</a>: load the PDF, see what fields are populated, clear or replace them, save.</p>
+
+      <p>A few important notes:</p>
+
+      <ul>
+        <li><strong>Clearing doesn't mean deleting.</strong> Most tools set the fields to empty strings, but the fields may still exist in the file structure. For fully clean output, save with a tool that rebuilds the PDF from scratch.</li>
+        <li><strong>XMP is separate.</strong> The standard Info dictionary and XMP are separate structures. Some tools clear one but not the other. Our Metadata Editor focuses on the Info dictionary; if absolute certainty matters, verify with a dedicated PDF inspector like <code>pdfinfo</code>.</li>
+        <li><strong>Regenerate on save.</strong> If you edit the file afterwards with another tool, it may re-populate metadata with its own values (typically the software name and current date).</li>
+      </ul>
+
+      <h3>A habit worth building</h3>
+
+      <p>Make metadata cleaning a step in your workflow for any document you share externally. It takes five seconds and prevents a whole class of accidental leaks. Think of it the way you think of removing EXIF data from photos before posting.</p>
+
+      <h2 id="faq">FAQ</h2>
+
+      <div class="faq-accordion">
+        <details>
+          <summary>What metadata does a PDF contain?</summary>
+          <p>Standard fields: title, author, subject, keywords, creator, producer, dates. Plus non-standard extras: local file paths, application state, XMP blocks. The extra fields are where the surprises live.</p>
+        </details>
+        <details>
+          <summary>Is metadata visible in a normal PDF reader?</summary>
+          <p>Partially. Most readers show the Info fields under "Document Properties" or "Get Info." They don't show embedded paths or XMP. So even if your PDF reader shows nothing suspicious, hidden metadata may still be there.</p>
+        </details>
+        <details>
+          <summary>Do all PDFs have metadata?</summary>
+          <p>No. Some PDFs have none. But most have at least a creator and producer field, populated automatically by the software that made the file.</p>
+        </details>
+        <details>
+          <summary>Can metadata be added back after clearing?</summary>
+          <p>Yes — saving a cleaned PDF through any PDF editor will typically repopulate some fields (application name, save date). If you need fully clean output, keep the file final after cleaning.</p>
+        </details>
+        <details>
+          <summary>Is metadata dangerous?</summary>
+          <p>Not usually, but it can be. It's a small information leak each time you share a file. For sensitive documents, clean it before sharing.</p>
+        </details>
+      </div>
+
+      <div class="article__callout">
+        <strong>Check your own files:</strong> open the <a href="../../tools/metadata-editor/index.html">DSPDF Metadata Editor</a> and load any PDF you've created. You might be surprised what's in there.
+      </div>
+
+      <div class="related-articles">
+        <h2>Related reading</h2>
+        <div class="related-grid">
+          <a class="tool-card" href="../protect-sensitive-pdfs/index.html">
+            <h3 class="tool-card__title">Protecting Sensitive PDFs</h3>
+            <p class="tool-card__desc">Passwords, encryption, redaction.</p>
+          </a>
+          <a class="tool-card" href="../why-pdfs-never-leave-your-device/index.html">
+            <h3 class="tool-card__title">Why PDFs Should Never Leave Your Device</h3>
+            <p class="tool-card__desc">The privacy case for local processing.</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">We build client-side PDF tools because we got tired of uploading contracts to random servers.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

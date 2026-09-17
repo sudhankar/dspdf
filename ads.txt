@@ -1,0 +1,12 @@
+# ads.txt — Authorized Digital Sellers
+#
+# 👉 OWNER: Replace this entire file's contents after AdSense approval.
+# Google will give you an exact line to paste here, in this format:
+#
+#   google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# The "pub-XXXXXXXXXXXXXXXX" is your AdSense publisher ID.
+# Do not modify the other values — they're Google's fixed identifiers.
+#
+# Until you have that line, leaving this file empty or absent is fine.
+# Never invent a publisher ID — a wrong ads.txt can cause problems.

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Building DSPDF — The Story Behind the Tools | DSPDF</title>
+<meta name="description" content="Why we built a PDF tool suite with no server, no accounts, and no uploads. Technical decisions, trade-offs, and what we got wrong along the way." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/blog/building-dspdf-story/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Building DSPDF — The Story" />
+<meta property="og:description" content="Why we built a PDF suite with no server." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/blog/building-dspdf-story/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/blog.css" />
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"BlogPosting",
+      "headline":"Building DSPDF — The Story Behind the Tools",
+      "description":"Why we built a PDF suite with no server and no uploads.",
+      "url":"https://YOUR-USERNAME.github.io/dspdf/blog/building-dspdf-story/",
+      "datePublished":"2026-02-06",
+      "dateModified":"2026-02-06",
+      "author":{"@type":"Organization","name":"DSPDF Team"},
+      "publisher":{"@type":"Organization","name":"DSPDF","logo":{"@type":"ImageObject","url":"https://YOUR-USERNAME.github.io/dspdf/images/logo.svg"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://YOUR-USERNAME.github.io/dspdf/blog/"},
+        {"@type":"ListItem","position":3,"name":"Building DSPDF","item":"https://YOUR-USERNAME.github.io/dspdf/blog/building-dspdf-story/"}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../../tools/index.html">All Tools</a></li>
+      <li><a href="../../tools/pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../index.html">Blog</a></li>
+      <li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <article class="article">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../index.html">Blog</a></li>
+        <li><span aria-current="page">Building DSPDF</span></li>
+      </ol></nav>
+
+      <span class="eyebrow">Story</span>
+      <h1>Building DSPDF — The Story Behind the Tools</h1>
+
+      <div class="article__meta">
+        <span>By DSPDF Team</span>
+        <span>·</span>
+        <time datetime="2026-02-06">February 6, 2026</time>
+        <span>·</span>
+        <span>7 min read</span>
+      </div>
+
+      <p>Here's the moment I decided to build this. I was trying to compress a 40 MB PDF so I could email it to a client. The first site I found wanted me to upload it. Fine, I thought. Then the site wanted me to sign up for an account. Then it wanted me to verify my email. Then the compression succeeded and the download link worked for 30 minutes, after which it expired — and by then I'd closed the tab.</p>
+
+      <p>My client's file was 40 MB, on a server I didn't own, associated with an account I'd been forced to create, and I couldn't even download the result without re-doing the whole thing.</p>
+
+      <p>I've been a developer for years. I knew the operations this website was doing — read a file, compress it, return it — were entirely possible in a browser. The server was only there because servers make it easier to monetise. So I built the tool I wished existed.</p>
+
+      <div class="article__toc">
+        <h4>What's in this story</h4>
+        <ol>
+          <li><a href="#whyserver">Why not just use a server?</a></li>
+          <li><a href="#first-tool">The first tool</a></li>
+          <li><a href="#choices">Technical choices</a></li>
+          <li><a href="#wrong">What we got wrong</a></li>
+          <li><a href="#honest">The honesty rule</a></li>
+          <li><a href="#next">What's next</a></li>
+        </ol>
+      </div>
+
+      <h2 id="whyserver">Why not just use a server?</h2>
+
+      <p>Servers are easier in almost every way. You can use any library. You can throw compute at a problem. You can log, cache, and analyse. You can charge for it. You can build a business on it.</p>
+
+      <p>The only thing you can't do with a server is guarantee the user's file never left their device. And for a large class of documents — contracts, medical records, tax filings, personal IDs — that guarantee is the whole point.</p>
+
+      <p>Users don't always realise it. They see a friendly UI and a "files deleted after 1 hour" promise, and they upload. But "deleted after 1 hour" means the file existed on someone else's infrastructure for an hour, in a location they can't audit, subject to terms they didn't read, potentially backed up, logged, or compromised during that hour.</p>
+
+      <p>I wanted to build something where that sentence — "the file was on someone else's server" — simply cannot be true. Not because we promise to delete it. Because it was never there.</p>
+
+      <h2 id="first-tool">The first tool</h2>
+
+      <p>I started with Merge PDF. It's the simplest operation conceptually — read several files, copy their pages into a new one, save. But it forced me to make decisions about the whole architecture early.</p>
+
+      <p>The core libraries are <code>pdf-lib</code> for manipulating PDFs (creating, merging, saving) and <code>pdf.js</code> for rendering them (drawing to canvas). Both are open-source, both are mature, both run fine in a browser.</p>
+
+      <p>The first version was three files and about 400 lines. It worked. I remember the small pleasure of merging three PDFs and seeing the output download without any network activity in DevTools. The proof was right there: nothing left my machine.</p>
+
+      <h2 id="choices">Technical choices</h2>
+
+      <p>A few decisions shaped everything after that:</p>
+
+      <h3>Static site, no backend</h3>
+
+      <p>DSPDF is hosted as static files — HTML, CSS, JavaScript. No application server. No database. Nothing running when no one is visiting. This is a constraint that forces good behaviour: we can't accidentally start collecting data because there's nowhere to put it.</p>
+
+      <h3>Web Workers for heavy operations</h3>
+
+      <p>Merging 20 PDFs of 5 MB each takes a second or two. Doing that on the main thread would freeze the UI — buttons wouldn't respond, animations would stutter. Moving the merge into a Web Worker keeps the interface smooth and lets the user see a progress bar that actually reflects work being done.</p>
+
+      <h3>Lazy-loaded libraries</h3>
+
+      <p>The homepage doesn't load any PDF libraries. The merge page loads pdf-lib but not pdf.js. The OCR page loads Tesseract only after the user clicks "Run". Every page pulls only what it needs. This keeps page loads fast even on slow connections.</p>
+
+      <h3>No analytics by default</h3>
+
+      <p>The site ships with analytics off. If someone deploying a copy wants to know how many visits they're getting, they can turn it on in a config file. But the default is: no tracking. Not because we're against analytics as a concept, but because "off by default" is a small daily reminder that we can choose to collect less.</p>
+
+      <h3>Client-side PDF editor with overlay model</h3>
+
+      <p>The PDF editor was the hardest piece. Editing existing PDF text — genuinely rewriting it in place — is not possible in a browser with current open-source libraries. We made a deliberate choice: build a good overlay editor (add text, images, shapes, signatures on top of the PDF) rather than fake the ability to edit existing content.</p>
+
+      <p>Every other online "PDF editor" does one of two things: either it uploads to a server (and often uses commercial PDF SDKs), or it pretends to edit text but really just puts an invisible box over the original. We chose the honest overlay editor. The editor page says clearly: "Existing PDF content cannot be edited in-browser." That sentence is the point.</p>
+
+      <h2 id="wrong">What we got wrong</h2>
+
+      <p>Not everything worked on the first try. A few things took embarrassing amounts of time to figure out.</p>
+
+      <h3>The coordinate system flip</h3>
+
+      <p>PDF coordinates have their origin at the bottom-left of the page, with Y increasing upward. Browser canvas and CSS coordinates have their origin at the top-left, with Y increasing downward. Every element we place in the editor needs to be transformed between these systems on export.</p>
+
+      <p>The first version of the editor had signatures appearing at the bottom of the page when they should have been at the top, and vice versa. It took a genuinely embarrassing amount of time to spot the sign error. Two pages of code, one minus sign.</p>
+
+      <h3>Font embedding</h3>
+
+      <p>Standard PDF fonts (Helvetica, Times, Courier) don't need embedding — every PDF reader has them. Custom fonts do, and embedding a TrueType font into a PDF from JavaScript is not straightforward. For now, our editor supports the standard fonts. Custom font embedding is on the roadmap but not shipped, and we say so on the relevant pages.</p>
+
+      <h3>Encryption that doesn't claim more than it delivers</h3>
+
+      <p>The Protect PDF tool was the most honest thing we've had to write. pdf-lib doesn't expose a public API for encrypting an existing PDF in the version we use. So instead of claiming encryption we can't guarantee, the tool checks whether the API is available at runtime. If it is, we encrypt. If it isn't, we say so and offer a rasterization fallback (which removes text but isn't encryption).</p>
+
+      <p>It would have been easy to write a tool that adds a password prompt and calls it "protected". It would also be a lie. We chose the version that tells the truth about what it can and can't do.</p>
+
+      <h3>OCR accuracy promises</h3>
+
+      <p>The first version of the OCR page said "high accuracy on English documents." That's the kind of vague claim that sounds good and means nothing. We rewrote it to give specific numbers — around 95% on clean printed Hindi at 300 DPI, under 40% on handwriting — and a section on when OCR fails.</p>
+
+      <p>Users deserve to know when a tool won't work for their use case. Telling them upfront is better than letting them discover it after waiting five minutes for the OCR to run.</p>
+
+      <h2 id="honest">The honesty rule</h2>
+
+      <p>Everything above comes down to one rule we settled on early: <strong>never claim a feature works unless it actually does</strong>.</p>
+
+      <p>That has real costs. It means writing "compression converts text to images" instead of "compress PDFs losslessly". It means the editor page says "you cannot edit existing text" instead of "professional PDF editor". It means the Protect tool has a fallback for when it genuinely can't encrypt.</p>
+
+      <p>It also means the tools are shorter — fewer features, but each one works. A tool that does one thing well is more useful than a tool that claims ten things and delivers three.</p>
+
+      <h2 id="next">What's next</h2>
+
+      <p>The full roadmap is on the <a href="../../about/index.html">About page</a>, but the short version:</p>
+
+      <ul>
+        <li><strong>Page reordering</strong> as a standalone tool. Currently you can achieve it via extract + merge, but a dedicated tool would be much more pleasant.</li>
+        <li><strong>Custom TTF fonts</strong> in the editor and text tools. This unlocks the ability to match the fonts already used in a PDF.</li>
+        <li><strong>Embedded image extraction.</strong> Currently we only render pages; extracting the actual embedded images is a different (and useful) operation.</li>
+        <li><strong>Better Hindi OCR.</strong> Tesseract's Hindi model has limits. We're watching for improvements and better models.</li>
+      </ul>
+
+      <p>Everything we build continues to follow the same rule: no server, no uploads, no fake features.</p>
+
+      <h2>A final note</h2>
+
+      <p>DSPDF isn't trying to be the biggest PDF tool suite. It's trying to be a small, honest one — the kind of thing you can bookmark and use for years without worrying that a future version will start quietly uploading your files or gating features behind a subscription.</p>
+
+      <p>If that resonates, the tools are yours to use. If you find a bug or want a feature, see the <a href="../../contact/index.html">Contact page</a>. We read every message.</p>
+
+      <div class="article__byline">
+        <span class="article__byline__avatar">DS</span>
+        <div>
+          <strong>DSPDF Team</strong><br />
+          <span class="text-muted">Building quiet, private tools that do one thing well.</span>
+        </div>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> DSPDF.</span>
+      <span class="footer__badge">🔒 All processing happens in your browser.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+</body>
+</html>

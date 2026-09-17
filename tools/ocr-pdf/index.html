@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>OCR PDF Online — Make Scanned PDFs Searchable | DSPDF</title>
+<meta name="description" content="Add a searchable text layer to scanned PDFs using OCR. English and Hindi supported. Tesseract.js runs in your browser — nothing is uploaded." />
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/dspdf/tools/ocr-pdf/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="OCR PDF — DSPDF" />
+<meta property="og:description" content="Make scanned PDFs searchable. English &amp; Hindi." />
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/dspdf/tools/ocr-pdf/" />
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/dspdf/images/logo.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../images/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/tools.css" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"SoftwareApplication","name":"OCR PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://YOUR-USERNAME.github.io/dspdf/tools/ocr-pdf/"},
+  {"@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://YOUR-USERNAME.github.io/dspdf/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://YOUR-USERNAME.github.io/dspdf/tools/"},
+    {"@type":"ListItem","position":3,"name":"OCR PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/ocr-pdf/"}
+  ]},
+  {"@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"What languages are supported?","acceptedAnswer":{"@type":"Answer","text":"English and Hindi, individually or together. Each language pack is about 10 MB and downloaded once from the Tesseract CDN."}},
+    {"@type":"Question","name":"How accurate is the OCR?","acceptedAnswer":{"@type":"Answer","text":"Tesseract.js achieves good accuracy on clean, high-resolution scans. Handwriting, low-resolution images, and complex layouts will produce errors. Always review the output."}},
+    {"@type":"Question","name":"Is my file uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. OCR runs entirely in your browser via WebAssembly. The only thing downloaded is the language model from a CDN."}}
+  ]}
+]}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="140" height="32" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient></defs><g transform="translate(2,4)"><rect width="28" height="32" rx="4" fill="url(#hg)"/><path d="M20 0 L28 8 L28 4 A4 4 0 0 0 24 0 Z" fill="#1E40AF" opacity="0.9"/><text x="14" y="23" text-anchor="middle" font-family="Inter" font-size="9" font-weight="700" fill="#F8FAFC">PDF</text></g><text x="40" y="26" font-family="Inter" font-size="20" font-weight="800" fill="currentColor">DSPDF</text></svg>
+    </a>
+    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li>
+    </ul></nav>
+    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><span aria-current="page">OCR PDF</span></li>
+    </ol></nav>
+
+    <h1>OCR PDF</h1>
+    <p class="lead">Add a searchable text layer to scanned PDFs. English and Hindi supported. Runs entirely in your browser.</p>
+    <p class="privacy-badge">🔒 Processed locally in your browser. Language pack (~10 MB) is fetched once from CDN.</p>
+
+    <section class="tool-panel mt-6">
+      <div id="uz-ocr" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
+        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p class="upload-zone__title">Drop a scanned PDF here or click to select</p>
+        <input type="file" accept="application/pdf,.pdf" hidden />
+      </div>
+
+      <div id="ocr-alert" class="alert alert-error mt-4" hidden role="alert"></div>
+
+      <div id="ocr-toolbar" class="mt-6" hidden>
+        <p class="text-muted" id="ocr-info"></p>
+
+        <div class="opt-group mt-4">
+          <div class="opt-row">
+            <label>Language</label>
+            <select id="ocr-lang">
+              <option value="eng" selected>English</option>
+              <option value="hin">Hindi (हिन्दी)</option>
+              <option value="eng+hin">English + Hindi</option>
+            </select>
+          </div>
+          <div class="opt-row">
+            <label>Render DPI</label>
+            <select id="ocr-dpi">
+              <option value="150">150 — fast</option>
+              <option value="200" selected>200 — balanced</option>
+              <option value="300">300 — accurate</option>
+            </select>
+          </div>
+          <div class="opt-row">
+            <label>Pages</label>
+            <select id="ocr-pages">
+              <option value="all">All pages</option>
+              <option value="first">First page only (test)</option>
+              <option value="custom">Custom range</option>
+            </select>
+            <input type="text" id="ocr-range" placeholder="1-5" hidden />
+          </div>
+        </div>
+
+        <div class="alert alert-warning mt-4" role="note">
+          <strong>⚠</strong>
+          <div>OCR is CPU-intensive. 10-page scans can take 1-3 minutes on a laptop. Keep this tab open. Results are best on clean, straight, high-resolution scans.</div>
+        </div>
+
+        <div id="ocr-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress"><div class="progress__bar"></div></div>
+          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
+        </div>
+
+        <div id="ocr-result" class="mt-4" hidden>
+          <h3 style="font-size:1rem;">Extracted text (first 500 chars)</h3>
+          <pre id="ocr-text-out" style="background:var(--bg-dark);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:0.85rem;max-height:220px;overflow:auto;white-space:pre-wrap;"></pre>
+        </div>
+
+        <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-secondary btn-lg" id="ocr-text-only" disabled>Download text (.txt)</button>
+          <button type="button" class="btn btn-primary btn-lg" id="ocr-apply" disabled>Make searchable PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>How to OCR a PDF</h2>
+      <ol class="how-to">
+        <li>Drop your scanned PDF into the box above.</li>
+        <li>Choose language (English, Hindi, or both).</li>
+        <li>Choose a render DPI — higher is more accurate but slower.</li>
+        <li>Click <strong>Make searchable PDF</strong> (or <strong>Download text</strong> for plain text).</li>
+        <li>Wait while the OCR runs. First run also downloads the language pack (~10 MB).</li>
+        <li>Save the searchable PDF or text file when done.</li>
+      </ol>
+    </section>
+
+    <section class="mt-6">
+      <h2>Technical limitations — read this</h2>
+      <ul>
+        <li><strong>Handwriting will not be recognised well.</strong> Tesseract is trained on printed text. Cursive and stylised handwriting produce garbage.</li>
+        <li><strong>Low-resolution scans give poor results.</strong> Under 150 DPI, characters blur and OCR errors increase sharply. If possible, rescan at 300 DPI before running OCR.</li>
+        <li><strong>Complex layouts confuse OCR.</strong> Multi-column documents, tables, and heavily styled text are read in the wrong order.</li>
+        <li><strong>Searchable PDF text is invisible.</strong> We render the original page as an image and place an invisible text layer over it. Visually identical to the input; only search/copy is added.</li>
+        <li><strong>Hindi + English together is slower and less accurate</strong> than either language alone — Tesseract has to guess between scripts.</li>
+        <li><strong>Not for legal/compliance digitisation.</strong> Always review OCR output manually before relying on it.</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2>Frequently asked</h2>
+      <div class="faq-accordion">
+        <details><summary>How accurate is it?</summary><p>Good for clean printed text at 300 DPI (~95%+ character accuracy). Poor for handwriting or low-res scans.</p></details>
+        <details><summary>Is my file uploaded?</summary><p>No. OCR runs entirely in-browser via WebAssembly. Only the language model (~10 MB) downloads from a CDN.</p></details>
+        <details><summary>Can I search the output?</summary><p>Yes — the PDF will contain an invisible text layer that standard PDF readers can search. Visually it looks identical to the input.</p></details>
+        <details><summary>How long does it take?</summary><p>Roughly 5-20 seconds per page on a modern laptop at 200 DPI. Older devices and higher DPI take longer.</p></details>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related tools</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Reduce size first if OCR is slow.</p></a>
+        <a class="tool-card" href="../split-pdf/index.html"><h3 class="tool-card__title">Split PDF</h3><p class="tool-card__desc">OCR chunks separately.</p></a>
+        <a class="tool-card" href="../pdf-to-jpg/index.html"><h3 class="tool-card__title">PDF to JPG</h3><p class="tool-card__desc">Extract page images.</p></a>
+      </div>
+    </section>
+
+    <section class="mt-6">
+      <h2>Related reading</h2>
+      <div class="related-grid">
+        <a class="tool-card" href="../../blog/ocr-explained/index.html"><h3 class="tool-card__title">OCR Explained</h3><p class="tool-card__desc">English + Hindi — what works, what doesn't.</p></a>
+        <a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">Privacy in local processing.</p></a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer__bottom">
+  <span>© <span data-year>2026</span> DSPDF.</span>
+  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+</div></div></footer>
+
+<script src="../../js/config.js"></script>
+<script src="../../js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="../../js/tools-engine.js"></script>
+<script src="../../js/tools/ocr.js"></script>
+</body>
+</html>
