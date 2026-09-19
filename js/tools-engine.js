@@ -74,7 +74,15 @@
       this.bar.classList.remove("is-success", "is-error");
       if (p === 100) this.bar.classList.add("is-success");
     }
-    if (this.label && label != null) this.label.textContent = label;
+    if (this.label && label != null) {
+      var msg = String(label);
+      if (/loading|reading|preparing|processing|opening|rendering/i.test(msg)) {
+        this.label.innerHTML = '<span class="dspdf-loading-spinner" aria-hidden="true"></span><span class="dspdf-loading-text"></span>';
+        this.label.querySelector(".dspdf-loading-text").textContent = msg;
+      } else {
+        this.label.textContent = msg;
+      }
+    }
     if (this.el) this.el.setAttribute("aria-valuenow", String(p));
   };
   ProgressUI.prototype.error = function (label) {
@@ -223,7 +231,7 @@
   }
   function clearAlert(target) {
     var el = typeof target === "string" ? document.querySelector(target) : target;
-    if (el) { el.hidden = true; el.textContent = ""; el.classList.remove("is-loading"); }
+    if (el) { el.hidden = true; el.textContent = ""; el.innerHTML = ""; el.classList.remove("is-loading"); }
   }
 
   /* ---------- Sortable list (simple drag reorder) ----------

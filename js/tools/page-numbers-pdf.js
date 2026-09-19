@@ -11,6 +11,7 @@
   var state = { file: null, bytes: null, pdfDoc: null, pageCount: 0 };
   var progressUI = null;
   var previewRenderToken = 0;
+  var previewTimer = null;
 
   function el(id) { return document.getElementById(id); }
   function hexToRgb01(hex) {
@@ -89,6 +90,8 @@
       log(err); D.showError("pn-alert", D.humanError(err, "Could not open this PDF."));
     }
   }
+
+  function schedulePreview(){ clearTimeout(previewTimer); previewTimer=setTimeout(updateLivePreview,80); }
 
   async function updateLivePreview() {
     if(!state.bytes)return; var token=++previewRenderToken, host=el("pn-preview-pdf");
@@ -171,7 +174,7 @@
     el("pn-apply").addEventListener("click", apply);
     var refresh = el("pn-preview-refresh");
     if (refresh) refresh.addEventListener("click", function(){ updateLivePreview(); });
-    ["pn-format","pn-custom","pn-size","pn-color","pn-pos","pn-margin","pn-start","pn-pages","pn-range","pn-font"].forEach(function(id){var n=el(id);if(n)n.addEventListener("input",updateLivePreview);if(n)n.addEventListener("change",updateLivePreview);});
+    ["pn-format","pn-custom","pn-size","pn-color","pn-pos","pn-margin","pn-start","pn-pages","pn-range","pn-font"].forEach(function(id){var n=el(id);if(n)n.addEventListener("input",schedulePreview);if(n)n.addEventListener("change",schedulePreview);});
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

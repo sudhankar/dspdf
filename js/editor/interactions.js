@@ -79,19 +79,29 @@
     }
 
     // Select without rebuilding the DOM when it is already selected.
-    // Rebuilding here used to destroy the node between the first and second
-    // click, which prevented double-click editing and made dragging unreliable.
     if (state.selectedId !== id) Ed.select(id);
 
+    // Text gets a dedicated click/edit gesture. A click on an already-selected
+    // text box is allowed to place the caret; dragging still starts only after
+    // the pointer has moved past a small threshold. This avoids the browser
+    // dblclick timing problem and prevents the text node from being rebuilt
+    // underneath the second click.
     var handle = e.target.dataset && e.target.dataset.h;
+    var isText = el.type === "text";
+    var textContentTarget = !!(e.target.closest && e.target.closest(".ed-text-content"));
+    if (isText && editingTextId === id) {
+      e.stopPropagation();
+      return;
+    }
     drag = {
-      mode: handle ? "resize" : "move",
+      mode: handle ? "resize" : (isText && textContentTarget ? "text-gesture" : "move"),
       handle: handle || null,
       id: id,
       startPoint: normFromEvent(e),
       elem0: JSON.parse(JSON.stringify(el)),
       pointerId: e.pointerId,
-      moved: false
+      moved: false,
+      editEvent: { clientX: e.clientX, clientY: e.clientY }
     };
     try { overlayLayer.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault();
@@ -129,6 +139,13 @@
     if (!drag) return;
     var p = normFromEvent(e);
 
+    if (drag.mode === "text-gesture") {
+      var tgdx = p.x - drag.startPoint.x, tgdy = p.y - drag.startPoint.y;
+      if (!drag.moved && Math.abs(tgdx) + Math.abs(tgdy) < 0.0025) return;
+      drag.moved = true;
+      drag.mode = "move";
+      Ed.updateElement(drag.id, { x: clamp01(drag.elem0.x + tgdx), y: clamp01(drag.elem0.y + tgdy) }, { commit: false });
+    }
     if (drag.mode === "move") {
       var dx = p.x - drag.startPoint.x;
       var dy = p.y - drag.startPoint.y;
@@ -151,7 +168,7 @@
   function onWindowPointerUp(e) {
     if (!drag) return;
     var wasText = false;
-    if (drag.mode === "move" || drag.mode === "resize") {
+    if (drag.mode === "move" || drag.mode === "resize" || drag.mode === "text-gesture") {
       var selectedEl = Ed.getSelected();
       wasText = !!(selectedEl && selectedEl.id === drag.id && selectedEl.type === "text");
       if (drag.moved) {
@@ -164,8 +181,8 @@
         if (textClickTimer) clearTimeout(textClickTimer);
         textClickTimer = setTimeout(function(){
           textClickTimer = null;
-          beginInlineEdit(drag.id, false);
-        }, 80);
+          beginInlineEdit(drag.id, false, drag.editEvent);
+        }, 140);
       }
     } else if (drag.mode === "create") {
       commitCreate(drag.tool, drag.startPoint, drag.currentPoint);
@@ -295,12 +312,15 @@
     var el = null;
     for (var i = 0; i < list.length; i++) if (list[i].id === id) { el = list[i]; break; }
     if (el && el.type === "text") {
+      e.preventDefault();
+      e.stopPropagation();
       if (textClickTimer) { clearTimeout(textClickTimer); textClickTimer = null; }
-      beginInlineEdit(id, false);
+      beginInlineEdit(id, false, e);
     }
   }
 
-  function beginInlineEdit(id, selectAll) {
+
+  function beginInlineEdit(id, selectAll, sourceEvent) {
     var node = overlayLayer.querySelector('[data-id="' + id + '"]');
     if (!node) return;
     var content = node.querySelector(".ed-text-content");
@@ -323,10 +343,24 @@
       range.selectNodeContents(content);
       sel.addRange(range);
     } else {
-      range.selectNodeContents(content);
-      range.collapse(false);
+      var placed = false;
+      try {
+        if (sourceEvent && document.caretRangeFromPoint) {
+          var rr = document.caretRangeFromPoint(sourceEvent.clientX, sourceEvent.clientY);
+          if (rr && content.contains(rr.startContainer)) { range = rr; placed = true; }
+        } else if (sourceEvent && document.caretPositionFromPoint) {
+          var cp = document.caretPositionFromPoint(sourceEvent.clientX, sourceEvent.clientY);
+          if (cp && content.contains(cp.offsetNode)) {
+            range.setStart(cp.offsetNode, cp.offset); range.collapse(true); placed = true;
+          }
+        }
+      } catch (_) {}
+      if (!placed) { range.selectNodeContents(content); range.collapse(false); }
       sel.addRange(range);
     }
+    // Do not select existing text on edit. The selection/caret belongs to the
+    // actual click location so typing inserts instead of replacing the box.
+    try { content.scrollIntoView({block:"nearest", inline:"nearest"}); } catch (_) {}
 
     function finish() {
       var value = content.textContent || "";

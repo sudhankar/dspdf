@@ -162,6 +162,14 @@
         </details>
       </div>
 
+      <h2>Current PDF tools</h2>
+      <div class="faq-accordion">
+        <details><summary>Can I enhance a scanned PDF?</summary><p>Yes. <a href="../tools/enhance-pdf/index.html">Enhance PDF</a> offers automatic cleanup, grayscale, black and white, color boost, contrast, brightness, sharpening, an adjustable eraser and edge cropping. The preview updates as you work.</p></details>
+        <details><summary>Can I add page numbers with a live preview?</summary><p>Yes. <a href="../tools/page-numbers-pdf/index.html">Page Numbers</a> lets you choose the format, position, font, size, margin and page range. The preview updates when settings change, and you can manually refresh it when needed.</p></details>
+        <details><summary>Can I add notes, stamps and freehand marks?</summary><p>Yes. <a href="../tools/annotate-pdf/index.html">Annotate PDF</a> supports movable sticky notes, text stamps, image stamps and freehand drawing. Image-stamp controls appear only when the Stamp tool is selected.</p></details>
+        <details><summary>Does Enhance PDF permanently remove text with the eraser?</summary><p>No. The eraser paints a white raster area; it is not a secure redaction method. For sensitive content, use the dedicated <a href="../tools/redact-pdf/index.html">Redact PDF</a> workflow and follow its secure-output guidance.</p></details>
+      </div>
+
       <h2>Security &amp; signing</h2>
 
       <div class="faq-accordion">
@@ -201,14 +209,6 @@
         <details>
           <summary>Why does my device get hot during compression or OCR?</summary>
           <p>Because your CPU is doing genuine work. Compression rasterizes every page; OCR runs neural networks on each word. This uses real compute and generates real heat. It's normal, especially on phones.</p>
-        </details>
-        <details>
-          <summary>Which libraries power DSPDF?</summary>
-          <p>pdf-lib (PDF creation and editing), pdf.js (PDF rendering), Tesseract.js (OCR), jsPDF (PDF generation for some tools), JSZip (ZIP creation), FileSaver.js (downloads). All open-source, all running client-side.</p>
-        </details>
-        <details>
-          <summary>Can I self-host DSPDF?</summary>
-          <p>Yes. DSPDF is a static site — clone the repository, edit <code>js/config.js</code> with your own URLs and email, and host anywhere (GitHub Pages, Netlify, Vercel, your own server). See the README for details.</p>
         </details>
       </div>
 

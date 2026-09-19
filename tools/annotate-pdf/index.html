@@ -109,7 +109,13 @@
             </select>
             <input type="text" id="an-stamp-custom" placeholder="Custom text" hidden />
             <input type="color" id="an-stamp-color" value="#EF4444" aria-label="Stamp color" />
-            <label><input type="checkbox" id="an-stamp-image-on" /> Image stamp</label><input type="file" id="an-stamp-image" accept="image/png,image/jpeg" hidden />
+          </div>
+          <div class="opt-row" id="an-stamp-image-row" hidden>
+            <label>Stamp image</label>
+            <label><input type="checkbox" id="an-stamp-image-on" /> Use image</label>
+            <button type="button" class="btn btn-sm btn-secondary" id="an-stamp-image-pick" disabled>Select image</button>
+            <input type="file" id="an-stamp-image" accept="image/png,image/jpeg" hidden />
+            <span id="an-stamp-image-name" class="text-muted">No image selected</span>
           </div>
           <div class="opt-row" id="an-draw-row" hidden>
             <label>Pen</label>

@@ -179,9 +179,27 @@
 
   function setupInteractions() {
     var canvas = el("an-canvas");
-    var drawing = false, pts = [], drag = null, drawLayer = null;
+    var drawing = false, pts = [], drag = null, drawLayer = null, dragLayer = null;
     var host = canvas.parentElement;
     host.style.position = "relative";
+    function ensureDragLayer(){
+      if(dragLayer)return dragLayer;
+      dragLayer=document.createElement("canvas");
+      dragLayer.id="an-drag-layer";
+      dragLayer.style.cssText="position:absolute;left:12px;top:12px;pointer-events:none;z-index:4;display:none;";
+      host.appendChild(dragLayer);
+      return dragLayer;
+    }
+    function showDraggedAnnotation(a){
+      var dl=ensureDragLayer(),ctx=dl.getContext("2d");
+      dl.width=canvas.width;dl.height=canvas.height;
+      dl.style.width=canvas.clientWidth+"px"; dl.style.height=canvas.clientHeight+"px";
+      ctx.clearRect(0,0,dl.width,dl.height);
+      if(a.type==="note"){var x=a.x*dl.width,y=a.y*dl.height,w=40,h=40;ctx.fillStyle=a.color||"#FDE047";ctx.fillRect(x,y,w,h);ctx.fillStyle="#111";ctx.font="10px Helvetica,Arial,sans-serif";(a.text?wrap(a.text,34):[]).slice(0,3).forEach(function(line,i){ctx.fillText(line,x+4,y+14+i*11);});}
+      else if(a.type==="stamp"){var sw=(a.w||.20)*dl.width,sh=(a.h||.10)*dl.height,cx=a.x*dl.width,cy=a.y*dl.height;if(a.image){getStampImage(a.image).then(function(im){if(!dragLayer||dragLayer.style.display==="none")return;var cur=(state.annotations[state.pageIndex]||[])[drag?drag.index:-1]||a;var csw=(cur.w||.20)*dl.width,csh=(cur.h||.10)*dl.height,ccx=cur.x*dl.width,ccy=cur.y*dl.height;var c=dragLayer.getContext("2d");c.clearRect(0,0,dragLayer.width,dragLayer.height);c.globalAlpha=.9;c.drawImage(im,ccx-csw/2,ccy-csh/2,csw,csh);c.globalAlpha=1;});}else{ctx.save();ctx.strokeStyle=a.color||"#EF4444";ctx.lineWidth=3;ctx.strokeRect(cx-sw/2,cy-sh/2,sw,sh);ctx.fillStyle=a.color||"#EF4444";ctx.font="bold "+Math.max(12,Math.min(30,sh*.42))+"px Helvetica,Arial,sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(a.text||"STAMP",cx,cy);ctx.restore();}}
+      dl.style.display="block";
+    }
+    function hideDragLayer(){if(dragLayer){dragLayer.style.display="none";dragLayer.getContext("2d").clearRect(0,0,dragLayer.width,dragLayer.height);}}
 
     function ensureDrawLayer(){
       if(drawLayer)return drawLayer;
@@ -207,7 +225,7 @@
       return -1;
     }
 
-    canvas.addEventListener("pointerdown", function (e) {
+    canvas.addEventListener("pointerdown", async function (e) {
       var rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height,tool=currentTool();
       if(tool==="draw"){
         drawing=true;pts=[[x,y]];ensureDrawLayer();sizeDrawLayer();drawLive();try{canvas.setPointerCapture(e.pointerId);}catch(err){}e.preventDefault();return;
@@ -219,8 +237,9 @@
           var halfW=a.type==="stamp"?(a.w||.20)/2:.06,halfH=a.type==="stamp"?(a.h||.10)/2:.06;
           var corner=a.type==="stamp" && Math.abs(x-(a.x||0))>halfW*.72&&Math.abs(y-(a.y||0))>halfH*.72;
           drag={kind:corner?"resize":"move",index:found,startX:x,startY:y,orig:JSON.parse(JSON.stringify(a)),pointerId:e.pointerId};
+          showDraggedAnnotation(a);
           try{canvas.setPointerCapture(e.pointerId);}catch(err){}e.preventDefault();
-          renderPage();updateCount();el("an-save").disabled=false;
+          updateCount();el("an-save").disabled=false;
           return;
         }
         renderPage();updateCount();el("an-save").disabled=false;
@@ -232,7 +251,14 @@
       }else if(tool==="stamp"){
         var preset=el("an-stamp-preset").value,text=preset==="custom"?el("an-stamp-custom").value:preset;if(!text)text="STAMP";
         var a={type:"stamp",x:x,y:y,text:text,color:el("an-stamp-color").value,w:.20,h:.10};
-        if(state.stampImage){a.image=state.stampImage;}
+        if(state.stampImage){
+          a.image=state.stampImage;
+          try {
+            var sim=await getStampImage(state.stampImage);
+            var ratio=(sim.naturalWidth||sim.width||1)/(sim.naturalHeight||sim.height||1);
+            a.h=Math.max(.03,Math.min(.75,(a.w*canvas.width)/(ratio*canvas.height)));
+          } catch(ex) { log("stamp size",ex); }
+        }
         state.annotations[state.pageIndex].push(a);state.selectedIndex=state.annotations[state.pageIndex].length-1;pushHistory();document.querySelector('input[name="an-tool"][value="stamp"]').checked=false;
       }
       renderPage();updateCount();el("an-save").disabled=false;
@@ -240,12 +266,12 @@
 
     window.addEventListener("pointermove", function(e){
       var rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;
-      if(drag){var a=state.annotations[state.pageIndex][drag.index];if(!a)return;if(drag.kind==="move"){a.x=Math.max(0,Math.min(1,drag.orig.x+(x-drag.startX)));a.y=Math.max(0,Math.min(1,drag.orig.y+(y-drag.startY)));}else{var nw=Math.max(.05,Math.min(1,Math.abs(x-drag.orig.x)*2));var aspect=(drag.orig.w||.20)/(drag.orig.h||.10);var nh=Math.max(.04,Math.min(1,nw/aspect));a.w=nw;a.h=nh;}return;}
+      if(drag){var a=state.annotations[state.pageIndex][drag.index];if(!a)return;if(drag.kind==="move"){a.x=Math.max(0,Math.min(1,drag.orig.x+(x-drag.startX)));a.y=Math.max(0,Math.min(1,drag.orig.y+(y-drag.startY)));}else{var nw=Math.max(.05,Math.min(1,Math.abs(x-drag.orig.x)*2));var aspect=(drag.orig.w||.20)/(drag.orig.h||.10);var nh=Math.max(.04,Math.min(1,nw/aspect));a.w=nw;a.h=nh;}showDraggedAnnotation(a);return;}
       if(!drawing)return;pts.push([x,y]);drawLive();e.preventDefault();
     });
 
     window.addEventListener("pointerup", function(e){
-      if(drag){pushHistory();drag=null;renderPage();updateCount();el("an-save").disabled=false;return;}
+      if(drag){hideDragLayer();pushHistory();drag=null;renderPage();updateCount();el("an-save").disabled=false;return;}
       if(!drawing)return;drawing=false;
       if(pts.length>=2){if(!state.annotations[state.pageIndex])state.annotations[state.pageIndex]=[];state.annotations[state.pageIndex].push({type:"draw",points:pts.slice(),color:el("an-draw-color").value,width:parseInt(el("an-draw-width").value,10)||3});state.selectedIndex=state.annotations[state.pageIndex].length-1;pushHistory();}
       pts=[];if(drawLayer){drawLayer.getContext("2d").clearRect(0,0,drawLayer.width,drawLayer.height);}renderPage();updateCount();el("an-save").disabled=false;
@@ -372,13 +398,20 @@
         var t = currentTool();
         el("an-note-row").hidden = t !== "note";
         el("an-stamp-row").hidden = t !== "stamp";
+        el("an-stamp-image-row").hidden = t !== "stamp";
         el("an-draw-row").hidden = t !== "draw";
+        var imgOn=el("an-stamp-image-on"), imgFile=el("an-stamp-image"), imgPick=el("an-stamp-image-pick");
+        imgOn.disabled = t !== "stamp";
+        imgFile.disabled = t !== "stamp";
+        imgPick.disabled = t !== "stamp" || !imgOn.checked;
+        if(t !== "stamp") { imgOn.checked=false; }
       });
     });
-    el("an-stamp-image-on").addEventListener("change", function(){ if(this.checked) el("an-stamp-image").click(); else state.stampImage=null; });
+    el("an-stamp-image-on").addEventListener("change", function(){ var pick=el("an-stamp-image-pick"); pick.disabled=!this.checked; if(this.checked) el("an-stamp-image").click(); else {state.stampImage=null;el("an-stamp-image-name").textContent="No image selected";} });
+    el("an-stamp-image-pick").addEventListener("click", function(){ if(!this.disabled) el("an-stamp-image").click(); });
     el("an-stamp-image").addEventListener("change", async function(e){
       var f=e.target.files&&e.target.files[0]; if(!f)return;
-      try { state.stampImage=await D.fileToDataURL(f); el("an-stamp-image-on").checked=true; if(window.dspdfToast)window.dspdfToast("Stamp image selected.","success"); }
+      try { state.stampImage=await D.fileToDataURL(f); el("an-stamp-image-on").checked=true; el("an-stamp-image-pick").disabled=false; el("an-stamp-image-name").textContent=f.name; if(window.dspdfToast)window.dspdfToast("Stamp image selected.","success"); }
       catch(err){ log(err); }
       this.value="";
     });

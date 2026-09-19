@@ -53,6 +53,8 @@
   <url><loc>https://YOUR-USERNAME.github.io/dspdf/tools/redact-pdf/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://YOUR-USERNAME.github.io/dspdf/tools/annotate-pdf/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/tools/enhance-pdf/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
   <!-- ========== Optimize Tools ========== -->
   <url><loc>https://YOUR-USERNAME.github.io/dspdf/tools/compress-pdf/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://YOUR-USERNAME.github.io/dspdf/tools/metadata-editor/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -94,4 +96,19 @@
   <url><loc>https://YOUR-USERNAME.github.io/dspdf/cookie-policy/</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://YOUR-USERNAME.github.io/dspdf/dmca/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 
+
+  <!-- ========== New Blog Guides ========== -->
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/add-text-to-pdf-without-reformatting/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/add-image-to-pdf-guide/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/page-numbers-pdf-layout/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/annotate-pdf-sticky-notes-stamps/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/enhance-scanned-pdf/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/pdf-eraser-vs-redaction/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/crop-pdf-without-cutting-content/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/pdf-preview-dpi-quality/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/pdf-editor-shapes-arrows-lines/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/reorder-delete-extract-pdf-pages/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/watermark-vs-stamp-pdf/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/ocr-hindi-pdf-guide/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://YOUR-USERNAME.github.io/dspdf/blog/pdf-metadata-before-sharing/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
