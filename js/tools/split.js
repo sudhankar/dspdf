@@ -6,29 +6,16 @@
   var D = window.DSPDF;
   var log = window.dspdfLog || function () {};
 
-  var state = { file: null, buffer: null, pageCount: 0 };
+  var state = { file: null, buffer: null, pdfDoc: null, pageCount: 0 };
   var worker = null;
   var progressUI = null;
 
   function el(id) { return document.getElementById(id); }
   function ensureWorker() {
-    if (!worker) worker = new Worker(new URL("../pdf-worker.js", document.currentScript.src));
+    if (!worker) worker = D.createPdfWorker();
     return worker;
   }
-  function runWorker(op, payload) {
-    return new Promise(function (resolve, reject) {
-      var w = ensureWorker();
-      var id = "w" + Math.random().toString(36).slice(2);
-      function handler(e) {
-        if (e.data.id !== id) return;
-        w.removeEventListener("message", handler);
-        if (e.data.ok) resolve(e.data.result);
-        else reject(new Error(e.data.error));
-      }
-      w.addEventListener("message", handler);
-      w.postMessage({ id: id, op: op, payload: payload });
-    });
-  }
+
   function parseRanges(str, max) {
     // "1-3, 5, 7-10" → [[0,2],[4,4],[6,9]]  (0-indexed, inclusive)
     return String(str).split(",").map(function (chunk) {
@@ -64,7 +51,23 @@
     });
   }
 
+  var previewToken = 0;
+  async function updatePreview() {
+    if (!state.pdfDoc) return;
+    var token=++previewToken, host=el("split-preview"); if(!host)return;
+    host.innerHTML='<p class="text-muted">Preview of the loaded PDF:</p><div class="preview-pdf-strip" id="split-preview-strip"></div>';
+    var strip=el("split-preview-strip");
+    for(var i=0;i<state.pageCount;i++){
+      if(token!==previewToken)return;
+      var item=document.createElement("div");item.className="preview-pdf-item";item.innerHTML='<canvas></canvas><small>Page '+(i+1)+'</small>';strip.appendChild(item);
+      try{var page=await state.pdfDoc.getPage(i+1),vp=page.getViewport({scale:.70}),c=item.querySelector("canvas");c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext("2d"),viewport:vp}).promise;}catch(e){log("split preview",e);}
+      // Avoid an enormous preview for very large documents while still showing the first 20 pages.
+      if(i>=19 && state.pageCount>20){var more=document.createElement("div");more.className="text-muted";more.textContent="+ "+(state.pageCount-20)+" more pages";strip.appendChild(more);break;}
+    }
+  }
+
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("split-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("split-alert", "Please choose a PDF."); return;
@@ -75,11 +78,14 @@
       var buf = await D.fileToArrayBuffer(file);
       state.file = file;
       state.buffer = buf;
-      state.pageCount = await readPageCount(buf);
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      state.pdfDoc = await window.pdfjsLib.getDocument({data: buf.slice(0), disableWorker:true}).promise;
+      state.pageCount = state.pdfDoc.numPages;
       el("split-info").textContent = "This PDF has " + state.pageCount + " page(s).";
       el("split-n").max = String(state.pageCount);
       el("split-toolbar").hidden = false;
       D.clearAlert("split-alert");
+      updatePreview();
     } catch (err) {
       log(err);
       D.showError("split-alert", D.humanError(err, "Could not open this PDF."));
@@ -107,7 +113,7 @@
     progressUI.show();
     progressUI.set(30, "Splitting…");
     try {
-      var result = await runWorker(op, payload);
+      var result = await D.runPdfOperation(op, payload);
       progressUI.set(70, "Packaging ZIP…");
       if (!window.JSZip) throw new Error("JSZip is still loading. Please try again in a moment.");
       var zip = new window.JSZip();

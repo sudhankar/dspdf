@@ -10,6 +10,7 @@
 
   var state = { file: null, bytes: null, pdfDoc: null, pageCount: 0, imageDataUrl: null, imageAspect: 1 };
   var progressUI = null;
+  var previewRenderToken = 0;
 
   function el(id) { return document.getElementById(id); }
 
@@ -41,6 +42,7 @@
   }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("img-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("img-alert", "Please choose a PDF."); return;
@@ -57,6 +59,7 @@
       el("img-info").textContent = file.name + " — " + state.pageCount + " page(s)";
       el("img-toolbar").hidden = false;
       D.clearAlert("img-alert");
+      updateLivePreview();
     } catch (err) {
       log(err); D.showError("img-alert", D.humanError(err, "Could not open this PDF."));
     }
@@ -75,6 +78,7 @@
     el("img-preview-thumb").hidden = false;
     el("img-apply").disabled = false;
     D.clearAlert("img-alert");
+    updateLivePreview();
   }
 
   function reEncodeToPng(dataUrl) {
@@ -121,6 +125,36 @@
       default: x = margin; y = margin;
     }
     return { x: x, y: y };
+  }
+
+  async function updateLivePreview() {
+    if (!state.pdfDoc) return;
+    var token = ++previewRenderToken;
+    var host = el("img-preview-pdf");
+    if (!host) {
+      host = document.createElement("div"); host.id="img-preview-pdf"; host.className="tool-preview mt-4";
+      var c=document.createElement("canvas"); c.id="img-pdf-preview-canvas"; c.style.display="block"; c.style.maxWidth="100%"; host.appendChild(c);
+      el("img-preview-thumb").parentNode.insertBefore(host, el("img-preview-thumb").nextSibling);
+    }
+    var page=await state.pdfDoc.getPage(1);
+    var vp=page.getViewport({scale:1.8});
+    var c=el("img-pdf-preview-canvas");
+    c.width=Math.ceil(vp.width); c.height=Math.ceil(vp.height);
+    c.style.width="100%"; c.style.height="auto"; c.style.imageRendering="auto";
+    var ctx=c.getContext("2d", {alpha:false});
+    ctx.setTransform(1,0,0,1,0,0);
+    if (state.imageDataUrl) {
+      var img=await loadImage(state.imageDataUrl);
+      if(token!==previewRenderToken)return;
+      await page.render({canvasContext:ctx,viewport:vp}).promise;
+      if(token!==previewRenderToken)return;
+      var margin=parseInt(el("img-margin").value,10)||30; var pct=parseInt(el("img-width").value,10)/100;
+      var iw=vp.width*pct, ih=iw/state.imageAspect, pos=computePosition(el("img-pos").value,vp.width,vp.height,margin*vp.scale,iw,ih);
+      var cy=vp.height-(pos.y+ih);
+      ctx.save(); ctx.globalAlpha=parseInt(el("img-opacity").value,10)/100; ctx.drawImage(img,pos.x,cy,iw,ih); ctx.restore();
+    } else {
+      await page.render({canvasContext:ctx,viewport:vp}).promise;
+    }
   }
 
   async function apply() {
@@ -187,6 +221,9 @@
       el("img-opacity-val").textContent = this.value + "%";
     });
     el("img-apply").addEventListener("click", apply);
+    var refresh = el("img-preview-refresh");
+    if (refresh) refresh.addEventListener("click", function(){ updateLivePreview(); });
+    ["img-pos","img-margin","img-width","img-opacity","img-pages","img-range"].forEach(function(id){ var n=el(id); if(n)n.addEventListener("input",updateLivePreview); if(n)n.addEventListener("change",updateLivePreview); });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

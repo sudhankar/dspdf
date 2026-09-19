@@ -8,8 +8,9 @@
 
   var PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  var state = { file: null, bytes: null, pageCount: 0 };
+  var state = { file: null, bytes: null, pdfDoc: null, pageCount: 0 };
   var progressUI = null;
+  var previewRenderToken = 0;
 
   function el(id) { return document.getElementById(id); }
   function hexToRgb01(hex) {
@@ -66,6 +67,7 @@
   }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("pn-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("pn-alert", "Please choose a PDF."); return;
@@ -77,14 +79,21 @@
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
       state.file = file;
       state.bytes = bytes;
-      var doc = await window.pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
-      state.pageCount = doc.numPages;
+      state.pdfDoc = await window.pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
+      state.pageCount = state.pdfDoc.numPages;
       el("pn-info").textContent = file.name + " — " + state.pageCount + " page(s)";
       el("pn-toolbar").hidden = false;
       D.clearAlert("pn-alert");
+      updateLivePreview();
     } catch (err) {
       log(err); D.showError("pn-alert", D.humanError(err, "Could not open this PDF."));
     }
+  }
+
+  async function updateLivePreview() {
+    if(!state.bytes)return; var token=++previewRenderToken, host=el("pn-preview-pdf");
+    if(!host){host=document.createElement("div");host.id="pn-preview-pdf";host.className="tool-preview mt-4";var c=document.createElement("canvas");c.id="pn-preview-canvas";c.style.display="block";c.style.maxWidth="100%";host.appendChild(c);el("pn-toolbar").appendChild(host);}
+    try{if(!state.pdfDoc)return;var page=await state.pdfDoc.getPage(1),vp=page.getViewport({scale:1.8}),c=el("pn-preview-canvas");c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);c.style.width="100%";c.style.height="auto";c.style.imageRendering="auto";var ctx=c.getContext("2d");await page.render({canvasContext:ctx,viewport:vp}).promise;if(token!==previewRenderToken)return;var fontSize=parseInt(el("pn-size").value,10)||10,fmt=el("pn-format").value,custom=el("pn-custom").value,text=formatText(fmt,parseInt(el("pn-start").value,10)||1,state.pageCount,custom),font=el("pn-font").value;ctx.fillStyle=el("pn-color").value;ctx.font=(font==="TimesRoman"?"Times":font==="Courier"?"Courier":"Arial")+" "+fontSize*vp.scale+"px";var tw=ctx.measureText(text).width,p=computePos(el("pn-pos").value,vp.width,vp.height,(parseInt(el("pn-margin").value,10)||24)*vp.scale,tw,fontSize*vp.scale);ctx.fillText(text,p.x,vp.height-p.y); }catch(e){log("page number preview",e);}
   }
 
   async function apply() {
@@ -160,6 +169,9 @@
       el("pn-range").hidden = this.value !== "custom";
     });
     el("pn-apply").addEventListener("click", apply);
+    var refresh = el("pn-preview-refresh");
+    if (refresh) refresh.addEventListener("click", function(){ updateLivePreview(); });
+    ["pn-format","pn-custom","pn-size","pn-color","pn-pos","pn-margin","pn-start","pn-pages","pn-range","pn-font"].forEach(function(id){var n=el(id);if(n)n.addEventListener("input",updateLivePreview);if(n)n.addEventListener("change",updateLivePreview);});
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

@@ -15,23 +15,32 @@
 
   function ensureWorker() {
     if (worker) return worker;
-    worker = new Worker(new URL("../pdf-worker.js", document.currentScript.src));
+    worker = D.createPdfWorker();
     return worker;
   }
 
-  function runWorker(op, payload, transfer) {
-    return new Promise(function (resolve, reject) {
-      var w = ensureWorker();
-      var id = "w" + Math.random().toString(36).slice(2);
-      function handler(e) {
-        if (e.data.id !== id) return;
-        w.removeEventListener("message", handler);
-        if (e.data.ok) resolve(e.data.result);
-        else reject(new Error(e.data.error));
-      }
-      w.addEventListener("message", handler);
-      w.postMessage({ id: id, op: op, payload: payload }, transfer || []);
-    });
+  var previewToken = 0;
+  async function updatePreview() {
+    var token = ++previewToken;
+    var host = el("merge-preview");
+    if (!host) return;
+    host.innerHTML = files.length ? '<p class="text-muted">Preview (first page of each PDF, in merge order):</p><div class="preview-pdf-strip" id="merge-preview-strip"></div>' : '';
+    if (!files.length) return;
+    var strip = el("merge-preview-strip");
+    for (var i=0;i<files.length;i++) {
+      if (token !== previewToken) return;
+      var item=document.createElement("div"); item.className="preview-pdf-item";
+      item.innerHTML='<canvas></canvas><small>PDF '+(i+1)+' — '+escapeHtml(files[i].name)+'</small>'; strip.appendChild(item);
+      try {
+        if (!window.pdfjsLib) throw new Error("Preview engine is still loading.");
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        var bytes=new Uint8Array(await D.fileToArrayBuffer(files[i].file));
+        var doc=await window.pdfjsLib.getDocument({data:bytes.slice(0), disableWorker:true}).promise;
+        var page=await doc.getPage(1), vp=page.getViewport({scale:0.85}), c=item.querySelector("canvas");
+        c.width=vp.width;c.height=vp.height;
+        await page.render({canvasContext:c.getContext("2d"),viewport:vp}).promise;
+      } catch(e) { item.querySelector("small").textContent="PDF "+(i+1)+" — preview unavailable"; log("merge preview",e); }
+    }
   }
 
   function render() {
@@ -62,7 +71,9 @@
       files.forEach(function (f) { byId[f.id] = f; });
       files = orderedIds.map(function (id) { return byId[id]; }).filter(Boolean);
       log("Reordered:", files.map(function (f) { return f.name; }));
+      updatePreview();
     });
+    updatePreview();
   }
 
   function escapeHtml(s) {
@@ -72,6 +83,7 @@
   }
 
   function addFiles(newFiles) {
+    if (progressUI) progressUI.reset();
     var added = 0, rejected = 0;
     newFiles.forEach(function (f) {
       var isPdf = f.type === "application/pdf" || /\.pdf$/i.test(f.name);
@@ -102,7 +114,7 @@
       }
       progressUI.set(25, "Merging in worker…");
 
-      var result = await runWorker("merge", { buffers: buffers }, buffers);
+      var result = await D.runPdfOperation("merge", { buffers: buffers });
 
       progressUI.set(90, "Preparing download…");
       var blob = new Blob([result.bytes], { type: "application/pdf" });

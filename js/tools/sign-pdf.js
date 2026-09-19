@@ -51,7 +51,7 @@
   async function showCanvas() {
     el("sign-canvas-wrap").hidden = false;
     var page = await state.pdfDoc.getPage(state.currentPage + 1);
-    var vp = page.getViewport({ scale: 1.3 });
+    var vp = page.getViewport({ scale: 1.8 });
     var canvas = el("sign-page-canvas");
     canvas.width = vp.width; canvas.height = vp.height;
     var ctx = canvas.getContext("2d");

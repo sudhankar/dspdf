@@ -1,0 +1,36 @@
+dspdf/
+├── index.html                            d
+├── 404.html                  (Batch 7)
+├── sitemap.xml               (Batch 7)
+├── robots.txt                (Batch 7)
+├── ads.txt                   (Batch 7)
+├── manifest.json             (Batch 7)
+├── service-worker.js         (Batch 7)
+├── README.md                 (Batch 8)
+├── DEPLOYMENT.md             (Batch 8)
+├── css/
+│   ├── style.css             ✅ THIS BATCH d
+│   ├── tools.css             (Batch 2)
+│   ├── editor.css            (Batch 3)
+│   └── blog.css              (Batch 5)
+├── js/
+│   ├── config.js             ✅ THIS BATCH d
+│   ├── main.js               ✅ THIS BATCH d
+│   ├── tools-engine.js       (Batch 2)     d
+│   ├── pdf-worker.js         (Batch 2)     d
+│   ├── tools/                (Batch 2, 4)
+│   └── editor/               (Batch 3)
+├── images/
+│   ├── logo.svg              ✅ THIS BATCH d
+│   ├── favicon.svg           ✅ THIS BATCH d
+│   └── icons/                (Batch 2+)
+├── tools/                    (Batch 2+)
+├── blog/                     (Batch 5+)
+├── about/index.html          (Batch 6)
+├── contact/index.html        (Batch 6)
+├── privacy-policy/index.html (Batch 6)
+├── terms/index.html          (Batch 7)
+├── disclaimer/index.html     (Batch 7)
+├── cookie-policy/index.html  (Batch 7)
+├── dmca/index.html           (Batch 7)
+└── faq/index.html            (Batch 7)

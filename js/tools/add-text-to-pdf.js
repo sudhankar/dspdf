@@ -56,6 +56,7 @@
   }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("text-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("text-alert", "Please choose a PDF."); return;
@@ -102,7 +103,7 @@
     if (!state.pdfDoc) return;
     try {
       var page = await state.pdfDoc.getPage(1);
-      var vp = page.getViewport({ scale: 1.1 });
+      var vp = page.getViewport({ scale: 1.8 });
       var canvas = el("text-preview");
       canvas.width = vp.width; canvas.height = vp.height;
       var ctx = canvas.getContext("2d");
@@ -124,7 +125,7 @@
       ctx.fillStyle = color;
       var tw = ctx.measureText(text).width;
       var p = computePosition(pos, vp.width, vp.height, margin * scale, tw, fontSize * scale);
-      ctx.fillText(text, p.x, p.y + fontSize * scale);
+      ctx.fillText(text, p.x, vp.height - p.y);
     } catch (err) { log("preview err", err); }
   }
 

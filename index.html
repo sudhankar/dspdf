@@ -475,35 +475,34 @@
 <script src="js/main.js"></script>
 
 <script>
-/* Hero drop zone — redirects to tool directory with the file list.
-   A real "which tool?" chooser will be added later; for now, keep it
-   honest: dropping a file takes you to the tools index. */
+/* Hero PDF drop: keep the selected PDF for the next tool page. */
 (function () {
   var zone = document.getElementById("hero-drop");
   if (!zone) return;
-
-  function go() { window.location.href = "tools/index.html"; }
-  zone.addEventListener("click", go);
-  zone.addEventListener("keydown", function (e) {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
-  });
-
-  ["dragenter","dragover"].forEach(function (ev) {
-    zone.addEventListener(ev, function (e) {
-      e.preventDefault(); e.stopPropagation();
-      zone.classList.add("is-dragover");
+  var DB_NAME = "dspdf-local";
+  var STORE = "handoff";
+  function openDB() {
+    return new Promise(function(resolve,reject){
+      var r=indexedDB.open(DB_NAME,1);
+      r.onupgradeneeded=function(){ if(!r.result.objectStoreNames.contains(STORE)) r.result.createObjectStore(STORE); };
+      r.onsuccess=function(){resolve(r.result);}; r.onerror=function(){reject(r.error);};
     });
-  });
-  ["dragleave","drop"].forEach(function (ev) {
-    zone.addEventListener(ev, function (e) {
-      e.preventDefault(); e.stopPropagation();
-      zone.classList.remove("is-dragover");
+  }
+  function putFile(file){
+    return openDB().then(function(db){
+      return new Promise(function(resolve,reject){
+        var tx=db.transaction(STORE,"readwrite");
+        tx.objectStore(STORE).put({name:file.name,type:file.type,bytes:file},"pdf");
+        tx.oncomplete=function(){db.close();resolve();}; tx.onerror=function(){db.close();reject(tx.error);};
+      });
     });
-  });
-  zone.addEventListener("drop", function (e) {
-    // Redirect — actual per-tool drop handling happens on tool pages.
-    window.location.href = "tools/index.html";
-  });
+  }
+  function go(){ window.location.href="tools/index.html?pdfReady=1"; }
+  zone.addEventListener("click", function(e){ if(e.target.closest("a")) return; var input=document.createElement("input"); input.type="file"; input.accept="application/pdf,.pdf"; input.onchange=function(){ if(input.files[0]) putFile(input.files[0]).then(go); }; input.click(); });
+  zone.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault(); zone.click();}});
+  ["dragenter","dragover"].forEach(function(ev){zone.addEventListener(ev,function(e){e.preventDefault();e.stopPropagation();zone.classList.add("is-dragover");});});
+  ["dragleave","drop"].forEach(function(ev){zone.addEventListener(ev,function(e){e.preventDefault();e.stopPropagation();zone.classList.remove("is-dragover");});});
+  zone.addEventListener("drop",function(e){var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(!f || !(f.type==="application/pdf"||/\.pdf$/i.test(f.name))) return; putFile(f).then(go);});
 })();
 </script>
 

@@ -11,7 +11,8 @@
   var state = {
     file: null, bytes: null, pdfDoc: null,
     pageCount: 0, pageIndex: 0,
-    annotations: {} // pageIndex -> array of { type, ... }
+    annotations: {}, // pageIndex -> array of { type, ... }
+    selectedIndex: -1, history: [], historyIndex: -1, stampImage: null
   };
   var progressUI = null;
 
@@ -29,6 +30,7 @@
   }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("an-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("an-alert", "Please choose a PDF."); return;
@@ -42,7 +44,9 @@
       state.pdfDoc = await window.pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
       state.pageCount = state.pdfDoc.numPages;
       state.pageIndex = 0;
-      state.annotations = {};
+      state.annotations = {}; state.selectedIndex=-1; state.history=[]; state.historyIndex=-1; state.stampImage=null;
+      var stampFile = el("an-stamp-image"); if (stampFile) stampFile.value = "";
+      pushHistory();
       el("an-info").textContent = file.name + " — " + state.pageCount + " page(s)";
       el("an-toolbar").hidden = false;
       D.clearAlert("an-alert");
@@ -53,22 +57,34 @@
     }
   }
 
+  var stampImageCache = {};
+  async function getStampImage(src) {
+    if (!src) return null;
+    if (stampImageCache[src]) return stampImageCache[src];
+    var im = await new Promise(function(resolve,reject){ var i=new Image(); i.onload=function(){resolve(i)}; i.onerror=reject; i.src=src; });
+    stampImageCache[src]=im;
+    return im;
+  }
+
   async function renderPage() {
     var page = await state.pdfDoc.getPage(state.pageIndex + 1);
-    var vp = page.getViewport({ scale: 1.4 });
+    var vp = page.getViewport({ scale: 1.8 });
     var canvas = el("an-canvas");
     canvas.width = vp.width; canvas.height = vp.height;
     var ctx = canvas.getContext("2d");
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     await page.render({ canvasContext: ctx, viewport: vp }).promise;
-    drawAnnotations(ctx, canvas);
+    await drawAnnotations(ctx, canvas);
     el("an-page-label").textContent = (state.pageIndex + 1) + " / " + state.pageCount;
   }
 
-  function drawAnnotations(ctx, canvas) {
+  async function drawAnnotations(ctx, canvas) {
     var list = state.annotations[state.pageIndex] || [];
-    list.forEach(function (a) {
+    for (var idx = 0; idx < list.length; idx++) {
+      var a = list[idx];
+      var selected = idx === state.selectedIndex;
+      if (selected) { ctx.save(); ctx.strokeStyle="#2563EB"; ctx.lineWidth=2; }
       if (a.type === "note") {
         // Sticky note: colored square with fold
         var w = 40, h = 40;
@@ -95,25 +111,24 @@
           });
         }
       } else if (a.type === "stamp") {
-        var text = a.text || "STAMP";
-        var size = 22;
-        ctx.font = "bold " + size + "px Helvetica, Arial, sans-serif";
-        var tw = ctx.measureText(text).width;
-        var padX = 12, padY = 8;
-        var boxW = tw + padX * 2;
-        var boxH = size + padY * 2;
-        var bx = a.x * canvas.width - boxW / 2;
-        var by = a.y * canvas.height - boxH / 2;
+        var sw = (a.w || 0.20) * canvas.width;
+        var sh = (a.h || 0.10) * canvas.height;
+        var cx = a.x * canvas.width, cy = a.y * canvas.height;
         ctx.save();
-        ctx.translate(a.x * canvas.width, a.y * canvas.height);
-        ctx.rotate(-0.2);
-        ctx.translate(-a.x * canvas.width, -a.y * canvas.height);
-        // Outline
-        ctx.strokeStyle = a.color || "#EF4444";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(bx, by, boxW, boxH);
-        ctx.fillStyle = a.color || "#EF4444";
-        ctx.fillText(text, bx + padX, by + padY + size - 4);
+        if(a.image){
+          try {
+            var im=await getStampImage(a.image);
+            ctx.save();ctx.globalAlpha=.9;ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(im,cx-sw/2,cy-sh/2,sw,sh);ctx.restore();
+          } catch(ex) { log("stamp image preview",ex); }
+        } else {
+          ctx.translate(cx, cy);
+          var size=Math.max(12,Math.min(30,sh*.42));
+          ctx.font="bold "+size+"px Helvetica, Arial, sans-serif";
+          ctx.textAlign="center";ctx.textBaseline="middle";
+          ctx.strokeStyle=a.color||"#EF4444";ctx.lineWidth=3;ctx.strokeRect(-sw/2,-sh/2,sw,sh);
+          ctx.fillStyle=a.color||"#EF4444";ctx.fillText(a.text||"STAMP",0,0);
+        }
+        if(selected){ctx.setTransform(1,0,0,1,0,0);ctx.strokeStyle="#2563EB";ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.strokeRect(cx-sw/2,cy-sh/2,sw,sh);ctx.setLineDash([]);}
         ctx.restore();
       } else if (a.type === "draw") {
         var pts = a.points || [];
@@ -131,7 +146,8 @@
         });
         ctx.stroke();
       }
-    });
+      if (selected) { ctx.restore(); }
+    }
   }
 
   function wrap(text, maxChars) {
@@ -152,94 +168,89 @@
     el("an-count").textContent = n + " annotation" + (n === 1 ? "" : "s");
   }
 
+  function snapshot(){ return JSON.stringify({annotations:state.annotations,pageIndex:state.pageIndex,selectedIndex:state.selectedIndex}); }
+  function pushHistory(){ var snap=snapshot(); if(state.history[state.historyIndex]===snap)return; state.history=state.history.slice(0,state.historyIndex+1);state.history.push(snap);if(state.history.length>50)state.history.shift();state.historyIndex=state.history.length-1; }
+  function restoreSnap(snap){ var d=JSON.parse(snap);state.annotations=d.annotations||{};state.pageIndex=d.pageIndex||0;state.selectedIndex=d.selectedIndex==null?-1:d.selectedIndex;renderPage();updateCount(); }
+
   function currentTool() {
-    return document.querySelector('input[name="an-tool"]:checked').value;
+    var checked=document.querySelector('input[name="an-tool"]:checked');
+    return checked ? checked.value : null;
   }
 
   function setupInteractions() {
     var canvas = el("an-canvas");
-    var drawing = false, pts = [];
+    var drawing = false, pts = [], drag = null, drawLayer = null;
+    var host = canvas.parentElement;
+    host.style.position = "relative";
+
+    function ensureDrawLayer(){
+      if(drawLayer)return drawLayer;
+      drawLayer=document.createElement("canvas");
+      drawLayer.id="an-draw-preview";
+      drawLayer.style.cssText="position:absolute;left:12px;top:12px;pointer-events:none;z-index:3;";
+      host.appendChild(drawLayer);
+      return drawLayer;
+    }
+    function sizeDrawLayer(){
+      if(!drawLayer)return;
+      drawLayer.width=canvas.width;drawLayer.height=canvas.height;
+      drawLayer.style.width=canvas.clientWidth+"px";drawLayer.style.height=canvas.clientHeight+"px";
+    }
+    function drawLive(){
+      var lc=ensureDrawLayer(),ctx=lc.getContext("2d");sizeDrawLayer();ctx.clearRect(0,0,lc.width,lc.height);
+      if(pts.length<2)return;ctx.strokeStyle=el("an-draw-color").value;ctx.lineWidth=parseInt(el("an-draw-width").value,10)||3;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();
+      pts.forEach(function(p,i){var x=p[0]*lc.width,y=p[1]*lc.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();
+    }
+    function hitAnnotation(x,y){
+      var list=state.annotations[state.pageIndex]||[];
+      for(var i=list.length-1;i>=0;i--){var a=list[i],aw=a.type==="stamp"?(a.w||.20):.10,ah=a.type==="stamp"?(a.h||.10):.10;if(Math.abs((a.x||0)-x)<=aw/2+.03&&Math.abs((a.y||0)-y)<=ah/2+.03)return i;}
+      return -1;
+    }
 
     canvas.addEventListener("pointerdown", function (e) {
-      var rect = canvas.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width;
-      var y = (e.clientY - rect.top) / rect.height;
-      var tool = currentTool();
-
-      if (tool === "draw") {
-        drawing = true;
-        pts = [[x, y]];
-        try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-        return;
+      var rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height,tool=currentTool();
+      if(tool==="draw"){
+        drawing=true;pts=[[x,y]];ensureDrawLayer();sizeDrawLayer();drawLive();try{canvas.setPointerCapture(e.pointerId);}catch(err){}e.preventDefault();return;
       }
-
-      if (!state.annotations[state.pageIndex]) state.annotations[state.pageIndex] = [];
-
-      if (tool === "note") {
-        state.annotations[state.pageIndex].push({
-          type: "note",
-          x: x, y: y,
-          text: el("an-note-text").value || "",
-          color: el("an-note-color").value
-        });
-      } else if (tool === "stamp") {
-        var preset = el("an-stamp-preset").value;
-        var text = preset === "custom" ? el("an-stamp-custom").value : preset;
-        if (!text) text = "STAMP";
-        state.annotations[state.pageIndex].push({
-          type: "stamp",
-          x: x, y: y,
-          text: text,
-          color: el("an-stamp-color").value
-        });
-      }
-      renderPage();
-      updateCount();
-      el("an-save").disabled = false;
-    });
-
-    canvas.addEventListener("pointermove", function (e) {
-      if (!drawing) return;
-      var rect = canvas.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width;
-      var y = (e.clientY - rect.top) / rect.height;
-      pts.push([x, y]);
-      renderPage().then(function () {
-        var ctx = canvas.getContext("2d");
-        ctx.strokeStyle = el("an-draw-color").value;
-        ctx.lineWidth = parseInt(el("an-draw-width").value, 10) || 3;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-        ctx.beginPath();
-        pts.forEach(function (p, i) {
-          var px = p[0] * canvas.width;
-          var py = p[1] * canvas.height;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        });
-        ctx.stroke();
-      });
-    });
-
-    ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) {
-      canvas.addEventListener(ev, function () {
-        if (!drawing) return;
-        drawing = false;
-        if (pts.length >= 2) {
-          if (!state.annotations[state.pageIndex]) state.annotations[state.pageIndex] = [];
-          state.annotations[state.pageIndex].push({
-            type: "draw",
-            points: pts.slice(),
-            color: el("an-draw-color").value,
-            width: parseInt(el("an-draw-width").value, 10) || 3
-          });
+      var list=state.annotations[state.pageIndex]||[],found=hitAnnotation(x,y);
+      if(found>=0){
+        state.selectedIndex=found;var a=list[found];
+        if(a.type==="stamp" || a.type==="note"){
+          var halfW=a.type==="stamp"?(a.w||.20)/2:.06,halfH=a.type==="stamp"?(a.h||.10)/2:.06;
+          var corner=a.type==="stamp" && Math.abs(x-(a.x||0))>halfW*.72&&Math.abs(y-(a.y||0))>halfH*.72;
+          drag={kind:corner?"resize":"move",index:found,startX:x,startY:y,orig:JSON.parse(JSON.stringify(a)),pointerId:e.pointerId};
+          try{canvas.setPointerCapture(e.pointerId);}catch(err){}e.preventDefault();
+          renderPage();updateCount();el("an-save").disabled=false;
+          return;
         }
-        pts = [];
-        renderPage();
-        updateCount();
-        el("an-save").disabled = false;
-      });
+        renderPage();updateCount();el("an-save").disabled=false;
+        if(tool===null)return;
+      }
+      if(!state.annotations[state.pageIndex])state.annotations[state.pageIndex]=[];
+      if(tool==="note"){
+        state.annotations[state.pageIndex].push({type:"note",x:x,y:y,text:el("an-note-text").value||"",color:el("an-note-color").value});state.selectedIndex=state.annotations[state.pageIndex].length-1;pushHistory();document.querySelector('input[name="an-tool"][value="note"]').checked=false;
+      }else if(tool==="stamp"){
+        var preset=el("an-stamp-preset").value,text=preset==="custom"?el("an-stamp-custom").value:preset;if(!text)text="STAMP";
+        var a={type:"stamp",x:x,y:y,text:text,color:el("an-stamp-color").value,w:.20,h:.10};
+        if(state.stampImage){a.image=state.stampImage;}
+        state.annotations[state.pageIndex].push(a);state.selectedIndex=state.annotations[state.pageIndex].length-1;pushHistory();document.querySelector('input[name="an-tool"][value="stamp"]').checked=false;
+      }
+      renderPage();updateCount();el("an-save").disabled=false;
     });
+
+    window.addEventListener("pointermove", function(e){
+      var rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;
+      if(drag){var a=state.annotations[state.pageIndex][drag.index];if(!a)return;if(drag.kind==="move"){a.x=Math.max(0,Math.min(1,drag.orig.x+(x-drag.startX)));a.y=Math.max(0,Math.min(1,drag.orig.y+(y-drag.startY)));}else{var nw=Math.max(.05,Math.min(1,Math.abs(x-drag.orig.x)*2));var aspect=(drag.orig.w||.20)/(drag.orig.h||.10);var nh=Math.max(.04,Math.min(1,nw/aspect));a.w=nw;a.h=nh;}return;}
+      if(!drawing)return;pts.push([x,y]);drawLive();e.preventDefault();
+    });
+
+    window.addEventListener("pointerup", function(e){
+      if(drag){pushHistory();drag=null;renderPage();updateCount();el("an-save").disabled=false;return;}
+      if(!drawing)return;drawing=false;
+      if(pts.length>=2){if(!state.annotations[state.pageIndex])state.annotations[state.pageIndex]=[];state.annotations[state.pageIndex].push({type:"draw",points:pts.slice(),color:el("an-draw-color").value,width:parseInt(el("an-draw-width").value,10)||3});state.selectedIndex=state.annotations[state.pageIndex].length-1;pushHistory();}
+      pts=[];if(drawLayer){drawLayer.getContext("2d").clearRect(0,0,drawLayer.width,drawLayer.height);}renderPage();updateCount();el("an-save").disabled=false;
+    });
+    window.addEventListener("resize",function(){if(drawLayer)sizeDrawLayer();});
   }
 
   async function save() {
@@ -252,6 +263,17 @@
       var font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
       var boldFont = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
       var pages = doc.getPages();
+      var stampImages = {};
+      var annKeys = Object.keys(state.annotations);
+      for (var aki=0; aki<annKeys.length; aki++) {
+        var alist=state.annotations[annKeys[aki]]||[];
+        for(var ali=0; ali<alist.length; ali++){
+          var aa=alist[ali];
+          if(aa.type==="stamp" && aa.image){
+            try{var ib64=aa.image.split(",")[1],ibin=atob(ib64),iba=new Uint8Array(ibin.length);for(var ii=0;ii<ibin.length;ii++)iba[ii]=ibin.charCodeAt(ii);stampImages[aa.image]=/data:image\/png/.test(aa.image)?await doc.embedPng(iba):await doc.embedJpg(iba);}catch(ex){log("stamp image",ex);}
+          }
+        }
+      }
 
       Object.keys(state.annotations).forEach(function (k) {
         var pIdx = parseInt(k, 10);
@@ -280,6 +302,11 @@
               });
             }
           } else if (a.type === "stamp") {
+            if(a.image && stampImages[a.image]){
+              var iobj=stampImages[a.image],iw=(a.w||.20)*size.width,ih=(a.h||.10)*size.height;
+              page.drawImage(iobj,{x:a.x*size.width-iw/2,y:size.height-a.y*size.height-ih/2,width:iw,height:ih,opacity:.9});
+              return;
+            }
             var sx = a.x * size.width;
             var sy = size.height - a.y * size.height;
             var stampSize = 22;
@@ -294,15 +321,13 @@
               borderColor: PDFLib.rgb(c2.r, c2.g, c2.b),
               borderWidth: 3,
               opacity: 0,
-              borderOpacity: 0.85,
-              rotate: PDFLib.degrees(-12)
+              borderOpacity: 0.85
             });
             page.drawText(text, {
               x: sx - tw / 2, y: sy - stampSize / 3,
               size: stampSize, font: boldFont,
               color: PDFLib.rgb(c2.r, c2.g, c2.b),
-              opacity: 0.9,
-              rotate: PDFLib.degrees(-12)
+              opacity: 0.9
             });
           } else if (a.type === "draw") {
             var pts = a.points || [];
@@ -350,6 +375,13 @@
         el("an-draw-row").hidden = t !== "draw";
       });
     });
+    el("an-stamp-image-on").addEventListener("change", function(){ if(this.checked) el("an-stamp-image").click(); else state.stampImage=null; });
+    el("an-stamp-image").addEventListener("change", async function(e){
+      var f=e.target.files&&e.target.files[0]; if(!f)return;
+      try { state.stampImage=await D.fileToDataURL(f); el("an-stamp-image-on").checked=true; if(window.dspdfToast)window.dspdfToast("Stamp image selected.","success"); }
+      catch(err){ log(err); }
+      this.value="";
+    });
     el("an-stamp-preset").addEventListener("change", function () {
       el("an-stamp-custom").hidden = this.value !== "custom";
     });
@@ -362,12 +394,11 @@
     el("an-next").addEventListener("click", function () {
       if (state.pageIndex < state.pageCount - 1) { state.pageIndex++; renderPage(); }
     });
-    el("an-undo").addEventListener("click", function () {
-      var list = state.annotations[state.pageIndex];
-      if (list && list.length) { list.pop(); renderPage(); updateCount(); }
-    });
+    el("an-undo").addEventListener("click", function () { if(state.historyIndex>0){state.historyIndex--;restoreSnap(state.history[state.historyIndex]);} });
+    el("an-redo").addEventListener("click", function () { if(state.historyIndex<state.history.length-1){state.historyIndex++;restoreSnap(state.history[state.historyIndex]);} });
+    el("an-delete").addEventListener("click", function () { var list=state.annotations[state.pageIndex]||[]; if(state.selectedIndex<0||!list[state.selectedIndex]){if(window.dspdfToast)window.dspdfToast("Select an annotation first.","error");return;} list.splice(state.selectedIndex,1);state.selectedIndex=-1;pushHistory();renderPage();updateCount(); });
     el("an-clear-page").addEventListener("click", function () {
-      state.annotations[state.pageIndex] = [];
+      state.annotations[state.pageIndex] = []; state.selectedIndex=-1; pushHistory();
       renderPage();
       updateCount();
     });

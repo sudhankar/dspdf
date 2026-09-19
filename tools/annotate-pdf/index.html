@@ -109,6 +109,7 @@
             </select>
             <input type="text" id="an-stamp-custom" placeholder="Custom text" hidden />
             <input type="color" id="an-stamp-color" value="#EF4444" aria-label="Stamp color" />
+            <label><input type="checkbox" id="an-stamp-image-on" /> Image stamp</label><input type="file" id="an-stamp-image" accept="image/png,image/jpeg" hidden />
           </div>
           <div class="opt-row" id="an-draw-row" hidden>
             <label>Pen</label>
@@ -123,7 +124,9 @@
         </div>
 
         <div class="mt-4">
-          <button type="button" class="btn btn-ghost btn-sm" id="an-undo">Undo last</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="an-undo">Undo</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="an-redo">Redo</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="an-delete">Delete selected</button>
           <button type="button" class="btn btn-ghost btn-sm" id="an-clear-page">Clear this page</button>
           <span class="text-muted" style="font-size:0.85rem;margin-left:8px;" id="an-count">0 annotations</span>
         </div>

@@ -19,6 +19,9 @@
 
   var overlayLayer, hitLayer, wrap;
   var drag = null; // { mode, id, startX, startY, elem0, pointerId, handle }
+  var textClickTimer = null;
+  var suppressTextClick = false;
+  var editingTextId = null;
 
   function init() {
     overlayLayer = document.getElementById("ed-overlay");
@@ -39,8 +42,8 @@
     document.addEventListener("keyup", onKeyUp);
 
     // Rebuild overlays on state change
-    Ed.on("change", function () { R.renderOverlays(); });
-    Ed.on("select", function () { R.renderOverlays(); });
+    Ed.on("change", function () { if (!editingTextId) R.renderOverlays(); });
+    Ed.on("select", function () { if (!editingTextId) R.renderOverlays(); });
   }
 
   /* ---------- Coordinate helpers ---------- */
@@ -58,6 +61,9 @@
     if (!target) return;
 
     var id = target.dataset.id;
+    // Text boxes use the same interaction as other elements: single click selects
+    // and drag moves; double-click edits the text. This prevents the text layer
+    // from stealing pointer events and makes the box movable after editing.
     var elem = Ed.getSelected(); // fallback
     // Find the element in the current page's list
     var list = state.overlays[state.pageIndex] || [];
@@ -72,11 +78,10 @@
       return;
     }
 
-    // Select
-    if (state.selectedId !== id) {
-      Ed.select(id);
-      // Continue with drag anyway
-    }
+    // Select without rebuilding the DOM when it is already selected.
+    // Rebuilding here used to destroy the node between the first and second
+    // click, which prevented double-click editing and made dragging unreliable.
+    if (state.selectedId !== id) Ed.select(id);
 
     var handle = e.target.dataset && e.target.dataset.h;
     drag = {
@@ -145,8 +150,23 @@
 
   function onWindowPointerUp(e) {
     if (!drag) return;
+    var wasText = false;
     if (drag.mode === "move" || drag.mode === "resize") {
-      if (drag.moved) Ed.pushHistory();
+      var selectedEl = Ed.getSelected();
+      wasText = !!(selectedEl && selectedEl.id === drag.id && selectedEl.type === "text");
+      if (drag.moved) {
+        Ed.pushHistory();
+        suppressTextClick = true;
+        setTimeout(function(){ suppressTextClick = false; }, 80);
+      } else if (wasText && !suppressTextClick) {
+        // A plain click on an existing text box enters edit mode.  A drag still
+        // moves it, so clicking elsewhere never locks the box permanently.
+        if (textClickTimer) clearTimeout(textClickTimer);
+        textClickTimer = setTimeout(function(){
+          textClickTimer = null;
+          beginInlineEdit(drag.id, false);
+        }, 80);
+      }
     } else if (drag.mode === "create") {
       commitCreate(drag.tool, drag.startPoint, drag.currentPoint);
     }
@@ -210,7 +230,7 @@
       pageHeightPts: metrics.height
     });
     // Begin editing immediately
-    setTimeout(function () { beginInlineEdit(el.id); }, 30);
+    setTimeout(function () { beginInlineEdit(el.id, true); }, 30);
     Ed.setActiveTool(null);
     clearActiveToolButtons();
   }
@@ -274,30 +294,51 @@
     var list = state.overlays[state.pageIndex] || [];
     var el = null;
     for (var i = 0; i < list.length; i++) if (list[i].id === id) { el = list[i]; break; }
-    if (el && el.type === "text") beginInlineEdit(id);
+    if (el && el.type === "text") {
+      if (textClickTimer) { clearTimeout(textClickTimer); textClickTimer = null; }
+      beginInlineEdit(id, false);
+    }
   }
 
-  function beginInlineEdit(id) {
+  function beginInlineEdit(id, selectAll) {
     var node = overlayLayer.querySelector('[data-id="' + id + '"]');
     if (!node) return;
     var content = node.querySelector(".ed-text-content");
     if (!content) return;
+    if (textClickTimer) { clearTimeout(textClickTimer); textClickTimer = null; }
+    if (editingTextId === id && content.isContentEditable) { content.focus(); return; }
+
+    editingTextId = id;
     content.contentEditable = "true";
     content.classList.add("ed-text-editable");
+    content.style.pointerEvents = "auto";
     content.focus();
-    // select all
+
+    // Newly created placeholder text is selected once. Existing text is NOT
+    // selected, so typing does not erase the previous text unexpectedly.
     var range = document.createRange();
-    range.selectNodeContents(content);
     var sel = window.getSelection();
     sel.removeAllRanges();
-    sel.addRange(range);
+    if (selectAll) {
+      range.selectNodeContents(content);
+      sel.addRange(range);
+    } else {
+      range.selectNodeContents(content);
+      range.collapse(false);
+      sel.addRange(range);
+    }
 
     function finish() {
+      var value = content.textContent || "";
       content.contentEditable = "false";
       content.classList.remove("ed-text-editable");
-      Ed.updateElement(id, { text: content.textContent || "" });
+      content.style.pointerEvents = "auto";
       content.removeEventListener("blur", finish);
       content.removeEventListener("keydown", onKey);
+      if (editingTextId === id) editingTextId = null;
+      var current = Ed.getSelected();
+      if (current && current.id === id && current.text !== value) Ed.updateElement(id, { text: value });
+      else R.renderOverlays();
     }
     function onKey(ev) {
       if (ev.key === "Escape") { ev.preventDefault(); content.blur(); }

@@ -48,7 +48,7 @@
   var currentScale = 1;
   async function renderCanvas() {
     var page = await state.pdfDoc.getPage(1);
-    var vp = page.getViewport({ scale: 1.4 });
+    var vp = page.getViewport({ scale: 1.8 });
     currentScale = vp.scale;
     var canvas = el("hl-canvas");
     canvas.width = vp.width; canvas.height = vp.height;

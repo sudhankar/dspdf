@@ -28,6 +28,9 @@
   ]
 }
 </script>
+<style>
+.pdf-handoff-banner{margin:18px auto;padding:14px 16px;border:1px solid var(--accent);border-radius:12px;background:var(--bg-card);display:none;align-items:center;justify-content:space-between;gap:14px}.pdf-handoff-banner.is-visible{display:flex}.pdf-handoff-banner strong{display:block}.pdf-handoff-banner span{color:var(--text-muted);font-size:.9rem}@media(max-width:640px){.pdf-handoff-banner{align-items:flex-start;flex-direction:column}}
+</style>
 </head>
 <body>
 
@@ -57,6 +60,7 @@
 </header>
 
 <main id="main" class="section">
+  <div class="container"><div id="pdf-handoff" class="pdf-handoff-banner" role="status"><div><strong>Your PDF is ready</strong><span>Choose a tool below. You will not need to upload the PDF again.</span></div><button class="btn btn-ghost btn-sm" id="pdf-handoff-clear" type="button">Clear</button></div></div>
   <div class="container">
     <nav aria-label="Breadcrumb">
       <ol class="breadcrumb">
@@ -109,6 +113,7 @@
     <section id="optimize" class="mb-6">
       <h2>Optimize</h2>
       <div class="grid grid--3">
+        <a class="tool-card" href="enhance-pdf/index.html"><span class="tool-card__icon">✨</span><h3 class="tool-card__title">Enhance PDF</h3><p class="tool-card__desc">Improve scans with auto enhance, grayscale, contrast, brightness, eraser and crop.</p></a>
         <a class="tool-card" href="compress-pdf/index.html"><span class="tool-card__icon">⤓</span><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Reduce size by quality or target — with honest results.</p></a>
         <a class="tool-card" href="metadata-editor/index.html"><span class="tool-card__icon">🏷</span><h3 class="tool-card__title">Metadata Editor</h3><p class="tool-card__desc">Edit title, author, subject, keywords.</p></a>
       </div>
@@ -147,5 +152,9 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/main.js"></script>
+
+<script>
+(function(){if(!/[?&]pdfReady=1(?:&|$)/.test(location.search))return;var b=document.getElementById("pdf-handoff");if(b)b.classList.add("is-visible");document.querySelectorAll("a[href*='index.html']").forEach(function(a){var h=a.getAttribute("href");if(!h||h.indexOf("tools/")===0){} if(/\/index\.html$/.test(h)&&h.indexOf("pdfReady")<0)a.href=h+(h.indexOf("?")>=0?"&":"?")+"pdfReady=1";});var c=document.getElementById("pdf-handoff-clear");if(c)c.onclick=function(){try{var r=indexedDB.open("dspdf-local",1);r.onsuccess=function(){var db=r.result,tx=db.transaction("handoff","readwrite");tx.objectStore("handoff").delete("pdf");tx.oncomplete=function(){db.close();location.href="index.html";};};}catch(e){location.href="index.html";}};})();
+</script>
 </body>
 </html>

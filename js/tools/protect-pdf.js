@@ -52,39 +52,8 @@
   }
 
   function checkPdfLibEncryptionSupport() {
-    // Detect if this pdf-lib build exposes any encryption API.
-    if (!window.PDFLib || !window.PDFLib.PDFDocument) return false;
-    // Some builds expose PDFDocument.prototype.encrypt
-    var proto = window.PDFLib.PDFDocument.prototype;
-    return typeof proto.encrypt === "function";
-  }
-
-  async function rasterizeOnly() {
-    // Fallback: rasterize pages, no text layer. Not true encryption but
-    // removes searchable/extractable text.
-    var PDFLib = window.PDFLib;
-    var doc = await PDFLib.PDFDocument.create();
-    for (var i = 0; i < state.pageCount; i++) {
-      var page = await state.pdfDocJs.getPage(i + 1);
-      var vp = page.getViewport({ scale: 1.5 });
-      var canvas = document.createElement("canvas");
-      canvas.width = vp.width; canvas.height = vp.height;
-      var ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      await page.render({ canvasContext: ctx, viewport: vp }).promise;
-      var dataUrl = canvas.toDataURL("image/jpeg", 0.9);
-      var b64 = dataUrl.split(",")[1];
-      var bin = atob(b64);
-      var imgBytes = new Uint8Array(bin.length);
-      for (var j = 0; j < bin.length; j++) imgBytes[j] = bin.charCodeAt(j);
-      var img = await doc.embedJpg(imgBytes);
-      var pageSize = page.getViewport({ scale: 1 });
-      var newPage = doc.addPage([pageSize.width, pageSize.height]);
-      newPage.drawImage(img, { x: 0, y: 0, width: pageSize.width, height: pageSize.height });
-      progressUI.set(15 + ((i + 1) / state.pageCount) * 70, "Rasterizing page " + (i + 1) + " / " + state.pageCount);
-    }
-    doc.setProducer("DSPDF");
-    return doc;
+    return !!(window.PDFLib && window.PDFLib.PDFDocument &&
+      typeof window.PDFLib.PDFDocument.prototype.encrypt === "function");
   }
 
   async function apply() {
@@ -94,48 +63,31 @@
     if (!pw || pw.length < 6) { D.showError("prot-alert", "Password must be at least 6 characters."); return; }
     if (pw !== pw2) { D.showError("prot-alert", "Passwords do not match."); return; }
 
+    if (!checkPdfLibEncryptionSupport()) {
+      D.showError("prot-alert", "Password encryption is not available in this browser build. Please refresh and try again.");
+      return;
+    }
     progressUI.show();
-    progressUI.set(10, "Preparing…");
+    progressUI.set(15, "Opening PDF…");
     try {
       var PDFLib = window.PDFLib;
       var doc = await PDFLib.PDFDocument.load(state.bytes.slice(0));
-
-      var canEncrypt = checkPdfLibEncryptionSupport();
-
-      if (canEncrypt) {
-        progressUI.set(40, "Encrypting…");
-        doc.encrypt({ userPassword: pw, ownerPassword: pw, permissions: {} });
-        var encBytes = await doc.save({ useObjectStreams: true });
-        var blob = new Blob([encBytes], { type: "application/pdf" });
-        var base = (state.file.name || "document").replace(/\.pdf$/i, "");
-        D.downloadBlob(blob, base + "-protected.pdf");
-        progressUI.set(100, "Encrypted PDF saved.");
-        if (window.dspdfToast) window.dspdfToast("Saved encrypted PDF.", "success");
-      } else {
-        // Honest fallback: we cannot truly encrypt with this pdf-lib build.
-        progressUI.set(35, "Encryption API not available in this build.");
-        var proceed = window.confirm(
-          "Client-side PDF encryption is not supported by the current library build in your browser.\n\n" +
-          "Would you like to receive a 'rasterized PDF' instead? This converts each page to an image and removes selectable/searchable text — a partial protection, not true encryption.\n\n" +
-          "Or press Cancel to keep your original file unchanged."
-        );
-        if (!proceed) {
-          progressUI.hide();
-          D.showInfo("prot-alert", "Nothing changed. Your original file is untouched.");
-          return;
-        }
-        progressUI.set(45, "Rasterizing pages…");
-        var rasterized = await rasterizeOnly();
-        var out = await rasterized.save({ useObjectStreams: true });
-        var blob2 = new Blob([out], { type: "application/pdf" });
-        var base2 = (state.file.name || "document").replace(/\.pdf$/i, "");
-        D.downloadBlob(blob2, base2 + "-rasterized.pdf");
-        progressUI.set(100, "Rasterized PDF saved. Note: this is not encrypted.");
-        if (window.dspdfToast) window.dspdfToast("Saved rasterized PDF (not encrypted).", "info");
-      }
+      progressUI.set(55, "Applying AES-256 password protection…");
+      doc.encrypt({
+        userPassword: pw,
+        ownerPassword: pw,
+        algorithm: "AES-256",
+        permissions: { copying: false, modifying: false, printing: false }
+      });
+      var out = await doc.save({ useObjectStreams: true });
+      var blob = new Blob([out], { type: "application/pdf" });
+      var base = (state.file.name || "document").replace(/\.pdf$/i, "");
+      D.downloadBlob(blob, base + "-protected.pdf");
+      progressUI.set(100, "Protected PDF saved.");
+      if (window.dspdfToast) window.dspdfToast("Saved password-protected PDF.", "success");
     } catch (err) {
       log(err);
-      progressUI.error("Failed.");
+      progressUI.error("Protection failed.");
       D.showError("prot-alert", D.humanError(err, "Could not protect this PDF."));
     }
   }

@@ -6,8 +6,9 @@
   var D = window.DSPDF;
   var log = window.dspdfLog || function () {};
 
-  var state = { file: null, bytes: null, imageDataUrl: null };
+  var state = { file: null, bytes: null, pdfDoc: null, imageDataUrl: null };
   var progressUI = null;
+  var previewRenderToken = 0;
 
   function el(id) { return document.getElementById(id); }
 
@@ -30,6 +31,7 @@
   }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("wm-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("wm-alert", "Please choose a PDF."); return;
@@ -40,9 +42,12 @@
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
       state.file = file;
       state.bytes = bytes;
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      state.pdfDoc = await window.pdfjsLib.getDocument({data: bytes.slice(0)}).promise;
       el("wm-info").textContent = file.name + " (" + D.formatBytes(file.size) + ")";
       el("wm-toolbar").hidden = false;
       D.clearAlert("wm-alert");
+      updateLivePreview();
     } catch (err) {
       log(err); D.showError("wm-alert", "Could not read this PDF.");
     }
@@ -54,6 +59,7 @@
     }
     state.imageDataUrl = await D.fileToDataURL(file);
     D.clearAlert("wm-alert");
+    updateLivePreview();
   }
 
   function computeGridForTile(pageW, pageH, wmW, wmH) {
@@ -83,6 +89,28 @@
       default: return { x: pageW / 2, y: pageH / 2 };
     }
   }
+
+  async function updateLivePreview() {
+    if (!state.bytes) return;
+    var token=++previewRenderToken, host=el("wm-preview-pdf");
+    if(!host){host=document.createElement("div");host.id="wm-preview-pdf";host.className="tool-preview mt-4";var c=document.createElement("canvas");c.id="wm-preview-canvas";c.style.display="block";c.style.maxWidth="100%";host.appendChild(c);el("wm-toolbar").appendChild(host);}
+    try {
+      if (!state.pdfDoc) return;
+      var page=await state.pdfDoc.getPage(1), vp=page.getViewport({scale:1.8}), c=el("wm-preview-canvas"); c.width=vp.width;c.height=vp.height;
+      var ctx=c.getContext("2d"); await page.render({canvasContext:ctx,viewport:vp}).promise; if(token!==previewRenderToken)return;
+      var type=document.querySelector('input[name="wm-type"]:checked').value, opacity=parseInt(el("wm-opacity").value,10)/100, pos=el("wm-pos").value, rot=parseInt(el("wm-rotate").value,10)||0;
+      var wmW,wmH,text=el("wm-text").value||"Watermark",fontSize=(parseInt(el("wm-size").value,10)||48)*vp.scale;
+      if(type==="text"){ctx.font="bold "+fontSize+"px Arial";wmW=ctx.measureText(text).width;wmH=fontSize;}
+      else if(state.imageDataUrl){var im=await loadImage(state.imageDataUrl);wmW=vp.width*.4;wmH=wmW/(im.naturalWidth/im.naturalHeight);}
+      if(!wmW||!wmH)return;
+      var positions=[];
+      if(pos==="tile"){var sx=wmW*1.6,sy=wmH*1.6,cols=Math.max(1,Math.floor(vp.width/sx)),rows=Math.max(1,Math.floor(vp.height/sy));for(var rr=1;rr<=rows;rr++)for(var cc=1;cc<=cols;cc++)positions.push({x:cc*vp.width/(cols+1),y:rr*vp.height/(rows+1)});}
+      else {var margin=30*vp.scale;var pdfP=singlePosition(pos,vp.width,vp.height,wmW,wmH,margin);positions=[{x:pdfP.x,y:vp.height-pdfP.y}];}
+      positions.forEach(function(p){ctx.save();ctx.globalAlpha=opacity;ctx.translate(p.x,p.y);ctx.rotate(rot*Math.PI/180);if(type==="text"){ctx.fillStyle=el("wm-color").value;ctx.font="bold "+fontSize+"px Arial";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(text,0,0);}else{ctx.drawImage(im,-wmW/2,-wmH/2,wmW,wmH);}ctx.restore();});
+    }catch(e){log("watermark preview",e);}
+  }
+
+  function loadImage(src){return new Promise(function(res,rej){var i=new Image();i.onload=function(){res(i)};i.onerror=rej;i.src=src;});}
 
   async function apply() {
     if (!state.bytes) return;
@@ -198,6 +226,10 @@
       el("wm-rotate-val").textContent = this.value + "°";
     });
     el("wm-apply").addEventListener("click", apply);
+    var refresh = el("wm-preview-refresh");
+    if (refresh) refresh.addEventListener("click", function(){ updateLivePreview(); });
+    ["wm-text","wm-size","wm-color","wm-opacity","wm-rotate","wm-pos"].forEach(function(id){var n=el(id);if(n)n.addEventListener("input",updateLivePreview);if(n)n.addEventListener("change",updateLivePreview);});
+    document.querySelectorAll('input[name="wm-type"]').forEach(function(n){n.addEventListener("change",updateLivePreview);});
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

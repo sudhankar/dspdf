@@ -215,7 +215,7 @@
       else buf = await D.fileToArrayBuffer(source);
       var doc = await window.pdfjsLib.getDocument({ data: buf }).promise;
       var page = await doc.getPage(1);
-      var vp = page.getViewport({ scale: 0.5 });
+      var vp = page.getViewport({ scale: 0.80 });
       var canvas = el(canvasId);
       canvas.width = vp.width; canvas.height = vp.height;
       var ctx = canvas.getContext("2d");

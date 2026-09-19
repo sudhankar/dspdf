@@ -23,25 +23,13 @@
     });
   }
   function ensureWorker() {
-    if (!worker) worker = new Worker(new URL("../pdf-worker.js", document.currentScript.src));
+    if (!worker) worker = D.createPdfWorker();
     return worker;
   }
-  function runWorker(op, payload) {
-    return new Promise(function (resolve, reject) {
-      var w = ensureWorker();
-      var id = "w" + Math.random().toString(36).slice(2);
-      function handler(e) {
-        if (e.data.id !== id) return;
-        w.removeEventListener("message", handler);
-        if (e.data.ok) resolve(e.data.result);
-        else reject(new Error(e.data.error));
-      }
-      w.addEventListener("message", handler);
-      w.postMessage({ id: id, op: op, payload: payload });
-    });
-  }
+
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("extract-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("extract-alert", "Please choose a PDF."); return;
@@ -84,7 +72,7 @@
     for (var p = 1; p <= state.pageCount; p++) {
       try {
         var page = await state.pdfDoc.getPage(p);
-        var vp = page.getViewport({ scale: 0.4 });
+        var vp = page.getViewport({ scale: 0.70 });
         var canvas = document.createElement("canvas");
         canvas.width = vp.width; canvas.height = vp.height;
         await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
@@ -115,7 +103,7 @@
     progressUI.show();
     progressUI.set(30, "Extracting…");
     try {
-      var result = await runWorker("extractPages", { buffer: state.buffer.slice(0), keepIndices: keep });
+      var result = await D.runPdfOperation("extractPages", { buffer: state.buffer.slice(0), keepIndices: keep });
       progressUI.set(90, "Preparing download…");
       var blob = new Blob([result.bytes], { type: "application/pdf" });
       var name = "dspdf-extracted-" + (state.file.name || "document.pdf");

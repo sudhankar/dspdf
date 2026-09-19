@@ -45,7 +45,7 @@
 
   async function renderPage() {
     var page = await state.pdfDoc.getPage(state.pageIndex + 1);
-    var vp = page.getViewport({ scale: 1.4 });
+    var vp = page.getViewport({ scale: 1.8 });
     var canvas = el("red-canvas");
     canvas.width = vp.width; canvas.height = vp.height;
     var ctx = canvas.getContext("2d");
@@ -127,7 +127,7 @@
     // For each page: render at 1.5x to canvas, embed as PNG, add as page.
     for (var i = 0; i < state.pageCount; i++) {
       var page = await state.pdfDoc.getPage(i + 1);
-      var vp = page.getViewport({ scale: 1.5 });
+      var vp = page.getViewport({ scale: 1.8 });
       var canvas = document.createElement("canvas");
       canvas.width = vp.width; canvas.height = vp.height;
       var ctx = canvas.getContext("2d");

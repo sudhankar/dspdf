@@ -58,7 +58,9 @@
 
   /* ---------- Thumbnails ---------- */
   var thumbCache = {};
+  var thumbBuildToken = 0;
   async function buildThumbnails() {
+    var buildToken = ++thumbBuildToken;
     var host = el("ed-thumbs");
     host.innerHTML = "";
     for (var p = 0; p < state.pageCount; p++) {
@@ -70,14 +72,17 @@
     }
     // Render lazily (sequential)
     for (var i = 0; i < state.pageCount; i++) {
-      await renderThumb(i);
+      if (buildToken !== thumbBuildToken) return;
+      await renderThumb(i, buildToken);
     }
+    if (buildToken !== thumbBuildToken) return;
     highlightActiveThumb();
     Ed.on("page", highlightActiveThumb);
   }
 
-  async function renderThumb(pageIdx) {
+  async function renderThumb(pageIdx, buildToken) {
     try {
+      if (buildToken && buildToken !== thumbBuildToken) return;
       var page = await state.pdfDoc.getPage(pageIdx + 1);
       var vp = page.getViewport({ scale: 0.28 });
       var c = el("ed-thumbs").querySelector('[data-page="' + pageIdx + '"] canvas');
@@ -87,12 +92,102 @@
       ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, c.width, c.height);
       await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      if (buildToken && buildToken !== thumbBuildToken) return;
     } catch (err) { log("thumb err", err); }
   }
   function highlightActiveThumb() {
     el("ed-thumbs").querySelectorAll(".ed-thumb").forEach(function (n) {
       n.classList.toggle("is-active", Number(n.dataset.page) === state.pageIndex);
     });
+  }
+
+  /* ---------- Page management ---------- */
+  async function reloadDocumentBytes(bytes, overlays) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+    var doc = await window.pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
+    state.originalBytes = new Uint8Array(bytes);
+    state.pdfDoc = doc;
+    state.pageCount = doc.numPages;
+    state.overlays = overlays || [];
+    while (state.overlays.length < state.pageCount) state.overlays.push([]);
+    state.pageIndex = Math.max(0, Math.min(state.pageCount - 1, state.pageIndex));
+    state.selectedId = null;
+    Ed.pushHistory();
+    await R.renderCurrentPage();
+    R.renderOverlays();
+    Ed.emit("document");
+    Ed.emit("change"); Ed.emit("page", state.pageIndex);
+  }
+
+  async function reorderCurrent(delta) {
+    var from = state.pageIndex, to = from + delta;
+    if (to < 0 || to >= state.pageCount) return;
+    try {
+      var doc = await window.PDFLib.PDFDocument.load(state.originalBytes.slice(0));
+      var out = await window.PDFLib.PDFDocument.create();
+      var order = []; for (var i=0;i<state.pageCount;i++) order.push(i);
+      var moved = order.splice(from,1)[0]; order.splice(to,0,moved);
+      var copied = await out.copyPages(doc, order); copied.forEach(function(pg){out.addPage(pg);});
+      var bytes = await out.save({useObjectStreams:true});
+      var ov = order.map(function(old){return state.overlays[old]||[];});
+      state.pageIndex = to;
+      await reloadDocumentBytes(bytes, ov);
+    } catch(err) { if(window.dspdfToast) window.dspdfToast(D.humanError(err,"Could not reorder this page."),"error"); }
+  }
+
+  async function deleteCurrentPage() {
+    if (state.pageCount <= 1) { if(window.dspdfToast) window.dspdfToast("At least one page must remain.","error"); return; }
+    try {
+      var doc = await window.PDFLib.PDFDocument.load(state.originalBytes.slice(0));
+      doc.removePage(state.pageIndex);
+      var bytes = await doc.save({useObjectStreams:true});
+      var ov = state.overlays.filter(function(_,i){return i!==state.pageIndex;});
+      state.pageIndex = Math.min(state.pageIndex, state.pageCount-2);
+      await reloadDocumentBytes(bytes, ov);
+    } catch(err) { if(window.dspdfToast) window.dspdfToast(D.humanError(err,"Could not delete this page."),"error"); }
+  }
+
+  async function addBlankPage() {
+    try {
+      var doc = await window.PDFLib.PDFDocument.load(state.originalBytes.slice(0));
+      var ref = doc.getPages()[state.pageIndex];
+      var size = ref ? ref.getSize() : {width:612,height:792};
+      doc.insertPage(state.pageIndex + 1, [size.width, size.height]);
+      var bytes = await doc.save({useObjectStreams:true});
+      var ov = state.overlays.slice(); ov.splice(state.pageIndex+1,0,[]); state.pageIndex++;
+      await reloadDocumentBytes(bytes, ov);
+    } catch(err) { if(window.dspdfToast) window.dspdfToast(D.humanError(err,"Could not add a blank page."),"error"); }
+  }
+
+  async function rotateCurrentPage() {
+    try {
+      var doc = await window.PDFLib.PDFDocument.load(state.originalBytes.slice(0));
+      var page = doc.getPages()[state.pageIndex];
+      var current = page.getRotation().angle || 0;
+      page.setRotation(window.PDFLib.degrees((current + 90) % 360));
+      var bytes = await doc.save({useObjectStreams:true});
+      await reloadDocumentBytes(bytes, state.overlays.slice());
+    } catch(err) { if(window.dspdfToast) window.dspdfToast(D.humanError(err,"Could not rotate this page."),"error"); }
+  }
+
+  async function addPdfAfterCurrent(file) {
+    if (!file || !(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) return;
+    try {
+      var base = await window.PDFLib.PDFDocument.load(state.originalBytes.slice(0));
+      var extra = await window.PDFLib.PDFDocument.load(await D.fileToArrayBuffer(file));
+      var out = await window.PDFLib.PDFDocument.create();
+      var before = [], after = [];
+      for(var i=0;i<base.getPageCount();i++) (i<=state.pageIndex ? before : after).push(i);
+      var a = await out.copyPages(base,before); a.forEach(function(pg){out.addPage(pg);});
+      var e = await out.copyPages(extra,extra.getPageIndices()); e.forEach(function(pg){out.addPage(pg);});
+      var b = await out.copyPages(base,after); b.forEach(function(pg){out.addPage(pg);});
+      var bytes = await out.save({useObjectStreams:true});
+      var ov = state.overlays.slice(); var empty=[]; for(var j=0;j<extra.getPageCount();j++) empty.push([]);
+      ov.splice.apply(ov,[state.pageIndex+1,0].concat(empty));
+      state.pageIndex = state.pageIndex + 1;
+      await reloadDocumentBytes(bytes,ov);
+      if(window.dspdfToast) window.dspdfToast("PDF added to the editor.","success");
+    } catch(err) { if(window.dspdfToast) window.dspdfToast(D.humanError(err,"Could not add this PDF."),"error"); }
   }
 
   /* ---------- Save ---------- */
@@ -243,15 +338,26 @@
     var modal = document.getElementById("sign-modal");
     var body = document.getElementById("sign-modal-body");
     body.innerHTML = "";
+    // Open first so the signature pad has a real layout width/height before its canvas is sized.
+    modal.classList.add("is-open");
     if (kind === "sign-draw") buildDrawPad(body);
     else if (kind === "sign-type") buildTypePad(body);
-    else if (kind === "sign-upload") { document.getElementById("sign-file").click(); return; }
-    modal.classList.add("is-open");
+    else if (kind === "sign-upload") { modal.classList.remove("is-open"); document.getElementById("sign-file").click(); return; }
+    if (kind === "sign-draw") {
+      requestAnimationFrame(function(){
+        var c=document.getElementById("sign-pad-canvas");
+        if(c){ var r=c.parentElement.getBoundingClientRect(), d=window.devicePixelRatio||1; c.width=Math.max(1,Math.floor(r.width*d)); c.height=Math.max(1,Math.floor(r.height*d)); c.getContext("2d").setTransform(d,0,0,d,0,0); }
+      });
+    }
   }
 
   function buildDrawPad(body) {
     body.innerHTML =
       '<p class="text-muted">Sign with mouse, finger, or stylus.</p>' +
+      '<div class="sign-controls">' +
+      '<label>Color <input type="color" id="sign-pen-color" value="#0F172A"></label>' +
+      '<label>Thickness <input type="range" id="sign-pen-width" min="1" max="12" value="3"><span id="sign-pen-width-val">3</span></label>' +
+      '</div>' +
       '<div class="sign-pad"><canvas id="sign-pad-canvas"></canvas></div>' +
       '<div style="margin-top:8px;"><button type="button" class="btn btn-ghost btn-sm" id="sign-pad-clear">Clear</button></div>';
     var pad = body.querySelector(".sign-pad");
@@ -262,8 +368,8 @@
     canvas.height = rect.height * dpr;
     var ctx = canvas.getContext("2d");
     ctx.scale(dpr, dpr);
-    ctx.strokeStyle = "#0F172A";
-    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = body.querySelector("#sign-pen-color").value;
+    ctx.lineWidth = parseInt(body.querySelector("#sign-pen-width").value, 10) || 3;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     var drawing = false;
@@ -278,6 +384,8 @@
     canvas.addEventListener("pointermove", function (e) {
       if (!drawing) return;
       var p = pointerPos(e, canvas, rect);
+      ctx.strokeStyle = body.querySelector("#sign-pen-color").value;
+      ctx.lineWidth = parseInt(body.querySelector("#sign-pen-width").value, 10) || 3;
       ctx.lineTo(p.x, p.y);
       ctx.stroke();
     });
@@ -288,6 +396,8 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       hasInk = false;
     });
+    body.querySelector("#sign-pen-color").addEventListener("input", function(){ ctx.strokeStyle=this.value; });
+    body.querySelector("#sign-pen-width").addEventListener("input", function(){ body.querySelector("#sign-pen-width-val").textContent=this.value; ctx.lineWidth=parseInt(this.value,10)||3; });
     // store a getter so confirm can read
     body._getSignature = function () {
       if (!hasInk) return null;
@@ -520,12 +630,20 @@
       R.setZoom(state.view.zoom / 1.2);
     });
     document.getElementById("ed-zoom-fit").addEventListener("click", function () { R.fitWidth(); });
+    document.getElementById("ed-page-up").addEventListener("click", function(){ reorderCurrent(-1); });
+    document.getElementById("ed-page-down").addEventListener("click", function(){ reorderCurrent(1); });
+    document.getElementById("ed-page-delete").addEventListener("click", deleteCurrentPage);
+    document.getElementById("ed-page-blank").addEventListener("click", addBlankPage);
+    document.getElementById("ed-page-rotate").addEventListener("click", rotateCurrentPage);
+    document.getElementById("ed-page-addpdf").addEventListener("click", function(){ document.getElementById("ed-add-pdf-file").click(); });
+    document.getElementById("ed-add-pdf-file").addEventListener("change", function(e){ var f=e.target.files&&e.target.files[0]; if(f) addPdfAfterCurrent(f); e.target.value=""; });
 
     Ed.on("page", async function () {
       R.renderCurrentPage();
       highlightActiveThumb();
     });
     Ed.on("change", function () { R.renderOverlays(); });
+    Ed.on("document", function () { buildThumbnails(); });
 
     document.getElementById("ed-thumbs").addEventListener("click", function (e) {
       var t = e.target.closest("[data-page]");

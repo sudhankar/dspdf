@@ -59,6 +59,14 @@
   ProgressUI.prototype.hide = function () {
     if (this.el) this.el.hidden = true;
   };
+  ProgressUI.prototype.reset = function () {
+    if (this.bar) {
+      this.bar.style.width = "0%";
+      this.bar.classList.remove("is-success", "is-error");
+    }
+    if (this.label) this.label.textContent = "";
+    if (this.el) { this.el.hidden = true; this.el.setAttribute("aria-valuenow", "0"); }
+  };
   ProgressUI.prototype.set = function (pct, label) {
     var p = Math.max(0, Math.min(100, Math.round(pct)));
     if (this.bar) {
@@ -76,6 +84,23 @@
     }
     if (this.label && label) this.label.textContent = label;
   };
+
+  function getHandoffFile() {
+    return new Promise(function(resolve,reject){
+      if (!window.indexedDB) return resolve(null);
+      var r=indexedDB.open("dspdf-local",1);
+      r.onupgradeneeded=function(){ if(!r.result.objectStoreNames.contains("handoff")) r.result.createObjectStore("handoff"); };
+      r.onsuccess=function(){
+        var db=r.result, tx=db.transaction("handoff","readonly"), req=tx.objectStore("handoff").get("pdf");
+        req.onsuccess=function(){ db.close(); var v=req.result; if(!v) return resolve(null); try { resolve(v.bytes instanceof File ? v.bytes : new File([v.bytes],v.name||"document.pdf",{type:v.type||"application/pdf"})); } catch(e){ resolve(v.bytes); } };
+        req.onerror=function(){db.close();reject(req.error);};
+      };
+      r.onerror=function(){reject(r.error);};
+    });
+  }
+  function clearHandoffFile() {
+    try { var r=indexedDB.open("dspdf-local",1); r.onsuccess=function(){ var db=r.result,tx=db.transaction("handoff","readwrite"); tx.objectStore("handoff").delete("pdf"); tx.oncomplete=function(){db.close();}; }; } catch(e) {}
+  }
 
   /* ---------- Upload zone controller ----------
    * Usage:
@@ -136,6 +161,15 @@
       if (!dt) return;
       self._handle(Array.prototype.slice.call(dt.files || []));
     });
+
+    // Receive a PDF dropped on the homepage without asking the user to upload it again.
+    if (/[?&]pdfReady=1(?:&|$)/.test(location.search)) {
+      setTimeout(function () {
+        getHandoffFile().then(function(file){
+          if (file) { self.onFiles([file]); clearHandoffFile(); }
+        }).catch(function(){});
+      }, 0);
+    }
   }
   UploadZone.prototype._handle = function (files) {
     if (!files.length) return;
@@ -176,13 +210,20 @@
   function showInfo(target, message) {
     var el = typeof target === "string" ? document.querySelector(target) : target;
     if (!el) return;
+    var loading = /loading|reading|preparing|processing|opening|rendering/i.test(String(message || ""));
     el.className = "alert alert-info";
-    el.textContent = message;
+    el.classList.toggle("is-loading", loading);
+    if (loading) {
+      el.innerHTML = '<span class="dspdf-loading-spinner" aria-hidden="true"></span><span class="dspdf-loading-text"></span>';
+      el.querySelector(".dspdf-loading-text").textContent = message;
+    } else {
+      el.textContent = message;
+    }
     el.hidden = false;
   }
   function clearAlert(target) {
     var el = typeof target === "string" ? document.querySelector(target) : target;
-    if (el) { el.hidden = true; el.textContent = ""; }
+    if (el) { el.hidden = true; el.textContent = ""; el.classList.remove("is-loading"); }
   }
 
   /* ---------- Sortable list (simple drag reorder) ----------
@@ -227,6 +268,111 @@
     }
   }
 
+  /* ---------- Shared PDF worker ---------- */
+  function createPdfWorker() {
+    var base = (window.DSPDF_CONFIG && window.DSPDF_CONFIG.url)
+      ? window.DSPDF_CONFIG.url("js/pdf-worker.js")
+      : "../pdf-worker.js";
+    return new Worker(base);
+  }
+
+  /* ---------- Reliable PDF-lib main-thread fallback ----------
+   * Some browsers/hosts block cross-origin importScripts() inside Web Workers.
+   * The five page-manipulation tools therefore use PDF-lib directly in the
+   * page instead of depending on a CDN-loaded worker script.
+   */
+  var pdfLibPromise = null;
+  function loadExternalScript(src) {
+    return new Promise(function (resolve, reject) {
+      var existing = document.querySelector('script[data-dspdf-pdflib="1"]');
+      if (window.PDFLib) return resolve(window.PDFLib);
+      if (existing) {
+        existing.addEventListener('load', function(){ resolve(window.PDFLib); });
+        existing.addEventListener('error', function(){ reject(new Error('Could not load PDF library.')); });
+        return;
+      }
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.dataset.dspdfPdflib = '1';
+      s.onload = function(){ window.PDFLib ? resolve(window.PDFLib) : reject(new Error('PDF library loaded but is unavailable.')); };
+      s.onerror = function(){ reject(new Error('Could not load PDF library.')); };
+      document.head.appendChild(s);
+    });
+  }
+  function ensurePdfLib() {
+    if (window.PDFLib) return Promise.resolve(window.PDFLib);
+    if (pdfLibPromise) return pdfLibPromise;
+    var cdn = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+    var fallback = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+    pdfLibPromise = loadExternalScript(cdn).catch(function(){ return loadExternalScript(fallback); }).then(function(){
+      if (!window.PDFLib) throw new Error('PDF library is unavailable.');
+      return window.PDFLib;
+    });
+    return pdfLibPromise;
+  }
+  async function runPdfOperation(op, payload) {
+    var PDFLib = await ensurePdfLib();
+    var PDFDocument = PDFLib.PDFDocument;
+    if (op === 'merge') {
+      var out = await PDFDocument.create();
+      for (var mi=0; mi<payload.buffers.length; mi++) {
+        var src = await PDFDocument.load(payload.buffers[mi]);
+        var mp = await out.copyPages(src, src.getPageIndices());
+        mp.forEach(function(p){ out.addPage(p); });
+      }
+      out.setProducer('DSPDF'); out.setCreator('DSPDF — client-side');
+      return {bytes: await out.save({useObjectStreams:true})};
+    }
+    if (op === 'rotate') {
+      var rd = await PDFDocument.load(payload.buffer);
+      var pages = rd.getPages();
+      Object.keys(payload.rotations || {}).forEach(function(k){
+        var i=parseInt(k,10), delta=parseInt(payload.rotations[k],10)||0;
+        if (!pages[i]) return;
+        var cur=pages[i].getRotation().angle || 0;
+        pages[i].setRotation(PDFLib.degrees((cur + delta + 360) % 360));
+      });
+      rd.setProducer('DSPDF');
+      return {bytes: await rd.save({useObjectStreams:true})};
+    }
+    if (op === 'deletePages') {
+      var dd = await PDFDocument.load(payload.buffer);
+      var del=(payload.deleteIndices||[]).slice().sort(function(a,b){return b-a;});
+      del.forEach(function(i){ if(i>=0 && i<dd.getPageCount()) dd.removePage(i); });
+      if (!dd.getPageCount()) throw new Error("You can't delete every page.");
+      dd.setProducer('DSPDF');
+      return {bytes: await dd.save({useObjectStreams:true}), pageCount:dd.getPageCount()};
+    }
+    if (op === 'extractPages') {
+      var ed = await PDFDocument.load(payload.buffer);
+      var eo = await PDFDocument.create();
+      var keep=(payload.keepIndices||[]).slice().sort(function(a,b){return a-b;});
+      if (!keep.length) throw new Error('Select at least one page.');
+      var ep=await eo.copyPages(ed,keep);
+      ep.forEach(function(p){eo.addPage(p);});
+      eo.setProducer('DSPDF');
+      return {bytes:await eo.save({useObjectStreams:true}),pageCount:keep.length};
+    }
+    if (op === 'splitEvery' || op === 'splitRange') {
+      var sd=await PDFDocument.load(payload.buffer), total=sd.getPageCount(), chunks=[];
+      var ranges=[];
+      if(op==='splitEvery'){
+        var size=Math.max(1,payload.chunkSize|0);
+        for(var st=0;st<total;st+=size) ranges.push([st,Math.min(st+size-1,total-1)]);
+      } else ranges=payload.ranges||[];
+      for(var ri=0;ri<ranges.length;ri++){
+        var a=Math.max(0,Math.min(total-1,ranges[ri][0])), b=Math.max(a,Math.min(total-1,ranges[ri][1])), idx=[];
+        for(var x=a;x<=b;x++) idx.push(x);
+        var so=await PDFDocument.create(), cp=await so.copyPages(sd,idx);
+        cp.forEach(function(p){so.addPage(p);}); so.setProducer('DSPDF');
+        chunks.push({bytes:await so.save({useObjectStreams:true}),name:'pages_'+(a+1)+'-'+(b+1)+'.pdf'});
+      }
+      return {chunks:chunks};
+    }
+    throw new Error('Unsupported PDF operation: '+op);
+  }
+
   /* ---------- Public API ---------- */
   window.DSPDF = window.DSPDF || {};
   Object.assign(window.DSPDF, {
@@ -242,7 +388,10 @@
     showError: showError,
     showInfo: showInfo,
     clearAlert: clearAlert,
-    makeSortable: makeSortable
+    makeSortable: makeSortable,
+    createPdfWorker: createPdfWorker,
+    ensurePdfLib: ensurePdfLib,
+    runPdfOperation: runPdfOperation
   });
 
   log("tools-engine.js loaded");

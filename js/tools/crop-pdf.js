@@ -38,7 +38,7 @@
   async function renderPreview() {
     try {
       var page = await state.pdfDoc.getPage(1);
-      var vp = page.getViewport({ scale: 0.9 });
+      var vp = page.getViewport({ scale: 1.6 });
       var canvas = el("crop-preview");
       canvas.width = vp.width; canvas.height = vp.height;
       var ctx = canvas.getContext("2d");
