@@ -716,3 +716,11 @@ p  { margin: 0 0 var(--space-4); color: var(--text-primary); }
   .hero h1 { font-size: 1.75rem; }
   .upload-zone { padding: var(--space-5) var(--space-3); }
 }
+/* PDF tool live preview */
+.tool-preview canvas { width: 100%; height: auto; max-height: none; object-fit: contain; background: #fff; }
+@media (max-width: 768px) { .tool-preview canvas { max-height: none; } }
+.alert.is-loading { display:flex !important; align-items:center; gap:9px; min-height:38px; }
+.alert.is-loading::before { content:""; width:15px; height:15px; flex:0 0 15px; box-sizing:border-box; border:2px solid currentColor; border-right-color:transparent; border-bottom-color:transparent; border-radius:50%; animation:dspdf-spin .7s linear infinite; }
+@keyframes dspdf-spin { to { transform:rotate(360deg); } }
+
+.dspdf-loading-spinner{width:15px;height:15px;flex:0 0 15px;display:inline-block;box-sizing:border-box;border:2px solid currentColor;border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;animation:dspdf-spin .7s linear infinite;vertical-align:-3px}.alert.is-loading{display:flex!important;align-items:center;gap:9px;min-height:38px}@keyframes dspdf-spin{to{transform:rotate(360deg)}}

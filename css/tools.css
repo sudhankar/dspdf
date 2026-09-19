@@ -180,3 +180,12 @@
   border-radius: var(--radius-sm);
 }
 @keyframes sk { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+/* v4: PDF previews use the available tool-panel width instead of intrinsic half-size canvas. */
+.tool-preview{width:100%;max-width:100%;overflow:auto;min-width:0;}
+.tool-preview canvas{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;background:#fff;image-rendering:auto;}
+.preview-pdf-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:16px;}
+.preview-pdf-item{background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+.preview-pdf-item canvas{width:100%;height:auto;background:#fff;display:block;}
+.preview-pdf-item small{display:block;margin-top:6px;color:var(--text-muted);}
+/* v4: make standalone PDF preview canvases use the full available panel width. */
+#crop-preview,#text-preview,#red-canvas,#hl-canvas,#sign-page-canvas{width:100%;max-width:100%;height:auto;}
