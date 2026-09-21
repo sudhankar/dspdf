@@ -549,3 +549,109 @@
 }
 @media (min-width:901px) and (pointer:fine){.editor-creator-badge{display:block;}}
 .editor-creator-badge{position:fixed;right:10px;bottom:66px;z-index:240;font-size:.68rem;letter-spacing:.04em;color:var(--text-muted);background:rgba(15,23,42,.72);padding:4px 8px;border-radius:999px;pointer-events:none;}
+
+/* v13: mobile editor layout — keep the PDF viewport and both toolbars inside
+   the actual browser content area. The previous fixed quick-bar could cover
+   the page-navigation bar, while the hard-coded main height ignored the
+   variable-height notice/header. */
+@media (max-width: 900px), (pointer: coarse) {
+  .editor-body {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .editor-header,
+  .editor-notice,
+  .editor-mobile-bar {
+    flex: 0 0 auto;
+  }
+
+  .editor-main {
+    height: auto !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .editor-stage {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .editor-viewport {
+    flex: 1 1 auto !important;
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    box-sizing: border-box;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px;
+    touch-action: pan-x pan-y;
+  }
+
+  .editor-canvas-wrap {
+    flex: 0 0 auto;
+    margin: 0 auto;
+    max-width: none;
+  }
+
+  /* Do not let the quick toolbar float over the page-navigation bar. */
+  .editor-mobile-bar {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100%;
+    z-index: 260 !important;
+    box-sizing: border-box;
+  }
+
+  .editor-bottombar {
+    position: relative;
+    z-index: 205;
+    flex: 0 0 auto;
+    min-height: 46px;
+    box-sizing: border-box;
+  }
+
+  .editor-tools {
+    z-index: 500 !important;
+  }
+
+  .editor-thumbs {
+    z-index: 490 !important;
+  }
+}
+
+/* Keep page navigation comfortably tappable on narrow phones. */
+@media (max-width: 520px) {
+  .editor-bottombar {
+    padding: 5px 8px;
+    gap: 6px;
+  }
+  .editor-bottombar .ed-btn--icon {
+    width: 40px;
+    min-width: 40px;
+    min-height: 38px;
+  }
+  .editor-page-indicator,
+  .editor-zoom-indicator {
+    min-width: 52px;
+  }
+  .editor-bottombar #ed-zoom-fit {
+    min-width: 48px;
+  }
+}
