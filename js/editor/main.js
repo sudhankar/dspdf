@@ -50,8 +50,21 @@
       el("ed-save").disabled = false;
       el("edm-save").disabled = false;
 
-      if (window.matchMedia && window.matchMedia("(pointer:coarse), (max-width:900px)").matches) state.view.fitMode="page";
+      if (window.matchMedia && window.matchMedia("(pointer:coarse), (max-width:900px)").matches) {
+        state.view.fitMode = "page";
+      }
+      // Wait for the mobile flex layout/notice/toolbar to settle before the
+      // first fit calculation. Without this, the initial viewport can report
+      // an old/near-zero height and the first page opens cropped; changing
+      // pages then accidentally triggers the correct second render.
+      await new Promise(function (resolve) { requestAnimationFrame(function () {
+        requestAnimationFrame(resolve);
+      }); });
       await R.renderCurrentPage();
+      if (state.view.fitMode === "page") {
+        await new Promise(function (resolve) { requestAnimationFrame(resolve); });
+        await R.renderCurrentPage();
+      }
       R.renderOverlays();
       buildThumbnails();
       if (D.hideGlobalLoading) D.hideGlobalLoading();

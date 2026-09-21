@@ -30,7 +30,21 @@
     wrap = document.getElementById("ed-canvas-wrap");
     viewport = document.getElementById("ed-viewport");
 
-    window.addEventListener("resize", debounce(handleResize, 160));
+    window.addEventListener("resize", debounce(handleResize, 120));
+    if (window.ResizeObserver && viewport) {
+      var resizeTimer = null;
+      var ro = new ResizeObserver(function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          if (!state.pdfDoc) return;
+          // Mobile layout can settle one or two frames after the PDF is opened.
+          // Refit the current page when the real viewport dimensions become known.
+          if (state.view.fitMode === "page") renderCurrentPage();
+          else if (state.view.fitMode === "width") fitWidth();
+        }, 80);
+      });
+      ro.observe(viewport);
+    }
   }
 
   function debounce(fn, wait) {
@@ -43,7 +57,8 @@
 
   function handleResize() {
     if (!state.pdfDoc) return;
-    if (state.view.fitMode === "width") fitWidth();
+    if (state.view.fitMode === "page") fitPage();
+    else if (state.view.fitMode === "width") fitWidth();
   }
 
   /**
