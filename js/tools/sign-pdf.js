@@ -12,7 +12,8 @@
   var state = {
     file: null, bytes: null, pdfDoc: null, pageCount: 0,
     currentPage: 0, sigDataUrl: null, sigAspect: 2.5,
-    placement: null  // { x, y } in normalized page coords
+    placement: null, // { x, y } in normalized page coords
+    sigSize: 0.20
   };
   var progressUI = null;
   var renderInfo = null;
@@ -34,6 +35,7 @@
       state.pdfDoc = await window.pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
       state.pageCount = state.pdfDoc.numPages;
       state.currentPage = 0;
+      state.placement = null;
       el("sign-info").textContent = file.name + " — " + state.pageCount + " page(s)";
       el("sign-toolbar").hidden = false;
       D.clearAlert("sign-alert");
@@ -64,32 +66,32 @@
   }
 
   function drawPlacement(ctx, canvas) {
-    if (!state.placement) return;
-    var sigW = canvas.width * 0.2;
-    var sigH = sigW / state.sigAspect;
-    var x = state.placement.x * canvas.width - sigW / 2;
-    var y = state.placement.y * canvas.height - sigH / 2;
-    if (state.sigDataUrl) {
-      var img = new Image();
-      img.onload = function () {
-        ctx.drawImage(img, x, y, sigW, sigH);
-      };
-      img.src = state.sigDataUrl;
-    }
+    // Signature is rendered as a DOM overlay for smooth touch/mouse dragging.
+    renderSignatureOverlay();
+  }
+
+  function renderSignatureOverlay() {
+    var layer=el("sign-overlay"),canvas=el("sign-page-canvas"); if(!layer||!canvas)return;
+    layer.innerHTML=""; layer.style.cssText="position:absolute;inset:0;pointer-events:none;z-index:10;";
+    if(!state.sigDataUrl||!state.placement)return;
+    var cw=canvas.clientWidth,ch=canvas.clientHeight,w=state.sigSize*cw,h=w/state.sigAspect;
+    var box=document.createElement("div"); box.style.cssText="position:absolute;left:"+(state.placement.x*cw-w/2)+"px;top:"+(state.placement.y*ch-h/2)+"px;width:"+w+"px;height:"+h+"px;pointer-events:auto;touch-action:none;";
+    var img=document.createElement("img"); img.src=state.sigDataUrl;img.alt="Signature";img.draggable=false;img.style.cssText="width:100%;height:100%;object-fit:contain;display:block;border:1px solid #2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.12);cursor:move;"; box.appendChild(img);
+    var del=document.createElement("button");del.type="button";del.textContent="×";del.title="Delete signature";del.style.cssText="position:absolute;right:-11px;top:-11px;width:23px;height:23px;border-radius:50%;border:2px solid #fff;background:#dc2626;color:#fff;font-weight:700;line-height:17px;cursor:pointer;z-index:4;";box.appendChild(del);
+    ["nw","ne","sw","se"].forEach(function(hn){var hnd=document.createElement("span");hnd.dataset.handle=hn;hnd.style.cssText="position:absolute;width:14px;height:14px;background:#fff;border:2px solid #2563eb;border-radius:50%;z-index:3;"+(hn.indexOf("n")>=0?"top:-7px;":"bottom:-7px;")+(hn.indexOf("w")>=0?"left:-7px;":"right:-7px;")+"cursor:"+((hn==="nw"||hn==="se")?"nwse-resize":"nesw-resize")+";";box.appendChild(hnd);});
+    layer.appendChild(box);
+    var active=null;
+    function pt(e){var r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};}
+    img.addEventListener("pointerdown",function(e){active={kind:"move",sx:e.clientX,sy:e.clientY,ox:state.placement.x,oy:state.placement.y};try{img.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();});
+    box.querySelectorAll("[data-handle]").forEach(function(hnd){hnd.addEventListener("pointerdown",function(e){active={kind:"resize",sx:e.clientX,sy:e.clientY,startSize:state.sigSize,handle:hnd.dataset.handle};try{hnd.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();e.stopPropagation();});});
+    del.addEventListener("click",function(){state.placement=null;el("sign-save").disabled=true;el("sign-delete").disabled=true;renderSignatureOverlay();});
+    box.addEventListener("pointermove",function(e){if(!active)return;var r=canvas.getBoundingClientRect();if(active.kind==="move"){state.placement.x=Math.max(state.sigSize/2,Math.min(1-state.sigSize/2,active.ox+(e.clientX-active.sx)/r.width));state.placement.y=Math.max(.02,Math.min(.98,active.oy+(e.clientY-active.sy)/r.height));}else{var dx=(e.clientX-active.sx)/r.width,dy=(e.clientY-active.sx?e.clientY-active.sy:0)/r.height;var sign=active.handle.indexOf("e")>=0?1:-1;var delta=Math.abs(dx)>Math.abs(dy)?dx:dy;state.sigSize=Math.max(.08,Math.min(.45,active.startSize+delta*sign));el("sign-size").value=Math.round(state.sigSize*100);el("sign-size-val").textContent=Math.round(state.sigSize*100)+"%";}renderSignatureOverlay();});
+    box.addEventListener("pointerup",function(){active=null;}); box.addEventListener("pointercancel",function(){active=null;});
   }
 
   function initPlacement() {
-    var canvas = el("sign-page-canvas");
-    if (!canvas) return;
-    canvas.addEventListener("click", async function (e) {
-      var rect = canvas.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width;
-      var y = (e.clientY - rect.top) / rect.height;
-      state.placement = { x: x, y: y };
-      // Refresh canvas
-      await showCanvas();
-      el("sign-save").disabled = false;
-    });
+    var canvas=el("sign-page-canvas"); if(!canvas)return;
+    canvas.addEventListener("click",function(e){if(!state.sigDataUrl)return;var r=canvas.getBoundingClientRect();state.placement={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};el("sign-save").disabled=false;el("sign-delete").disabled=false;renderSignatureOverlay();});
   }
 
   /* ---------- Modal helpers ---------- */
@@ -154,6 +156,8 @@
       if (!hasInk) { if (window.dspdfToast) window.dspdfToast("Draw a signature first.", "error"); return; }
       state.sigDataUrl = canvas.toDataURL("image/png");
       state.sigAspect = canvas.width / canvas.height;
+          state.sigSize = .20;
+      state.sigSize = .20;
       el("sign-sig-img").src = state.sigDataUrl;
       el("sign-sig-preview").hidden = false;
       closeModal("sig-draw-modal");
@@ -195,6 +199,7 @@
           ctx.fillText(text, canvas.width / 2, canvas.height / 2);
           state.sigDataUrl = canvas.toDataURL("image/png");
           state.sigAspect = canvas.width / canvas.height;
+      state.sigSize = .20;
           el("sign-sig-img").src = state.sigDataUrl;
           el("sign-sig-preview").hidden = false;
           closeModal("sig-type-modal");
@@ -218,7 +223,7 @@
       }
       state.sigDataUrl = await D.fileToDataURL(f);
       var img = await loadImage(state.sigDataUrl);
-      state.sigAspect = img.naturalWidth / img.naturalHeight;
+      state.sigAspect = img.naturalWidth / img.naturalHeight; state.sigSize=.20;
       el("sign-sig-img").src = state.sigDataUrl;
       el("sign-sig-preview").hidden = false;
       showCanvas();
@@ -260,7 +265,7 @@
       var pages = doc.getPages();
       var page = pages[state.currentPage];
       var size = page.getSize();
-      var sigW = size.width * 0.2;
+      var sigW = size.width * state.sigSize;
       var sigH = sigW / state.sigAspect;
       var x = state.placement.x * size.width - sigW / 2;
       var y = size.height - state.placement.y * size.height - sigH / 2;
@@ -290,6 +295,8 @@
     el("sign-draw-btn").addEventListener("click", function () { openModal("sig-draw-modal"); });
     el("sign-type-btn").addEventListener("click", function () { openModal("sig-type-modal"); });
     el("sign-save").addEventListener("click", save);
+    el("sign-size").addEventListener("input", function(){state.sigSize=+this.value/100;el("sign-size-val").textContent=this.value+"%";renderSignatureOverlay();});
+    el("sign-delete").addEventListener("click", function(){state.placement=null;el("sign-save").disabled=true;el("sign-delete").disabled=true;renderSignatureOverlay();});
     initDrawPad();
     initTypePad();
     initUpload();

@@ -72,7 +72,6 @@
       <div id="wm-alert" class="alert alert-error mt-4" hidden role="alert"></div>
 
       <div id="wm-toolbar" class="mt-6" hidden>
-        <button type="button" class="btn btn-ghost btn-sm mt-2" id="wm-preview-refresh">↻ Update Preview</button>
         <p class="text-muted" id="wm-info"></p>
 
         <div class="opt-group mt-4">
@@ -88,6 +87,7 @@
           <div class="opt-row" id="wm-image-row" hidden>
             <label>Image</label>
             <input type="file" id="wm-image-file" accept="image/png,image/jpeg" />
+            <label>Image size</label><input type="range" id="wm-image-size" min="10" max="80" value="40" /><span id="wm-image-size-val" style="min-width:48px;">40%</span>
           </div>
           <div class="opt-row">
             <label>Font</label>
@@ -130,6 +130,7 @@
         </div>
 
         <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-secondary btn-lg" id="wm-preview-refresh">↻ Update Preview</button>
           <button type="button" class="btn btn-primary btn-lg" id="wm-apply">Apply watermark</button>
         </div>
       </div>

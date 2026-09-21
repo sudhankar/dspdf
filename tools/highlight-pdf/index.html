@@ -84,6 +84,9 @@
             <input type="color" id="hl-color-custom" value="#FDE047" />
           </div>
           <div class="opt-row">
+            <label>Brush size</label><input type="range" id="hl-thickness" min="4" max="40" value="16" /><span id="hl-thickness-val" style="min-width:48px;">16 px</span>
+          </div>
+          <div class="opt-row">
             <label>Opacity</label>
             <input type="range" id="hl-opacity" min="10" max="90" value="45" />
             <span id="hl-opacity-val" style="min-width:48px;">45%</span>
@@ -91,7 +94,7 @@
         </div>
 
         <div id="hl-stage" hidden>
-          <p class="text-muted" style="font-size:0.9rem;">Click and drag on the page to highlight an area.</p>
+          <p class="text-muted" style="font-size:0.9rem;">Draw over text with the highlight brush. Drag smoothly across the page.</p>
           <div style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
             <canvas id="hl-canvas" style="display:block;background:#fff;cursor:crosshair;margin:0 auto;"></canvas>
           </div>

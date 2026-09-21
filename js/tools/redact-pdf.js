@@ -12,7 +12,7 @@
     file: null, bytes: null, pdfDoc: null,
     pageCount: 0, pageIndex: 0,
     boxes: {}, // pageIndex -> array of {x,y,w,h,color}
-    color: "#000000"
+    color: "#000000", thickness: 20
   };
   var progressUI = null;
 
@@ -56,63 +56,9 @@
     el("red-page-label").textContent = (state.pageIndex + 1) + " / " + state.pageCount;
   }
 
-  function drawBoxes(ctx, canvas) {
-    var list = state.boxes[state.pageIndex] || [];
-    list.forEach(function (b) {
-      ctx.fillStyle = b.color || "#000";
-      ctx.fillRect(b.x * canvas.width, b.y * canvas.height, b.w * canvas.width, b.h * canvas.height);
-    });
-  }
+  function drawBoxes(ctx, canvas) { var list=state.boxes[state.pageIndex]||[]; list.forEach(function(b){var pts=b.points||[];if(!pts.length)return;ctx.save();ctx.strokeStyle=b.color||"#000";ctx.lineWidth=b.thickness*(canvas.width/800);ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach(function(p,i){var x=p[0]*canvas.width,y=p[1]*canvas.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.restore();}); }
 
-  function setupDrawing() {
-    var canvas = el("red-canvas");
-    var drawing = false, start = null;
-    canvas.addEventListener("pointerdown", function (e) {
-      var rect = canvas.getBoundingClientRect();
-      drawing = true;
-      start = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height
-      };
-      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-    });
-    canvas.addEventListener("pointermove", function (e) {
-      if (!drawing) return;
-      var rect = canvas.getBoundingClientRect();
-      var cur = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height
-      };
-      renderPage().then(function () {
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = state.color;
-        var x = Math.min(start.x, cur.x) * canvas.width;
-        var y = Math.min(start.y, cur.y) * canvas.height;
-        var w = Math.abs(cur.x - start.x) * canvas.width;
-        var h = Math.abs(cur.y - start.y) * canvas.height;
-        ctx.fillRect(x, y, w, h);
-      });
-    });
-    canvas.addEventListener("pointerup", function (e) {
-      if (!drawing) return;
-      drawing = false;
-      var rect = canvas.getBoundingClientRect();
-      var cur = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height
-      };
-      var x = Math.min(start.x, cur.x);
-      var y = Math.min(start.y, cur.y);
-      var w = Math.abs(cur.x - start.x);
-      var h = Math.abs(cur.y - start.y);
-      if (w < 0.005 || h < 0.005) return;
-      if (!state.boxes[state.pageIndex]) state.boxes[state.pageIndex] = [];
-      state.boxes[state.pageIndex].push({ x: x, y: y, w: w, h: h, color: state.color });
-      renderPage();
-      updateCount();
-      el("red-save").disabled = false;
-    });
-  }
+  function setupDrawing(){var canvas=el("red-canvas"),drawing=false,current=null,last=null;function point(e){var r=canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};}function stroke(a,b){var ctx=canvas.getContext("2d");ctx.save();ctx.strokeStyle=state.color;ctx.lineWidth=state.thickness*(canvas.width/800);ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();ctx.moveTo(a.x*canvas.width,a.y*canvas.height);ctx.lineTo(b.x*canvas.width,b.y*canvas.height);ctx.stroke();ctx.restore();}canvas.addEventListener("pointerdown",function(e){drawing=true;current={points:[],color:state.color,thickness:state.thickness};var p=point(e);current.points.push([p.x,p.y]);last=p;try{canvas.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();});canvas.addEventListener("pointermove",function(e){if(!drawing)return;var p=point(e),dx=p.x-last.x,dy=p.y-last.y;if(Math.hypot(dx,dy)<.002)return;current.points.push([p.x,p.y]);stroke(last,p);last=p;e.preventDefault();});["pointerup","pointercancel"].forEach(function(ev){canvas.addEventListener(ev,function(){if(!drawing)return;drawing=false;if(current){if(!state.boxes[state.pageIndex])state.boxes[state.pageIndex]=[];state.boxes[state.pageIndex].push(current);current=null;renderPage();updateCount();el("red-save").disabled=false;}last=null;});});}
 
   function updateCount() {
     var n = 0;
@@ -137,10 +83,7 @@
 
       // Draw redaction boxes for this page
       var list = state.boxes[i] || [];
-      list.forEach(function (b) {
-        ctx.fillStyle = b.color || "#000";
-        ctx.fillRect(b.x * canvas.width, b.y * canvas.height, b.w * canvas.width, b.h * canvas.height);
-      });
+      list.forEach(function(b){var pts=b.points||[];if(!pts.length)return;ctx.save();ctx.strokeStyle=b.color||"#000";ctx.lineWidth=b.thickness*(canvas.width/800);ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach(function(p,i){var x=p[0]*canvas.width,y=p[1]*canvas.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.restore();});
 
       var dataUrl = canvas.toDataURL("image/jpeg", 0.9);
       var b64 = dataUrl.split(",")[1];
@@ -176,21 +119,7 @@
           var page = pages[pIdx];
           if (!page) return;
           var size = page.getSize();
-          state.boxes[k].forEach(function (b) {
-            var hex = (b.color || "#000000").replace("#", "");
-            var n = parseInt(hex, 16);
-            var r = ((n >> 16) & 255) / 255;
-            var g = ((n >> 8) & 255) / 255;
-            var bb = (n & 255) / 255;
-            page.drawRectangle({
-              x: b.x * size.width,
-              y: size.height - (b.y + b.h) * size.height,
-              width: b.w * size.width,
-              height: b.h * size.height,
-              color: PDFLib.rgb(r, g, bb),
-              opacity: 1
-            });
-          });
+          state.boxes[k].forEach(function(b){var hex=(b.color||"#000000").replace("#","");var n=parseInt(hex,16),r=((n>>16)&255)/255,g=((n>>8)&255)/255,bb=(n&255)/255,pts=b.points||[];for(var ii=1;ii<pts.length;ii++){var aa=pts[ii-1],cc=pts[ii];page.drawLine({start:{x:aa[0]*size.width,y:size.height-aa[1]*size.height},end:{x:cc[0]*size.width,y:size.height-cc[1]*size.height},thickness:b.thickness*(size.width/800),color:PDFLib.rgb(r,g,bb),opacity:1});}});
         });
       }
 
@@ -217,6 +146,7 @@
       onFiles: function (files) { if (files[0]) loadPdf(files[0]); }
     });
     el("red-color").addEventListener("input", function () { state.color = this.value; });
+    el("red-thickness").addEventListener("input", function(){state.thickness=+this.value;el("red-thickness-val").textContent=this.value+" px";});
     el("red-prev").addEventListener("click", function () {
       if (state.pageIndex > 0) { state.pageIndex--; renderPage(); }
     });

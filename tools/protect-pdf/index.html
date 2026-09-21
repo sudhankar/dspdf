@@ -27,7 +27,7 @@
     {"@type":"ListItem","position":3,"name":"Protect PDF","item":"https://YOUR-USERNAME.github.io/dspdf/tools/protect-pdf/"}
   ]},
   {"@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What encryption is used?","acceptedAnswer":{"@type":"Answer","text":"Our tool uses PDF standard encryption (RC4 or AES) depending on the library build. Note that client-side encryption is for casual protection. For sensitive documents, use server-side tools with AES-256 and confirmation."}},
+    {"@type":"Question","name":"What encryption is used?","acceptedAnswer":{"@type":"Answer","text":"This tool uses AES-256 PDF encryption in the browser. The password is required to open the protected PDF."}},
     {"@type":"Question","name":"Can I recover a forgotten password?","acceptedAnswer":{"@type":"Answer","text":"No. PDF encryption is one-way. If you forget the password, the file is effectively lost."}}
   ]}
 ]}
@@ -65,8 +65,7 @@
     <div class="alert alert-warning mt-4" role="note">
       <strong>⚠ Read this first</strong>
       <div>
-        Client-side PDF encryption protects against casual viewing. It is not equivalent to server-grade AES-256 with certified security.
-        For legal, medical, or financial documents where genuine confidentiality matters, use a dedicated encryption tool.
+        The PDF is encrypted locally with AES-256. Your PDF and password are processed in the browser and are not uploaded by this tool.
         <br><br>
         <strong>If you forget the password, the file cannot be recovered.</strong> Not by us, not by anyone.
       </div>
@@ -125,7 +124,7 @@
     <section class="mt-6">
       <h2>Technical limitations — please read</h2>
       <ul>
-        <li><strong>This is standard PDF encryption</strong>, not AES-256 certified protection. It stops casual viewers; it does not stop determined attackers.</li>
+        <li><strong>This tool uses <strong>AES-256 PDF encryption</strong> for the protected output.</li>
         <li><strong>Password is never stored or transmitted.</strong> It's used in-memory during encryption and forgotten when the tab closes.</li>
         <li><strong>No recovery possible.</strong> If you lose the password, the file is unrecoverable. Store it safely.</li>
         <li>Some PDF readers do not fully respect all encryption flags; some may open the file with limited restrictions regardless.</li>
@@ -169,6 +168,7 @@
 <script src="../../js/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
 <script src="https://unpkg.com/@cantoo/pdf-lib@2.11.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-encrypt@1.2.0/dist/pdf-encrypt.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="../../js/tools-engine.js"></script>
 <script src="../../js/tools/protect-pdf.js"></script>

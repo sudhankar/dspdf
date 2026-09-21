@@ -84,7 +84,7 @@
       wrapper.setAttribute("data-page", String(i - 1));
       wrapper.innerHTML =
         '<div class="skeleton" style="width:100%;height:100%;position:absolute;inset:0;"></div>' +
-        '<span class="thumb__label">' + i + '</span>';
+        '<span class="thumb__label">' + i + '</span><label class="rotate-check-wrap"><input type="checkbox" class="rotate-check" aria-label="Select page '+i+'"><span>✓</span></label>';
       grid.appendChild(wrapper);
     }
 
@@ -108,22 +108,13 @@
     }
   }
 
-  function toggleSelect(idx) {
-    if (state.selected[idx]) delete state.selected[idx];
-    else state.selected[idx] = true;
-    var node = el("rotate-grid").querySelector('[data-page="' + idx + '"]');
-    if (node) node.classList.toggle("is-selected", !!state.selected[idx]);
-  }
+  function toggleSelect(idx,checked) { if(checked==null) checked=!state.selected[idx]; if(checked) state.selected[idx]=true; else delete state.selected[idx]; var node=el("rotate-grid").querySelector('[data-page="'+idx+'"]'); if(node){node.classList.toggle("is-selected",!!state.selected[idx]);var cb=node.querySelector(".rotate-check");if(cb)cb.checked=!!state.selected[idx];}}
 
   function applyRotation(delta, scope) {
     var indices = Object.keys(state.selected).map(Number);
     var targets;
-    if (scope === "all" || indices.length === 0) {
-      targets = [];
-      for (var i = 0; i < state.pageCount; i++) targets.push(i);
-    } else {
-      targets = indices;
-    }
+    if (indices.length === 0) { D.showError("rotate-alert", "Select at least one page first."); return; }
+    targets = indices;
     targets.forEach(function (idx) {
       state.pendingRotations[idx] = ((state.pendingRotations[idx] || 0) + delta) % 360;
     });
@@ -177,11 +168,7 @@
       onFiles: function (files) { if (files[0]) loadPdf(files[0]); }
     });
 
-    el("rotate-grid").addEventListener("click", function (e) {
-      var t = e.target.closest("[data-page]");
-      if (!t) return;
-      toggleSelect(Number(t.getAttribute("data-page")));
-    });
+    el("rotate-grid").addEventListener("click", function(e){var t=e.target.closest("[data-page]");if(!t)return;var idx=Number(t.getAttribute("data-page"));if(e.target.classList.contains("rotate-check")){toggleSelect(idx,e.target.checked);return;}toggleSelect(idx);});
     el("rotate-grid").addEventListener("keydown", function (e) {
       var t = e.target.closest("[data-page]");
       if (!t) return;
@@ -198,11 +185,11 @@
     });
     el("rotate-select-all").addEventListener("click", function () {
       for (var i = 0; i < state.pageCount; i++) state.selected[i] = true;
-      el("rotate-grid").querySelectorAll("[data-page]").forEach(function (n) { n.classList.add("is-selected"); });
+      el("rotate-grid").querySelectorAll("[data-page]").forEach(function (n) { n.classList.add("is-selected"); var cb=n.querySelector(".rotate-check"); if(cb)cb.checked=true; });
     });
     el("rotate-clear-sel").addEventListener("click", function () {
       state.selected = {};
-      el("rotate-grid").querySelectorAll("[data-page]").forEach(function (n) { n.classList.remove("is-selected"); });
+      el("rotate-grid").querySelectorAll("[data-page]").forEach(function (n) { n.classList.remove("is-selected"); var cb=n.querySelector(".rotate-check"); if(cb)cb.checked=false; });
     });
     el("rotate-save").addEventListener("click", save);
   }

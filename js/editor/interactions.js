@@ -78,8 +78,9 @@
       return;
     }
 
+    var wasAlreadySelected = state.selectedId === id;
     // Select without rebuilding the DOM when it is already selected.
-    if (state.selectedId !== id) Ed.select(id);
+    if (!wasAlreadySelected) Ed.select(id);
 
     // Text gets a dedicated click/edit gesture. A click on an already-selected
     // text box is allowed to place the caret; dragging still starts only after
@@ -101,7 +102,8 @@
       elem0: JSON.parse(JSON.stringify(el)),
       pointerId: e.pointerId,
       moved: false,
-      editEvent: { clientX: e.clientX, clientY: e.clientY }
+      editEvent: { clientX: e.clientX, clientY: e.clientY },
+      wasAlreadySelected: wasAlreadySelected
     };
     try { overlayLayer.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault();
@@ -129,11 +131,14 @@
       tool: tool,
       startPoint: start,
       currentPoint: start,
-      pointerId: e.pointerId
+      pointerId: e.pointerId,
+      points: (tool === "highlight" || tool === "redact" || tool === "draw") ? [[start.x,start.y]] : []
     };
     try { hitLayer.setPointerCapture(e.pointerId); } catch (err) {}
     e.preventDefault();
   }
+
+  function paintDraggedNode(id){var node=overlayLayer.querySelector('[data-id="'+id+'"]');var obj=Ed.getSelected();if(!node||!obj)return;var w=wrap.clientWidth,h=wrap.clientHeight;node.style.left=(obj.x*w)+"px";node.style.top=(obj.y*h)+"px";if(obj.w!=null)node.style.width=(obj.w*w)+"px";if(obj.h!=null)node.style.height=(obj.h*h)+"px";}
 
   function onWindowPointerMove(e) {
     if (!drag) return;
@@ -144,7 +149,7 @@
       if (!drag.moved && Math.abs(tgdx) + Math.abs(tgdy) < 0.0025) return;
       drag.moved = true;
       drag.mode = "move";
-      Ed.updateElement(drag.id, { x: clamp01(drag.elem0.x + tgdx), y: clamp01(drag.elem0.y + tgdy) }, { commit: false });
+      Ed.updateElement(drag.id, { x: clamp01(drag.elem0.x + tgdx), y: clamp01(drag.elem0.y + tgdy) }, { commit: false, silent: true });
     }
     if (drag.mode === "move") {
       var dx = p.x - drag.startPoint.x;
@@ -154,14 +159,16 @@
       Ed.updateElement(drag.id, {
         x: clamp01(drag.elem0.x + dx),
         y: clamp01(drag.elem0.y + dy)
-      }, { commit: false });
+      }, { commit: false, silent: true });
     } else if (drag.mode === "resize") {
       var dx2 = p.x - drag.startPoint.x;
       var dy2 = p.y - drag.startPoint.y;
       resizeElement(drag.id, drag.elem0, drag.handle, dx2, dy2);
+      paintDraggedNode(drag.id);
     } else if (drag.mode === "create") {
       drag.currentPoint = p;
-      drawCreatePreview(drag.tool, drag.startPoint, p);
+      if (drag.points && (drag.tool === "highlight" || drag.tool === "redact" || drag.tool === "draw")) { var last = drag.points[drag.points.length - 1]; if (!last || Math.hypot(p.x-last[0],p.y-last[1]) > 0.0015) drag.points.push([p.x,p.y]); }
+      drawCreatePreview(drag.tool, drag.startPoint, p, drag.points);
     }
   }
 
@@ -175,8 +182,8 @@
         Ed.pushHistory();
         suppressTextClick = true;
         setTimeout(function(){ suppressTextClick = false; }, 80);
-      } else if (wasText && !suppressTextClick) {
-        // A plain click on an existing text box enters edit mode.  A drag still
+      } else if (wasText && drag.wasAlreadySelected && !suppressTextClick) {
+        // A second click on an already-selected text box enters edit mode.  A drag still
         // moves it, so clicking elsewhere never locks the box permanently.
         if (textClickTimer) clearTimeout(textClickTimer);
         textClickTimer = setTimeout(function(){
@@ -193,7 +200,7 @@
 
   /* ---------- Create previews ---------- */
   var previewNode = null;
-  function drawCreatePreview(tool, a, b) {
+  function drawCreatePreview(tool, a, b, points) {
     clearCreatePreview();
     var rect = wrap.getBoundingClientRect();
     var x1 = a.x * rect.width, y1 = a.y * rect.height;
@@ -205,11 +212,10 @@
     previewNode.style.width = Math.abs(x2 - x1) + "px";
     previewNode.style.height = Math.abs(y2 - y1) + "px";
 
-    if (tool === "highlight") {
-      previewNode.style.background = document.getElementById("mark-color").value;
-      previewNode.style.opacity = "0.4";
-    } else if (tool === "redact") {
-      previewNode.style.background = "#000";
+    if (tool === "highlight" || tool === "redact") {
+      var pts = points && points.length ? points : [[a.x,a.y],[b.x,b.y]], rr=document.createElementNS("http://www.w3.org/2000/svg","svg"), path=document.createElementNS("http://www.w3.org/2000/svg","polyline"), wr=wrap.getBoundingClientRect();
+      rr.setAttribute("width","100%");rr.setAttribute("height","100%");path.setAttribute("points",pts.map(function(q){return (q[0]*wr.width)+","+(q[1]*wr.height)}).join(" "));path.setAttribute("fill","none");path.setAttribute("stroke",tool==="redact"?"#000":document.getElementById("mark-color").value);path.setAttribute("stroke-width",String(Math.max(8,(parseInt(document.getElementById("mark-opacity").value,10)||45)/3)));path.setAttribute("stroke-linecap","round");path.setAttribute("stroke-linejoin","round");path.setAttribute("stroke-opacity",tool==="redact"?"1":".45");rr.appendChild(path);previewNode.style.left="0";previewNode.style.top="0";previewNode.style.width="100%";previewNode.style.height="100%";previewNode.appendChild(rr);
+    } else if (tool === "ellipse") {
     } else if (tool === "ellipse") {
       previewNode.style.border = "2px dashed #2563EB";
       previewNode.style.borderRadius = "50%";
@@ -276,13 +282,9 @@
         strokeWidth: parseInt(document.getElementById("shape-width").value, 10)
       });
     } else if (tool === "highlight" || tool === "redact") {
-      T.makeHighlight(a, b, {
-        type: tool,
-        color: document.getElementById("mark-color").value,
-        opacity: parseInt(document.getElementById("mark-opacity").value, 10) / 100
-      });
+      T.makeDraw(drag.points || [[a.x,a.y],[b.x,b.y]], {color: tool === "redact" ? "#000000" : document.getElementById("mark-color").value, opacity: tool === "redact" ? 1 : parseInt(document.getElementById("mark-opacity").value,10)/100, strokeWidth: Math.max(8,(parseInt(document.getElementById("mark-opacity").value,10)||45)/3)});
     } else if (tool === "draw") {
-      // handled in its own stream
+      if (drag.points && drag.points.length > 1) T.makeDraw(drag.points,{color:document.getElementById("draw-color").value,strokeWidth:parseInt(document.getElementById("draw-width").value,10)||3});
     }
 
     Ed.setActiveTool(null);
@@ -300,7 +302,7 @@
     x = clamp01(x); y = clamp01(y);
     w = Math.min(w, 1 - x);
     h = Math.min(h, 1 - y);
-    Ed.updateElement(id, { x: x, y: y, w: w, h: h }, { commit: false });
+    Ed.updateElement(id, { x: x, y: y, w: w, h: h }, { commit: false, silent: true });
   }
 
   /* ---------- Inline text editing ---------- */

@@ -8,7 +8,7 @@
 
   var PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  var state = { file: null, bytes: null, pdfDoc: null, highlights: [], color: "#FDE047", opacity: 0.45 };
+  var state = { file: null, bytes: null, pdfDoc: null, highlights: [], color: "#FDE047", opacity: 0.45, thickness: 16 };
   var progressUI = null;
 
   function el(id) { return document.getElementById(id); }
@@ -61,73 +61,15 @@
 
   function drawHighlights(ctx, canvas) {
     ctx.save();
-    state.highlights.forEach(function (h) {
-      ctx.globalAlpha = h.opacity;
-      ctx.fillStyle = h.color;
-      ctx.fillRect(h.x * canvas.width, h.y * canvas.height, h.w * canvas.width, h.h * canvas.height);
+    state.highlights.forEach(function(h){
+      var pts=h.points||[]; if(pts.length<1)return;
+      ctx.globalAlpha=h.opacity; ctx.strokeStyle=h.color; ctx.lineWidth=h.thickness*(canvas.width/800); ctx.lineCap="round"; ctx.lineJoin="round";
+      ctx.beginPath(); pts.forEach(function(p,i){var x=p[0]*canvas.width,y=p[1]*canvas.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}); ctx.stroke();
     });
     ctx.restore();
   }
 
-  function setupDrawing() {
-    var canvas = el("hl-canvas");
-    var drawing = false, start = null;
-
-    canvas.addEventListener("pointerdown", function (e) {
-      var rect = canvas.getBoundingClientRect();
-      drawing = true;
-      start = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height
-      };
-      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-    });
-
-    canvas.addEventListener("pointermove", function (e) {
-      if (!drawing) return;
-      var rect = canvas.getBoundingClientRect();
-      var cur = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height
-      };
-      // redraw
-      var ctx = canvas.getContext("2d");
-      renderCanvas().then(function () {
-        var ctx2 = canvas.getContext("2d");
-        ctx2.save();
-        ctx2.globalAlpha = state.opacity;
-        ctx2.fillStyle = state.color;
-        var x = Math.min(start.x, cur.x) * canvas.width;
-        var y = Math.min(start.y, cur.y) * canvas.height;
-        var w = Math.abs(cur.x - start.x) * canvas.width;
-        var h = Math.abs(cur.y - start.y) * canvas.height;
-        ctx2.fillRect(x, y, w, h);
-        ctx2.restore();
-      });
-    });
-
-    canvas.addEventListener("pointerup", function (e) {
-      if (!drawing) return;
-      drawing = false;
-      var rect = canvas.getBoundingClientRect();
-      var cur = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: (e.clientY - rect.top) / rect.height
-      };
-      var x = Math.min(start.x, cur.x);
-      var y = Math.min(start.y, cur.y);
-      var w = Math.abs(cur.x - start.x);
-      var h = Math.abs(cur.y - start.y);
-      if (w < 0.005 || h < 0.005) return;
-      state.highlights.push({
-        x: x, y: y, w: w, h: h,
-        color: state.color, opacity: state.opacity
-      });
-      renderCanvas();
-      updateCount();
-      el("hl-save").disabled = state.highlights.length === 0;
-    });
-  }
+  function setupDrawing(){var canvas=el("hl-canvas"),drawing=false,current=null,last=null;function point(e){var r=canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};}function stroke(a,b){var ctx=canvas.getContext("2d");ctx.save();ctx.globalAlpha=state.opacity;ctx.strokeStyle=state.color;ctx.lineWidth=state.thickness*(canvas.width/800);ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();ctx.moveTo(a.x*canvas.width,a.y*canvas.height);ctx.lineTo(b.x*canvas.width,b.y*canvas.height);ctx.stroke();ctx.restore();}canvas.addEventListener("pointerdown",function(e){drawing=true;current={points:[],color:state.color,opacity:state.opacity,thickness:state.thickness};var p=point(e);current.points.push([p.x,p.y]);last=p;try{canvas.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();});canvas.addEventListener("pointermove",function(e){if(!drawing)return;var p=point(e),dx=p.x-last.x,dy=p.y-last.y;if(Math.hypot(dx,dy)<.002)return;current.points.push([p.x,p.y]);stroke(last,p);last=p;e.preventDefault();});["pointerup","pointercancel"].forEach(function(ev){canvas.addEventListener(ev,function(){if(!drawing)return;drawing=false;if(current&&current.points.length){state.highlights.push(current);current=null;renderCanvas();updateCount();el("hl-save").disabled=false;}last=null;});});}
 
   function updateCount() {
     el("hl-count").textContent = state.highlights.length + " highlight" + (state.highlights.length === 1 ? "" : "s");
@@ -143,17 +85,7 @@
       var pages = doc.getPages();
       var page = pages[0];
       var size = page.getSize();
-      state.highlights.forEach(function (h) {
-        var c = hexToRgb01(h.color);
-        page.drawRectangle({
-          x: h.x * size.width,
-          y: size.height - (h.y + h.h) * size.height,
-          width: h.w * size.width,
-          height: h.h * size.height,
-          color: PDFLib.rgb(c.r, c.g, c.b),
-          opacity: h.opacity
-        });
-      });
+      state.highlights.forEach(function(h){var c=hexToRgb01(h.color),pts=h.points||[];for(var i=1;i<pts.length;i++){var a=pts[i-1],b=pts[i];page.drawLine({start:{x:a[0]*size.width,y:size.height-a[1]*size.height},end:{x:b[0]*size.width,y:size.height-b[1]*size.height},thickness:h.thickness*(size.width/800),color:PDFLib.rgb(c.r,c.g,c.b),opacity:h.opacity});}});
       progressUI.set(85, "Building PDF…");
       doc.setProducer("DSPDF");
       var out = await doc.save({ useObjectStreams: true });
@@ -188,6 +120,7 @@
       el("hl-opacity-val").textContent = this.value + "%";
       state.opacity = parseInt(this.value, 10) / 100;
     });
+    el("hl-thickness").addEventListener("input", function(){state.thickness=+this.value;el("hl-thickness-val").textContent=this.value+" px";});
     el("hl-undo").addEventListener("click", function () {
       state.highlights.pop();
       renderCanvas();

@@ -101,7 +101,7 @@
       var type=document.querySelector('input[name="wm-type"]:checked').value, opacity=parseInt(el("wm-opacity").value,10)/100, pos=el("wm-pos").value, rot=parseInt(el("wm-rotate").value,10)||0;
       var wmW,wmH,text=el("wm-text").value||"Watermark",fontSize=(parseInt(el("wm-size").value,10)||48)*vp.scale;
       if(type==="text"){ctx.font="bold "+fontSize+"px Arial";wmW=ctx.measureText(text).width;wmH=fontSize;}
-      else if(state.imageDataUrl){var im=await loadImage(state.imageDataUrl);wmW=vp.width*.4;wmH=wmW/(im.naturalWidth/im.naturalHeight);}
+      else if(state.imageDataUrl){var im=await loadImage(state.imageDataUrl);wmW=vp.width*((parseInt(el("wm-image-size").value,10)||40)/100);wmH=wmW/(im.naturalWidth/im.naturalHeight);}
       if(!wmW||!wmH)return;
       var positions=[];
       if(pos==="tile"){var sx=wmW*1.6,sy=wmH*1.6,cols=Math.max(1,Math.floor(vp.width/sx)),rows=Math.max(1,Math.floor(vp.height/sy));for(var rr=1;rr<=rows;rr++)for(var cc=1;cc<=cols;cc++)positions.push({x:cc*vp.width/(cols+1),y:rr*vp.height/(rows+1)});}
@@ -155,7 +155,7 @@
           wmH = fontSize;
         } else {
           var aspect = imageWm.width / imageWm.height;
-          wmW = size.width * 0.4;
+          wmW = size.width * ((parseInt(el("wm-image-size").value,10)||40) / 100);
           wmH = wmW / aspect;
         }
 
@@ -219,6 +219,9 @@
     el("wm-image-file").addEventListener("change", function (e) {
       if (e.target.files[0]) handleImage(e.target.files[0]);
     });
+    el("wm-image-size").addEventListener("input", function () { el("wm-image-size-val").textContent=this.value+"%"; updateLivePreview(); });
+    el("wm-preview-refresh").addEventListener("click", updateLivePreview);
+    ["wm-text","wm-font","wm-size","wm-color","wm-bold","wm-opacity","wm-rotate","wm-pos"].forEach(function(id){var n=el(id);if(n){n.addEventListener("input",updateLivePreview);n.addEventListener("change",updateLivePreview);}});
     el("wm-opacity").addEventListener("input", function () {
       el("wm-opacity-val").textContent = this.value + "%";
     });

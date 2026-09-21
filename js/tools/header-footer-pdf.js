@@ -8,7 +8,8 @@
 
   var PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  var state = { file: null, bytes: null, pageCount: 0 };
+  var state = { file: null, bytes: null, pageCount: 0, pdfDoc: null };
+  var previewToken = 0;
   var progressUI = null;
 
   function el(id) { return document.getElementById(id); }
@@ -66,6 +67,7 @@
       state.file = file;
       state.bytes = bytes;
       var doc = await window.pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
+      state.pdfDoc = doc;
       state.pageCount = doc.numPages;
       el("hf-info").textContent = file.name + " — " + state.pageCount + " page(s)";
       el("hf-toolbar").hidden = false;
@@ -81,6 +83,11 @@
     return (pageW - textW) / 2;
   }
 
+
+  async function updatePreview(){
+    if(!state.pdfDoc)return; var token=++previewToken,host=el("hf-preview-pdf"),c=el("hf-preview-canvas"); host.hidden=false;
+    try{var page=await state.pdfDoc.getPage(1),vp=page.getViewport({scale:1.8});c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);var ctx=c.getContext("2d");await page.render({canvasContext:ctx,viewport:vp}).promise;if(token!==previewToken)return;var fontSize=parseInt(el("hf-size").value,10)||10,fontName=el("hf-font").value;ctx.font=(fontName==="TimesRoman"?"Times":fontName==="Courier"?"Courier":"Arial")+" "+fontSize*vp.scale+"px";ctx.fillStyle=el("hf-color").value;var margin=(parseInt(el("hf-margin").value,10)||30)*vp.scale,total=state.pageCount,date=todayISO(),headerOn=el("hf-header-on").checked,footerOn=el("hf-footer-on").checked;if(headerOn&&el("hf-header-text").value){var t=applyPlaceholders(el("hf-header-text").value,1,total,date),tw=ctx.measureText(t).width,x=computeX(el("hf-header-align").value,vp.width,margin,tw);ctx.fillText(t,x,margin+fontSize*vp.scale);}if(footerOn&&el("hf-footer-text").value){var f=applyPlaceholders(el("hf-footer-text").value,1,total,date),fw=ctx.measureText(f).width,fx=computeX(el("hf-footer-align").value,vp.width,margin,fw);ctx.fillText(f,fx,vp.height-margin);} }catch(e){log("header/footer preview",e)}
+  }
   async function apply() {
     if (!state.bytes) return;
     var headerOn = el("hf-header-on").checked;
@@ -167,6 +174,8 @@
       el("hf-range").hidden = this.value !== "custom";
     });
     el("hf-apply").addEventListener("click", apply);
+    el("hf-preview-refresh").addEventListener("click", updatePreview);
+    ["hf-header-on","hf-footer-on","hf-header-text","hf-footer-text","hf-header-align","hf-footer-align","hf-font","hf-size","hf-color","hf-margin","hf-pages","hf-range"].forEach(function(id){var n=el(id);if(n){n.addEventListener("input",updatePreview);n.addEventListener("change",updatePreview);}});
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

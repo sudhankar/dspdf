@@ -29,11 +29,13 @@
   function el(id) { return document.getElementById(id); }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("prot-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("prot-alert", "Please choose a PDF."); return;
     }
     el("prot-toolbar").hidden = true;
+    el("prot-pw").value = ""; el("prot-pw2").value = "";
     D.showInfo("prot-alert", "Loading…");
     try {
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
@@ -51,45 +53,18 @@
     }
   }
 
-  function checkPdfLibEncryptionSupport() {
-    return !!(window.PDFLib && window.PDFLib.PDFDocument &&
-      typeof window.PDFLib.PDFDocument.prototype.encrypt === "function");
-  }
+  function checkPdfLibEncryptionSupport(){return !!(window.PDFEncrypt&&typeof window.PDFEncrypt.encryptPDF==="function");}
 
-  async function apply() {
-    if (!state.bytes) return;
-    var pw = el("prot-pw").value;
-    var pw2 = el("prot-pw2").value;
-    if (!pw || pw.length < 6) { D.showError("prot-alert", "Password must be at least 6 characters."); return; }
-    if (pw !== pw2) { D.showError("prot-alert", "Passwords do not match."); return; }
-
-    if (!checkPdfLibEncryptionSupport()) {
-      D.showError("prot-alert", "Password encryption is not available in this browser build. Please refresh and try again.");
-      return;
-    }
-    progressUI.show();
-    progressUI.set(15, "Opening PDF…");
-    try {
-      var PDFLib = window.PDFLib;
-      var doc = await PDFLib.PDFDocument.load(state.bytes.slice(0));
-      progressUI.set(55, "Applying AES-256 password protection…");
-      doc.encrypt({
-        userPassword: pw,
-        ownerPassword: pw,
-        algorithm: "AES-256",
-        permissions: { copying: false, modifying: false, printing: false }
-      });
-      var out = await doc.save({ useObjectStreams: true });
-      var blob = new Blob([out], { type: "application/pdf" });
-      var base = (state.file.name || "document").replace(/\.pdf$/i, "");
-      D.downloadBlob(blob, base + "-protected.pdf");
-      progressUI.set(100, "Protected PDF saved.");
-      if (window.dspdfToast) window.dspdfToast("Saved password-protected PDF.", "success");
-    } catch (err) {
-      log(err);
-      progressUI.error("Protection failed.");
-      D.showError("prot-alert", D.humanError(err, "Could not protect this PDF."));
-    }
+  async function apply(){
+    if(!state.bytes)return;var pw=el("prot-pw").value,pw2=el("prot-pw2").value;
+    if(!pw||pw.length<6){D.showError("prot-alert","Password must be at least 6 characters.");return}
+    if(pw!==pw2){D.showError("prot-alert","Passwords do not match.");return}
+    if(!checkPdfLibEncryptionSupport()){D.showError("prot-alert","The browser encryption engine could not be loaded. Refresh the page and try again.");return}
+    progressUI.show();progressUI.set(20,"Encrypting PDF with AES-256…");
+    try{
+      var out=await window.PDFEncrypt.encryptPDF(new Uint8Array(state.bytes),pw,{ownerPassword:pw,algorithm:"AES-256",allowPrinting:false,allowModifying:false,allowCopying:false,allowAnnotating:false,allowFillingForms:false,allowExtraction:false,allowAssembly:false,allowHighQualityPrint:false});
+      progressUI.set(90,"Preparing download…");var blob=new Blob([out],{type:"application/pdf"}),base=(state.file.name||"document").replace(/\.pdf$/i,"");D.downloadBlob(blob,base+"-protected.pdf");progressUI.set(100,"Protected PDF saved.");if(window.dspdfToast)window.dspdfToast("Saved password-protected PDF.","success");
+    }catch(err){log(err);progressUI.error("Protection failed.");D.showError("prot-alert",D.humanError(err,"Could not protect this PDF."));}
   }
 
   function init() {

@@ -89,11 +89,12 @@
           <div class="opt-row">
             <label>Color</label>
             <input type="color" id="red-color" value="#000000" />
+            <label>Thickness</label><input type="range" id="red-thickness" min="6" max="60" value="20" /><span id="red-thickness-val" style="min-width:48px;">20 px</span>
             <label style="min-width:auto;"><input type="checkbox" id="red-rasterize" /> Rasterize pages (permanent redaction)</label>
           </div>
         </div>
 
-        <p class="text-muted" style="font-size:0.9rem;">Click and drag on the page to draw a redaction box.</p>
+        <p class="text-muted" style="font-size:0.9rem;">Draw over the content with the redaction brush. Drag smoothly across the page.</p>
         <div style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
           <canvas id="red-canvas" style="display:block;background:#fff;cursor:crosshair;margin:0 auto;"></canvas>
         </div>

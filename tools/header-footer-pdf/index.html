@@ -137,12 +137,15 @@
           Placeholders: <code>{page}</code> · <code>{total}</code> · <code>{date}</code>
         </p>
 
+        <div id="hf-preview-pdf" class="tool-preview mt-4" hidden><canvas id="hf-preview-canvas" style="display:block;max-width:100%;height:auto;margin:0 auto;"></canvas></div>
+
         <div id="hf-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div class="progress"><div class="progress__bar"></div></div>
           <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
         </div>
 
         <div class="tool-actions mt-6">
+          <button type="button" class="btn btn-secondary btn-lg" id="hf-preview-refresh">↻ Update Preview</button>
           <button type="button" class="btn btn-primary btn-lg" id="hf-apply">Apply header/footer</button>
         </div>
       </div>

@@ -68,8 +68,8 @@
     if (myToken !== renderToken) return; // stale
 
     var vpNatural = page.getViewport({ scale: 1 });
-    var availableW = viewport.clientWidth - 40;
-    var availableH = viewport.clientHeight - 40;
+    var availableW = Math.max(1, viewport.clientWidth - (window.matchMedia && window.matchMedia("(max-width: 900px)").matches ? 16 : 40));
+    var availableH = Math.max(1, viewport.clientHeight - 24);
 
     var scale = state.view.zoom;
     if (state.view.fitMode === "width") {
@@ -258,7 +258,7 @@
       d += (i === 0 ? " " : " L ") + x + " " + y;
     });
     return '<svg width="100%" height="100%" viewBox="0 0 ' + wPx + ' ' + hPx + '" preserveAspectRatio="none" style="pointer-events:none;">' +
-      '<path d="' + d + '" fill="none" stroke="' + (el.color || "#EF4444") + '" stroke-width="' + (el.strokeWidth || 3) + '" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="' + d + '" fill="none" stroke="' + (el.color || "#EF4444") + '" stroke-width="' + (el.strokeWidth || 3) + '" stroke-opacity="' + (el.opacity != null ? el.opacity : 1) + '" stroke-linecap="round" stroke-linejoin="round"/>' +
       '</svg>';
   }
 

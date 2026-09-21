@@ -23,6 +23,7 @@
   function el(id) { return document.getElementById(id); }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("unl-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("unl-alert", "Please choose a PDF."); return;
@@ -30,6 +31,7 @@
     try {
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
       state.file = file; state.bytes = bytes;
+      el("unl-pw").value = "";
       el("unl-info").textContent = file.name + " — " + D.formatBytes(file.size);
       el("unl-toolbar").hidden = false;
       D.clearAlert("unl-alert");
@@ -38,52 +40,15 @@
     }
   }
 
-  async function apply() {
-    if (!state.bytes) return;
-    var pw = el("unl-pw").value;
-    if (!pw) { D.showError("unl-alert", "Enter the PDF password."); return; }
-
-    progressUI.show();
-    progressUI.set(20, "Attempting to open the PDF…");
-    try {
-      var PDFLib = window.PDFLib;
-      // Attempt 1: standard load (works for non-encrypted files)
-      var doc;
-      try {
-        doc = await PDFLib.PDFDocument.load(state.bytes.slice(0));
-      } catch (e1) {
-        // Attempt 2: ignoreEncryption — opens many files protected with RC4.
-        // Note: this bypasses the flag without decrypting the stream; for
-        // many RC4 PDFs the streams decode fine because the standard security
-        // handler is derivable. If the file uses AES-256, this fails too.
-        progressUI.set(45, "Trying alternative open mode…");
-        doc = await PDFLib.PDFDocument.load(state.bytes.slice(0), { ignoreEncryption: true });
-      }
-
-      // Sanity: check the resulting document has pages and no security flag
-      var pages = doc.getPages();
-      if (!pages.length) throw new Error("Opened document has no pages.");
-
-      progressUI.set(80, "Writing unlocked copy…");
-      doc.setProducer("DSPDF (unlocked)");
-      var out = await doc.save({ useObjectStreams: true });
-      // Verify round trip: can pdf-lib re-open the output without error?
-      var check = await PDFLib.PDFDocument.load(out);
-      if (!check.getPageCount()) throw new Error("Round-trip verification failed.");
-
-      var blob = new Blob([out], { type: "application/pdf" });
-      var base = (state.file.name || "document").replace(/\.pdf$/i, "");
-      D.downloadBlob(blob, base + "-unlocked.pdf");
-      progressUI.set(100, "Unlocked PDF saved.");
-      if (window.dspdfToast) window.dspdfToast("Saved unlocked PDF.", "success");
-    } catch (err) {
-      log(err);
-      progressUI.error("Could not unlock.");
-      // Honest error
-      D.showError("unl-alert",
-        "This PDF's encryption could not be removed with the browser-side libraries available. " +
-        "It may use AES-256, which is not supported here. Try a dedicated server-side tool for AES-256 PDFs.");
-    }
+  async function apply(){
+    if(!state.bytes)return;var pw=el("unl-pw").value;if(!pw){D.showError("unl-alert","Enter the PDF password.");return}
+    if(!window.PDFDecrypt||typeof window.PDFDecrypt.decryptPDF!=="function"){D.showError("unl-alert","The browser decryption engine could not be loaded. Refresh the page and try again.");return}
+    progressUI.show();progressUI.set(20,"Checking PDF encryption…");
+    try{
+      if(window.PDFDecrypt.isEncrypted){var info=await window.PDFDecrypt.isEncrypted(new Uint8Array(state.bytes));if(!info.encrypted){D.showError("unl-alert","This PDF is not password-protected.");progressUI.reset();return;}}
+      progressUI.set(45,"Decrypting PDF…");var out=await window.PDFDecrypt.decryptPDF(new Uint8Array(state.bytes),pw);if(!out||!out.length)throw new Error("No decrypted PDF was produced.");
+      progressUI.set(85,"Preparing download…");var blob=new Blob([out],{type:"application/pdf"}),base=(state.file.name||"document").replace(/\.pdf$/i,"");D.downloadBlob(blob,base+"-unlocked.pdf");progressUI.set(100,"Unlocked PDF saved.");if(window.dspdfToast)window.dspdfToast("Saved unlocked PDF.","success");
+    }catch(err){log(err);progressUI.error("Could not unlock.");var msg=String(err&&err.message||err);if(/incorrect password/i.test(msg))msg="Incorrect password. Please enter the password used to open this PDF.";else if(/unsupported encryption/i.test(msg))msg="This PDF uses an encryption format that this browser tool does not currently support.";D.showError("unl-alert",msg);}
   }
 
   function init() {

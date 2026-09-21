@@ -168,7 +168,8 @@
       x: clamp01(minX), y: clamp01(minY), w: w, h: h,
       points: local,
       color: opts.color || defaults.draw.color,
-      strokeWidth: opts.strokeWidth || defaults.draw.strokeWidth
+      strokeWidth: opts.strokeWidth || defaults.draw.strokeWidth,
+      opacity: opts.opacity != null ? opts.opacity : 1
     };
     return Ed.addElement(el);
   }

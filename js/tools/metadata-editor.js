@@ -13,6 +13,7 @@
 
   async function loadPdf(file) {
     D.clearAlert("meta-alert");
+    el("meta-progress").hidden = true;
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("meta-alert", "Please choose a PDF."); return;
     }
@@ -41,6 +42,8 @@
     }
   }
 
+  function removePdfInfo(doc){try{var infoRef=doc.context&&doc.context.trailerInfo&&doc.context.trailerInfo.Info;if(infoRef){var info=doc.context.lookup(infoRef);if(info&&info.delete){["Title","Author","Subject","Keywords","Creator","Producer","CreationDate","ModDate"].forEach(function(k){info.delete(window.PDFLib.PDFName.of(k));});}}if(doc.catalog&&doc.catalog.delete)doc.catalog.delete(window.PDFLib.PDFName.of("Metadata"));}catch(e){log("metadata cleanup",e)}}
+
   async function apply() {
     if (!state.doc) return;
     progressUI.show();
@@ -51,7 +54,7 @@
       doc.setAuthor(el("meta-author").value || "");
       doc.setSubject(el("meta-subject").value || "");
       // keywords expects a string in pdf-lib
-      doc.setKeywords([el("meta-keywords").value || ""]);
+      doc.setKeywords(el("meta-keywords").value ? [el("meta-keywords").value] : []);
       doc.setCreator(el("meta-creator").value || "");
       doc.setProducer(el("meta-producer").value || "");
       var created = el("meta-created").value;
@@ -64,6 +67,7 @@
         var d2 = new Date(modified);
         if (!isNaN(d2.getTime())) doc.setModificationDate(d2);
       }
+      if (!el("meta-title").value && !el("meta-author").value && !el("meta-subject").value && !el("meta-keywords").value && !el("meta-creator").value && !el("meta-producer").value && !created && !modified) removePdfInfo(doc);
 
       progressUI.set(75, "Building PDF…");
       var out = await doc.save({ useObjectStreams: true });

@@ -163,7 +163,7 @@
               page.drawLine({
                 start: { x: px1, y: py1 }, end: { x: px2, y: py2 },
                 thickness: el.strokeWidth || 3,
-                color: rgb(el.color || "#EF4444")
+                color: rgb(el.color || "#EF4444"), opacity: el.opacity != null ? el.opacity : 1
               });
             }
           }

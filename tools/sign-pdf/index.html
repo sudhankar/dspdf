@@ -93,9 +93,9 @@
         </div>
 
         <div id="sign-canvas-wrap" class="mt-4" hidden style="position:relative;">
-          <p class="text-muted" style="font-size:0.85rem;">Click on the page below to place your signature.</p>
+          <div class="sign-controls"><label>Signature size <input type="range" id="sign-size" min="8" max="45" value="20" /><span id="sign-size-val">20%</span></label><button type="button" class="btn btn-ghost btn-sm" id="sign-delete" disabled>Delete signature</button></div><p class="text-muted" style="font-size:0.85rem;">Drag the signature to move it. Use the corner handles to resize.</p>
           <div style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
-            <canvas id="sign-page-canvas" style="display:block;background:#fff;cursor:crosshair;margin:0 auto;"></canvas>
+            <div id="sign-page-layer" style="position:relative;width:max-content;max-width:100%;margin:0 auto;"><canvas id="sign-page-canvas" style="display:block;background:#fff;cursor:default;margin:0 auto;"></canvas><div id="sign-overlay" aria-label="Signature placement"></div></div>
           </div>
         </div>
 
@@ -115,7 +115,7 @@
       <ol class="how-to">
         <li>Drop your PDF into the box above.</li>
         <li>Create your signature — draw it, type it, or upload an image.</li>
-        <li>Click on the page where the signature should appear.</li>
+        <li>Drag the signature to the required position and resize it with the handles.</li>
         <li>Click <strong>Save signed PDF</strong>.</li>
       </ol>
     </section>
