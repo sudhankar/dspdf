@@ -12,7 +12,7 @@
   "categories": ["productivity", "utilities"],
   "icons": [
     {
-      "src": "images/favicon.svg",
+      "src": "images/logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

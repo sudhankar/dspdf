@@ -47,6 +47,25 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
   }
 
+  /* ---------- Global loading indicator ---------- */
+  var globalLoader=null;
+  function ensureGlobalLoader(){
+    if(globalLoader)return globalLoader;
+    globalLoader=document.createElement("div");
+    globalLoader.id="dspdf-global-loading";
+    globalLoader.setAttribute("role","status");
+    globalLoader.setAttribute("aria-live","polite");
+    globalLoader.innerHTML='<span class="dspdf-loading-spinner" aria-hidden="true"></span><span class="dspdf-global-loading__text"></span>';
+    document.body.appendChild(globalLoader);
+    return globalLoader;
+  }
+  function showGlobalLoading(message){
+    var box=ensureGlobalLoader();
+    box.querySelector(".dspdf-global-loading__text").textContent=message||"Loading…";
+    box.classList.add("is-visible");
+  }
+  function hideGlobalLoading(){if(globalLoader)globalLoader.classList.remove("is-visible");}
+
   /* ---------- Progress bar controller ---------- */
   function ProgressUI(el) {
     this.el = el;
@@ -60,6 +79,7 @@
     if (this.el) this.el.hidden = true;
   };
   ProgressUI.prototype.reset = function () {
+    hideGlobalLoading();
     if (this.bar) {
       this.bar.style.width = "0%";
       this.bar.classList.remove("is-success", "is-error");
@@ -77,15 +97,18 @@
     if (this.label && label != null) {
       var msg = String(label);
       if (/loading|reading|preparing|processing|opening|rendering/i.test(msg)) {
+        showGlobalLoading(msg);
         this.label.innerHTML = '<span class="dspdf-loading-spinner" aria-hidden="true"></span><span class="dspdf-loading-text"></span>';
         this.label.querySelector(".dspdf-loading-text").textContent = msg;
       } else {
+        hideGlobalLoading();
         this.label.textContent = msg;
       }
     }
     if (this.el) this.el.setAttribute("aria-valuenow", String(p));
   };
   ProgressUI.prototype.error = function (label) {
+    hideGlobalLoading();
     if (this.bar) {
       this.bar.classList.remove("is-success");
       this.bar.classList.add("is-error");
@@ -209,6 +232,7 @@
 
   /* ---------- Alert helper ---------- */
   function showError(target, message) {
+    hideGlobalLoading();
     var el = typeof target === "string" ? document.querySelector(target) : target;
     if (!el) { if (window.dspdfToast) window.dspdfToast(message, "error"); return; }
     el.className = "alert alert-error";
@@ -222,6 +246,7 @@
     el.className = "alert alert-info";
     el.classList.toggle("is-loading", loading);
     if (loading) {
+      showGlobalLoading(message);
       el.innerHTML = '<span class="dspdf-loading-spinner" aria-hidden="true"></span><span class="dspdf-loading-text"></span>';
       el.querySelector(".dspdf-loading-text").textContent = message;
     } else {
@@ -232,6 +257,7 @@
   function clearAlert(target) {
     var el = typeof target === "string" ? document.querySelector(target) : target;
     if (el) { el.hidden = true; el.textContent = ""; el.innerHTML = ""; el.classList.remove("is-loading"); }
+    hideGlobalLoading();
   }
 
   /* ---------- Sortable list (simple drag reorder) ----------
@@ -396,6 +422,8 @@
     showError: showError,
     showInfo: showInfo,
     clearAlert: clearAlert,
+    showGlobalLoading: showGlobalLoading,
+    hideGlobalLoading: hideGlobalLoading,
     makeSortable: makeSortable,
     createPdfWorker: createPdfWorker,
     ensurePdfLib: ensurePdfLib,

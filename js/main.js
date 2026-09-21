@@ -70,6 +70,15 @@
     for (var i = 0; i < els.length; i++) els[i].textContent = y;
   }
 
+
+  function initCreatorBrand() {
+    var footer=document.querySelector(".footer .footer__bottom");
+    if(!footer || footer.querySelector(".creator-brand")) return;
+    var b=document.createElement("span");b.className="creator-brand";
+    b.innerHTML='<span class="creator-brand__dot"></span><strong>Sudhakar Creations</strong>';
+    footer.insertBefore(b, footer.firstChild);
+  }
+
   /* ---------- Toast ---------- */
   var toastHost = null;
   function ensureToastHost() {
@@ -147,6 +156,7 @@
     initTheme();
     initNav();
     initYear();
+    initCreatorBrand();
     initFaq();
     initPathRewrites();
     initHashScroll();

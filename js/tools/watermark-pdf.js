@@ -91,23 +91,77 @@
   }
 
   async function updateLivePreview() {
-    if (!state.bytes) return;
-    var token=++previewRenderToken, host=el("wm-preview-pdf");
-    if(!host){host=document.createElement("div");host.id="wm-preview-pdf";host.className="tool-preview mt-4";var c=document.createElement("canvas");c.id="wm-preview-canvas";c.style.display="block";c.style.maxWidth="100%";host.appendChild(c);el("wm-toolbar").appendChild(host);}
+    if (!state.pdfDoc) return;
+    var token = ++previewRenderToken;
+    var host = el("wm-preview-pdf");
+    if (!host) {
+      host = document.createElement("div");
+      host.id = "wm-preview-pdf";
+      host.className = "tool-preview mt-4";
+      var nc = document.createElement("canvas");
+      nc.id = "wm-preview-canvas";
+      nc.style.cssText = "display:block;width:100%;height:auto;";
+      host.appendChild(nc);
+      el("wm-toolbar").appendChild(host);
+    }
+    host.hidden = false;
     try {
-      if (!state.pdfDoc) return;
-      var page=await state.pdfDoc.getPage(1), vp=page.getViewport({scale:1.8}), c=el("wm-preview-canvas"); c.width=vp.width;c.height=vp.height;
-      var ctx=c.getContext("2d"); await page.render({canvasContext:ctx,viewport:vp}).promise; if(token!==previewRenderToken)return;
-      var type=document.querySelector('input[name="wm-type"]:checked').value, opacity=parseInt(el("wm-opacity").value,10)/100, pos=el("wm-pos").value, rot=parseInt(el("wm-rotate").value,10)||0;
-      var wmW,wmH,text=el("wm-text").value||"Watermark",fontSize=(parseInt(el("wm-size").value,10)||48)*vp.scale;
-      if(type==="text"){ctx.font="bold "+fontSize+"px Arial";wmW=ctx.measureText(text).width;wmH=fontSize;}
-      else if(state.imageDataUrl){var im=await loadImage(state.imageDataUrl);wmW=vp.width*((parseInt(el("wm-image-size").value,10)||40)/100);wmH=wmW/(im.naturalWidth/im.naturalHeight);}
-      if(!wmW||!wmH)return;
+      var page = await state.pdfDoc.getPage(1);
+      var vp = page.getViewport({scale: 1.8});
+      var c = el("wm-preview-canvas");
+      c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+      c.style.width = "100%"; c.style.height = "auto";
+      var ctx = c.getContext("2d", {alpha:false});
+      ctx.fillStyle = "#fff"; ctx.fillRect(0,0,c.width,c.height);
+      await page.render({canvasContext:ctx,viewport:vp}).promise;
+      if (token !== previewRenderToken) return;
+
+      var type = document.querySelector('input[name="wm-type"]:checked').value;
+      var opacity = (parseInt(el("wm-opacity").value,10)||25)/100;
+      var pos = el("wm-pos").value;
+      var rot = parseInt(el("wm-rotate").value,10)||0;
+      var text = el("wm-text").value || "Watermark";
+      var fontSize = (parseInt(el("wm-size").value,10)||48) * vp.scale;
+      var wmW=0, wmH=0, im=null;
+
+      if (type === "text") {
+        ctx.font = (el("wm-bold").checked ? "700 " : "400 ") + fontSize + "px " + (el("wm-font").value === "TimesRoman" ? "Times" : el("wm-font").value === "Courier" ? "Courier" : "Arial");
+        wmW = ctx.measureText(text).width;
+        wmH = fontSize;
+      } else {
+        if (!state.imageDataUrl) return;
+        im = await loadImage(state.imageDataUrl);
+        if (token !== previewRenderToken) return;
+        wmW = vp.width * ((parseInt(el("wm-image-size").value,10)||40)/100);
+        wmH = wmW / ((im.naturalWidth||im.width) / (im.naturalHeight||im.height));
+      }
+      if (!(wmW>0 && wmH>0)) return;
+
       var positions=[];
-      if(pos==="tile"){var sx=wmW*1.6,sy=wmH*1.6,cols=Math.max(1,Math.floor(vp.width/sx)),rows=Math.max(1,Math.floor(vp.height/sy));for(var rr=1;rr<=rows;rr++)for(var cc=1;cc<=cols;cc++)positions.push({x:cc*vp.width/(cols+1),y:rr*vp.height/(rows+1)});}
-      else {var margin=30*vp.scale;var pdfP=singlePosition(pos,vp.width,vp.height,wmW,wmH,margin);positions=[{x:pdfP.x,y:vp.height-pdfP.y}];}
-      positions.forEach(function(p){ctx.save();ctx.globalAlpha=opacity;ctx.translate(p.x,p.y);ctx.rotate(rot*Math.PI/180);if(type==="text"){ctx.fillStyle=el("wm-color").value;ctx.font="bold "+fontSize+"px Arial";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(text,0,0);}else{ctx.drawImage(im,-wmW/2,-wmH/2,wmW,wmH);}ctx.restore();});
-    }catch(e){log("watermark preview",e);}
+      if (pos === "tile") {
+        var sx=wmW*1.6, sy=wmH*1.6;
+        var cols=Math.max(1,Math.floor(vp.width/sx)), rows=Math.max(1,Math.floor(vp.height/sy));
+        for(var rr=1;rr<=rows;rr++) for(var cc=1;cc<=cols;cc++) positions.push({x:cc*vp.width/(cols+1),y:cc?rr*vp.height/(rows+1):0});
+      } else {
+        var margin=30*vp.scale;
+        var pp=singlePosition(pos,vp.width,vp.height,wmW,wmH,margin);
+        positions=[{x:pp.x,y:vp.height-pp.y}];
+      }
+      positions.forEach(function(p){
+        ctx.save();
+        ctx.globalAlpha=opacity;
+        ctx.translate(p.x,p.y);
+        ctx.rotate(rot*Math.PI/180);
+        if(type === "text") {
+          ctx.fillStyle=el("wm-color").value;
+          ctx.font=(el("wm-bold").checked?"700 ":"400 ")+fontSize+"px "+(el("wm-font").value === "TimesRoman" ? "Times" : el("wm-font").value === "Courier" ? "Courier" : "Arial");
+          ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(text,0,0);
+        } else {
+          ctx.drawImage(im,-wmW/2,-wmH/2,wmW,wmH);
+        }
+        ctx.restore();
+      });
+    } catch(e) { log("watermark preview",e); }
   }
 
   function loadImage(src){return new Promise(function(res,rej){var i=new Image();i.onload=function(){res(i)};i.onerror=rej;i.src=src;});}
@@ -203,36 +257,49 @@
     }
   }
 
+  var wmPreviewTimer = null;
+  function scheduleWmPreview() {
+    clearTimeout(wmPreviewTimer);
+    wmPreviewTimer = setTimeout(function () { updateLivePreview(); }, 70);
+  }
+
   function init() {
     progressUI = new D.ProgressUI(el("wm-progress"));
     new D.UploadZone("#uz-wm", {
       accept: "application/pdf,.pdf", multiple: false,
       onFiles: function (files) { if (files[0]) loadPdf(files[0]); }
     });
+
     document.querySelectorAll('input[name="wm-type"]').forEach(function (r) {
       r.addEventListener("change", function () {
         var t = document.querySelector('input[name="wm-type"]:checked').value;
         el("wm-text-row").hidden = t !== "text";
         el("wm-image-row").hidden = t !== "image";
+        scheduleWmPreview();
       });
     });
+
     el("wm-image-file").addEventListener("change", function (e) {
       if (e.target.files[0]) handleImage(e.target.files[0]);
     });
-    el("wm-image-size").addEventListener("input", function () { el("wm-image-size-val").textContent=this.value+"%"; updateLivePreview(); });
-    el("wm-preview-refresh").addEventListener("click", updateLivePreview);
-    ["wm-text","wm-font","wm-size","wm-color","wm-bold","wm-opacity","wm-rotate","wm-pos"].forEach(function(id){var n=el(id);if(n){n.addEventListener("input",updateLivePreview);n.addEventListener("change",updateLivePreview);}});
-    el("wm-opacity").addEventListener("input", function () {
-      el("wm-opacity-val").textContent = this.value + "%";
+
+    ["wm-text","wm-font","wm-size","wm-color","wm-bold","wm-opacity","wm-rotate","wm-pos","wm-image-size"].forEach(function(id){
+      var n=el(id);
+      if(!n) return;
+      n.addEventListener("input", function(){
+        if(id === "wm-opacity") el("wm-opacity-val").textContent=this.value+"%";
+        if(id === "wm-rotate") el("wm-rotate-val").textContent=this.value+"°";
+        if(id === "wm-image-size") el("wm-image-size-val").textContent=this.value+"%";
+        scheduleWmPreview();
+      });
+      n.addEventListener("change", scheduleWmPreview);
     });
-    el("wm-rotate").addEventListener("input", function () {
-      el("wm-rotate-val").textContent = this.value + "°";
+
+    el("wm-preview-refresh").addEventListener("click", function(){
+      clearTimeout(wmPreviewTimer);
+      updateLivePreview();
     });
     el("wm-apply").addEventListener("click", apply);
-    var refresh = el("wm-preview-refresh");
-    if (refresh) refresh.addEventListener("click", function(){ updateLivePreview(); });
-    ["wm-text","wm-size","wm-color","wm-opacity","wm-rotate","wm-pos"].forEach(function(id){var n=el(id);if(n)n.addEventListener("input",updateLivePreview);if(n)n.addEventListener("change",updateLivePreview);});
-    document.querySelectorAll('input[name="wm-type"]').forEach(function(n){n.addEventListener("change",updateLivePreview);});
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

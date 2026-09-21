@@ -31,6 +31,7 @@
     try {
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
       state.file = file; state.bytes = bytes;
+      if(progressUI) progressUI.reset();
       el("unl-pw").value = "";
       el("unl-info").textContent = file.name + " — " + D.formatBytes(file.size);
       el("unl-toolbar").hidden = false;
@@ -40,10 +41,33 @@
     }
   }
 
+  var decryptEnginePromise = null;
+  function ensureDecryptEngine(){
+    if(window.PDFDecrypt && typeof window.PDFDecrypt.decryptPDF === "function") return Promise.resolve(true);
+    if(decryptEnginePromise) return decryptEnginePromise;
+    decryptEnginePromise = new Promise(function(resolve){
+      var urls=[
+        "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt@1.0.1/dist/pdf-decrypt.umd.js",
+        "https://unpkg.com/@pdfsmaller/pdf-decrypt@1.0.1/dist/pdf-decrypt.umd.js"
+      ];
+      function next(i){
+        if(window.PDFDecrypt && typeof window.PDFDecrypt.decryptPDF === "function") return resolve(true);
+        if(i>=urls.length) return resolve(false);
+        var sc=document.createElement("script");sc.src=urls[i];sc.async=true;
+        sc.onload=function(){setTimeout(function(){if(window.PDFDecrypt&&typeof window.PDFDecrypt.decryptPDF==="function")resolve(true);else next(i+1);},0);};
+        sc.onerror=function(){next(i+1);};document.head.appendChild(sc);
+      }
+      next(0);
+    });
+    return decryptEnginePromise;
+  }
+
   async function apply(){
     if(!state.bytes)return;var pw=el("unl-pw").value;if(!pw){D.showError("unl-alert","Enter the PDF password.");return}
-    if(!window.PDFDecrypt||typeof window.PDFDecrypt.decryptPDF!=="function"){D.showError("unl-alert","The browser decryption engine could not be loaded. Refresh the page and try again.");return}
-    progressUI.show();progressUI.set(20,"Checking PDF encryption…");
+    progressUI.show();
+    progressUI.set(8,"Preparing decryption engine…");
+    var ready=await ensureDecryptEngine();
+    if(!ready){progressUI.error("Decryption engine unavailable.");D.showError("unl-alert","The browser decryption engine could not be loaded. Check your internet connection and try again.");return;}progressUI.set(20,"Checking PDF encryption…");
     try{
       if(window.PDFDecrypt.isEncrypted){var info=await window.PDFDecrypt.isEncrypted(new Uint8Array(state.bytes));if(!info.encrypted){D.showError("unl-alert","This PDF is not password-protected.");progressUI.reset();return;}}
       progressUI.set(45,"Decrypting PDF…");var out=await window.PDFDecrypt.decryptPDF(new Uint8Array(state.bytes),pw);if(!out||!out.length)throw new Error("No decrypted PDF was produced.");

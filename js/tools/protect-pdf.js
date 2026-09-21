@@ -30,6 +30,7 @@
 
   async function loadPdf(file) {
     if (progressUI) progressUI.reset();
+    el("prot-pw").value = ""; el("prot-pw2").value = "";
     D.clearAlert("prot-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("prot-alert", "Please choose a PDF."); return;

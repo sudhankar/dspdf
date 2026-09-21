@@ -138,7 +138,17 @@
     e.preventDefault();
   }
 
-  function paintDraggedNode(id){var node=overlayLayer.querySelector('[data-id="'+id+'"]');var obj=Ed.getSelected();if(!node||!obj)return;var w=wrap.clientWidth,h=wrap.clientHeight;node.style.left=(obj.x*w)+"px";node.style.top=(obj.y*h)+"px";if(obj.w!=null)node.style.width=(obj.w*w)+"px";if(obj.h!=null)node.style.height=(obj.h*h)+"px";}
+  function paintDraggedNode(id){
+    var node=overlayLayer.querySelector('[data-id="'+id+'"]');
+    if(!node)return;
+    var obj=null,list=state.overlays[state.pageIndex]||[];
+    for(var i=0;i<list.length;i++)if(list[i].id===id){obj=list[i];break;}
+    if(!obj)return;
+    var w=wrap.clientWidth,h=wrap.clientHeight;
+    node.style.left=(obj.x*w)+"px";node.style.top=(obj.y*h)+"px";
+    if(obj.w!=null)node.style.width=(obj.w*w)+"px";
+    if(obj.h!=null)node.style.height=(obj.h*h)+"px";
+  }
 
   function onWindowPointerMove(e) {
     if (!drag) return;
@@ -160,6 +170,7 @@
         x: clamp01(drag.elem0.x + dx),
         y: clamp01(drag.elem0.y + dy)
       }, { commit: false, silent: true });
+      paintDraggedNode(drag.id);
     } else if (drag.mode === "resize") {
       var dx2 = p.x - drag.startPoint.x;
       var dy2 = p.y - drag.startPoint.y;

@@ -21,6 +21,7 @@
   function el(id) { return document.getElementById(id); }
 
   async function loadPdf(file) {
+    if (progressUI) progressUI.reset();
     D.clearAlert("sign-alert");
     if (!(file.type === "application/pdf" || /\.pdf$/i.test(file.name))) {
       D.showError("sign-alert", "Please choose a PDF."); return;
@@ -36,6 +37,7 @@
       state.pageCount = state.pdfDoc.numPages;
       state.currentPage = 0;
       state.placement = null;
+      el("sign-save").disabled = true; el("sign-delete").disabled = true;
       el("sign-info").textContent = file.name + " — " + state.pageCount + " page(s)";
       el("sign-toolbar").hidden = false;
       D.clearAlert("sign-alert");
@@ -70,28 +72,87 @@
     renderSignatureOverlay();
   }
 
+  var signOverlayBox = null, signOverlayImg = null, signOverlayLayer = null;
   function renderSignatureOverlay() {
-    var layer=el("sign-overlay"),canvas=el("sign-page-canvas"); if(!layer||!canvas)return;
-    layer.innerHTML=""; layer.style.cssText="position:absolute;inset:0;pointer-events:none;z-index:10;";
-    if(!state.sigDataUrl||!state.placement)return;
-    var cw=canvas.clientWidth,ch=canvas.clientHeight,w=state.sigSize*cw,h=w/state.sigAspect;
-    var box=document.createElement("div"); box.style.cssText="position:absolute;left:"+(state.placement.x*cw-w/2)+"px;top:"+(state.placement.y*ch-h/2)+"px;width:"+w+"px;height:"+h+"px;pointer-events:auto;touch-action:none;";
-    var img=document.createElement("img"); img.src=state.sigDataUrl;img.alt="Signature";img.draggable=false;img.style.cssText="width:100%;height:100%;object-fit:contain;display:block;border:1px solid #2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.12);cursor:move;"; box.appendChild(img);
-    var del=document.createElement("button");del.type="button";del.textContent="×";del.title="Delete signature";del.style.cssText="position:absolute;right:-11px;top:-11px;width:23px;height:23px;border-radius:50%;border:2px solid #fff;background:#dc2626;color:#fff;font-weight:700;line-height:17px;cursor:pointer;z-index:4;";box.appendChild(del);
-    ["nw","ne","sw","se"].forEach(function(hn){var hnd=document.createElement("span");hnd.dataset.handle=hn;hnd.style.cssText="position:absolute;width:14px;height:14px;background:#fff;border:2px solid #2563eb;border-radius:50%;z-index:3;"+(hn.indexOf("n")>=0?"top:-7px;":"bottom:-7px;")+(hn.indexOf("w")>=0?"left:-7px;":"right:-7px;")+"cursor:"+((hn==="nw"||hn==="se")?"nwse-resize":"nesw-resize")+";";box.appendChild(hnd);});
-    layer.appendChild(box);
-    var active=null;
-    function pt(e){var r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};}
-    img.addEventListener("pointerdown",function(e){active={kind:"move",sx:e.clientX,sy:e.clientY,ox:state.placement.x,oy:state.placement.y};try{img.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();});
-    box.querySelectorAll("[data-handle]").forEach(function(hnd){hnd.addEventListener("pointerdown",function(e){active={kind:"resize",sx:e.clientX,sy:e.clientY,startSize:state.sigSize,handle:hnd.dataset.handle};try{hnd.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();e.stopPropagation();});});
-    del.addEventListener("click",function(){state.placement=null;el("sign-save").disabled=true;el("sign-delete").disabled=true;renderSignatureOverlay();});
-    box.addEventListener("pointermove",function(e){if(!active)return;var r=canvas.getBoundingClientRect();if(active.kind==="move"){state.placement.x=Math.max(state.sigSize/2,Math.min(1-state.sigSize/2,active.ox+(e.clientX-active.sx)/r.width));state.placement.y=Math.max(.02,Math.min(.98,active.oy+(e.clientY-active.sy)/r.height));}else{var dx=(e.clientX-active.sx)/r.width,dy=(e.clientY-active.sx?e.clientY-active.sy:0)/r.height;var sign=active.handle.indexOf("e")>=0?1:-1;var delta=Math.abs(dx)>Math.abs(dy)?dx:dy;state.sigSize=Math.max(.08,Math.min(.45,active.startSize+delta*sign));el("sign-size").value=Math.round(state.sigSize*100);el("sign-size-val").textContent=Math.round(state.sigSize*100)+"%";}renderSignatureOverlay();});
-    box.addEventListener("pointerup",function(){active=null;}); box.addEventListener("pointercancel",function(){active=null;});
+    var layer=el("sign-overlay"), canvas=el("sign-page-canvas");
+    if(!layer||!canvas)return;
+    signOverlayLayer=layer;
+    layer.style.cssText="position:absolute;inset:0;pointer-events:none;z-index:10;";
+    if(!state.sigDataUrl||!state.placement){
+      layer.innerHTML=""; signOverlayBox=null; signOverlayImg=null;
+      return;
+    }
+    var cw=canvas.clientWidth||canvas.width,ch=canvas.clientHeight||canvas.height;
+    var w=Math.max(20,state.sigSize*cw),h=w/(state.sigAspect||2.5);
+    if(!signOverlayBox){
+      var box=document.createElement("div");
+      box.style.cssText="position:absolute;pointer-events:auto;touch-action:none;z-index:10;";
+      var img=document.createElement("img");
+      img.alt="Signature";img.draggable=false;
+      img.style.cssText="width:100%;height:100%;object-fit:contain;display:block;border:1px solid #2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.12);cursor:move;user-select:none;-webkit-user-drag:none;";
+      var del=document.createElement("button");del.type="button";del.textContent="×";del.title="Delete signature";
+      del.style.cssText="position:absolute;right:-11px;top:-11px;width:23px;height:23px;border-radius:50%;border:2px solid #fff;background:#dc2626;color:#fff;font-weight:700;line-height:17px;cursor:pointer;z-index:4;";
+      box.appendChild(img);box.appendChild(del);
+      ["nw","ne","sw","se"].forEach(function(hn){
+        var hnd=document.createElement("span");hnd.dataset.handle=hn;
+        hnd.style.cssText="position:absolute;width:14px;height:14px;background:#fff;border:2px solid #2563eb;border-radius:50%;z-index:3;"+(hn.indexOf("n")>=0?"top:-7px;":"bottom:-7px;")+(hn.indexOf("w")>=0?"left:-7px;":"right:-7px;")+"cursor:"+((hn==="nw"||hn==="se")?"nwse-resize":"nesw-resize")+";";
+        box.appendChild(hnd);
+      });
+      layer.appendChild(box); signOverlayBox=box; signOverlayImg=img;
+      var active=null;
+      function point(e){var r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};}
+      img.addEventListener("pointerdown",function(e){
+        active={kind:"move",sx:e.clientX,sy:e.clientY,ox:state.placement.x,oy:state.placement.y};
+        try{img.setPointerCapture(e.pointerId)}catch(_){}
+        e.preventDefault();e.stopPropagation();
+      });
+      box.querySelectorAll("[data-handle]").forEach(function(hnd){hnd.addEventListener("pointerdown",function(e){
+        active={kind:"resize",sx:e.clientX,sy:e.clientY,startSize:state.sigSize,handle:hnd.dataset.handle};
+        try{hnd.setPointerCapture(e.pointerId)}catch(_){}
+        e.preventDefault();e.stopPropagation();
+      });});
+      del.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();state.placement=null;el("sign-save").disabled=true;el("sign-delete").disabled=true;renderSignatureOverlay();});
+      window.addEventListener("pointermove",function(e){
+        if(!active||!state.placement)return;
+        var r=canvas.getBoundingClientRect();
+        if(active.kind==="move"){
+          state.placement.x=Math.max(state.sigSize/2,Math.min(1-state.sigSize/2,active.ox+(e.clientX-active.sx)/r.width));
+          state.placement.y=Math.max(.02,Math.min(.98,active.oy+(e.clientY-active.sy)/r.height));
+        } else {
+          var dx=(e.clientX-active.sx)/r.width,dy=(e.clientY-active.sy)/r.height;
+          var sign=active.handle.indexOf("e")>=0?1:-1;
+          var delta=Math.abs(dx)>Math.abs(dy)?dx:dy;
+          state.sigSize=Math.max(.08,Math.min(.65,active.startSize+delta*sign));
+          el("sign-size").value=Math.round(state.sigSize*100);el("sign-size-val").textContent=Math.round(state.sigSize*100)+"%";
+        }
+        updateSignatureOverlayGeometry();
+        e.preventDefault();
+      },{passive:false});
+      window.addEventListener("pointerup",function(){active=null;});
+      window.addEventListener("pointercancel",function(){active=null;});
+    }
+    signOverlayImg.src=state.sigDataUrl;
+    updateSignatureOverlayGeometry();
+  }
+  function updateSignatureOverlayGeometry(){
+    var canvas=el("sign-page-canvas");
+    if(!canvas||!signOverlayBox||!state.placement)return;
+    var cw=canvas.clientWidth||canvas.width,ch=canvas.clientHeight||canvas.height;
+    var w=Math.max(20,state.sigSize*cw),h=w/(state.sigAspect||2.5);
+    signOverlayBox.style.width=w+"px"; signOverlayBox.style.height=h+"px";
+    signOverlayBox.style.left=(state.placement.x*cw-w/2)+"px";
+    signOverlayBox.style.top=(state.placement.y*ch-h/2)+"px";
   }
 
   function initPlacement() {
     var canvas=el("sign-page-canvas"); if(!canvas)return;
-    canvas.addEventListener("click",function(e){if(!state.sigDataUrl)return;var r=canvas.getBoundingClientRect();state.placement={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};el("sign-save").disabled=false;el("sign-delete").disabled=false;renderSignatureOverlay();});
+    canvas.addEventListener("click",function(e){
+      if(!state.sigDataUrl || state.placement) return;
+      var r=canvas.getBoundingClientRect();
+      state.placement={x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height};
+      el("sign-save").disabled=false;el("sign-delete").disabled=false;
+      renderSignatureOverlay();
+    });
   }
 
   /* ---------- Modal helpers ---------- */
@@ -157,7 +218,9 @@
       state.sigDataUrl = canvas.toDataURL("image/png");
       state.sigAspect = canvas.width / canvas.height;
           state.sigSize = .20;
-      state.sigSize = .20;
+      state.placement = null;
+      el("sign-size").value = 20;
+      el("sign-size-val").textContent = "20%";
       el("sign-sig-img").src = state.sigDataUrl;
       el("sign-sig-preview").hidden = false;
       closeModal("sig-draw-modal");
@@ -200,6 +263,9 @@
           state.sigDataUrl = canvas.toDataURL("image/png");
           state.sigAspect = canvas.width / canvas.height;
       state.sigSize = .20;
+          state.placement = null;
+          el("sign-size").value = 20;
+          el("sign-size-val").textContent = "20%";
           el("sign-sig-img").src = state.sigDataUrl;
           el("sign-sig-preview").hidden = false;
           closeModal("sig-type-modal");
@@ -223,7 +289,7 @@
       }
       state.sigDataUrl = await D.fileToDataURL(f);
       var img = await loadImage(state.sigDataUrl);
-      state.sigAspect = img.naturalWidth / img.naturalHeight; state.sigSize=.20;
+      state.sigAspect = img.naturalWidth / img.naturalHeight; state.sigSize=.20; state.placement=null; el("sign-size").value=20; el("sign-size-val").textContent="20%";
       el("sign-sig-img").src = state.sigDataUrl;
       el("sign-sig-preview").hidden = false;
       showCanvas();

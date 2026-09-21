@@ -28,6 +28,7 @@
       return;
     }
     try {
+      if (D.showGlobalLoading) D.showGlobalLoading("Reading PDF…");
       if (!window.pdfjsLib) throw new Error("pdf.js not loaded yet. Please try again in a moment.");
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
@@ -42,16 +43,21 @@
 
       el("ed-filename").textContent = file.name;
       el("ed-empty").hidden = true;
+      el("ed-empty").classList.add("is-hidden");
       el("ed-viewport").hidden = false;
+      el("ed-viewport").classList.remove("is-hidden");
       el("ed-bottombar").hidden = false;
       el("ed-save").disabled = false;
       el("edm-save").disabled = false;
 
+      if (window.matchMedia && window.matchMedia("(pointer:coarse), (max-width:900px)").matches) state.view.fitMode="page";
       await R.renderCurrentPage();
       R.renderOverlays();
       buildThumbnails();
+      if (D.hideGlobalLoading) D.hideGlobalLoading();
     } catch (err) {
       log(err);
+      if (D.hideGlobalLoading) D.hideGlobalLoading();
       D.showError("ed-empty-alert", D.humanError(err, "Could not open this PDF."));
     }
   }

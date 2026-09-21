@@ -415,6 +415,14 @@
       catch(err){ log(err); }
       this.value="";
     });
+    el("an-stamp-size").addEventListener("input", function () {
+      var pct=parseInt(this.value,10)||20; el("an-stamp-size-val").textContent=pct+"%";
+      var list=state.annotations[state.pageIndex]||[], a=list[state.selectedIndex];
+      if(a && a.type==="stamp"){
+        var ratio=(a.h&&a.w)?a.h/a.w:0.5; a.w=pct/100; a.h=Math.max(.03,Math.min(.8,a.w*ratio));
+        showDraggedAnnotation(a); renderPage(); el("an-save").disabled=false;
+      }
+    });
     el("an-stamp-preset").addEventListener("change", function () {
       el("an-stamp-custom").hidden = this.value !== "custom";
     });
