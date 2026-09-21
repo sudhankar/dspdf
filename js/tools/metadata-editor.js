@@ -23,7 +23,7 @@
       var bytes = new Uint8Array(await D.fileToArrayBuffer(file));
       state.file = file; state.bytes = bytes;
       var PDFLib = window.PDFLib;
-      state.doc = await PDFLib.PDFDocument.load(bytes.slice(0));
+      state.doc = await PDFLib.PDFDocument.load(bytes.slice(0), { updateMetadata: false });
 
       el("meta-title").value = state.doc.getTitle() || "";
       el("meta-author").value = state.doc.getAuthor() || "";
@@ -42,7 +42,41 @@
     }
   }
 
-  function removePdfInfo(doc){try{var infoRef=doc.context&&doc.context.trailerInfo&&doc.context.trailerInfo.Info;if(infoRef){var info=doc.context.lookup(infoRef);if(info&&info.delete){["Title","Author","Subject","Keywords","Creator","Producer","CreationDate","ModDate"].forEach(function(k){info.delete(window.PDFLib.PDFName.of(k));});}}if(doc.catalog&&doc.catalog.delete)doc.catalog.delete(window.PDFLib.PDFName.of("Metadata"));}catch(e){log("metadata cleanup",e)}}
+  function removePdfInfo(doc){
+    try {
+      var infoRef=doc.context&&doc.context.trailerInfo&&doc.context.trailerInfo.Info;
+      if(infoRef){
+        var info=doc.context.lookup(infoRef);
+        if(info&&info.delete){
+          ["Title","Author","Subject","Keywords","Creator","Producer","CreationDate","ModDate"].forEach(function(k){info.delete(window.PDFLib.PDFName.of(k));});
+        }
+        // Do not leave the /Info entry reachable from the trailer. pdf-lib
+        // may recreate a producer/creator/date dictionary during save, so the
+        // final byte-level cleanup below also removes the trailer reference.
+        if(doc.context&&doc.context.trailerInfo) delete doc.context.trailerInfo.Info;
+      }
+      if(doc.catalog&&doc.catalog.delete)doc.catalog.delete(window.PDFLib.PDFName.of("Metadata"));
+    }catch(e){log("metadata cleanup",e)}
+  }
+
+  // pdf-lib intentionally writes its own Producer/Creator/CreationDate/ModDate
+  // into the document information dictionary when serializing. For a genuine
+  // "clear all metadata" export, remove the /Info and XMP /Metadata references
+  // from the serialized PDF as well. The now-unreferenced objects are harmless
+  // and are ignored by normal PDF readers.
+  function stripSerializedMetadata(bytes){
+    try{
+      var text="";
+      for(var i=0;i<bytes.length;i++) text+=String.fromCharCode(bytes[i]);
+      // Blank the /Info and /Metadata references without changing byte length.
+      // Keeping offsets unchanged is essential for classic xref tables.
+      text=text.replace(/\/Info\s+\d+\s+\d+\s+R/g, function(m){return " ".repeat(m.length);});
+      text=text.replace(/\/Metadata\s+\d+\s+\d+\s+R/g, function(m){return " ".repeat(m.length);});
+      var out=new Uint8Array(text.length);
+      for(var j=0;j<text.length;j++) out[j]=text.charCodeAt(j)&255;
+      return out;
+    }catch(e){ log("serialized metadata cleanup",e); return bytes; }
+  }
 
   async function apply() {
     if (!state.doc) return;
@@ -66,6 +100,7 @@
 
       progressUI.set(75, "Building PDF…");
       var out = await doc.save({ useObjectStreams: true });
+      if(clearing) out = stripSerializedMetadata(out);
       var blob = new Blob([out], { type: "application/pdf" });
       var base = (state.file.name || "document").replace(/\.pdf$/i, "");
       D.downloadBlob(blob, base + "-metadata.pdf");

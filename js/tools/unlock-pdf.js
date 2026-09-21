@@ -45,20 +45,25 @@
   function ensureDecryptEngine(){
     if(window.PDFDecrypt && typeof window.PDFDecrypt.decryptPDF === "function") return Promise.resolve(true);
     if(decryptEnginePromise) return decryptEnginePromise;
-    decryptEnginePromise = new Promise(function(resolve){
+    decryptEnginePromise = (async function(){
+      // @pdfsmaller/pdf-decrypt publishes ESM/CJS files, not a UMD build.
+      // The old /dist/pdf-decrypt.umd.js URL therefore always failed. Load the
+      // real ESM entry through jsDelivr and expose the two functions globally.
       var urls=[
-        "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt@1.0.1/dist/pdf-decrypt.umd.js",
-        "https://unpkg.com/@pdfsmaller/pdf-decrypt@1.0.1/dist/pdf-decrypt.umd.js"
+        "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt@1.0.1/dist/index.mjs",
+        "https://cdn.jsdelivr.net/npm/@localonlytools/pdf-decrypt@1.0.1/dist/index.mjs"
       ];
-      function next(i){
-        if(window.PDFDecrypt && typeof window.PDFDecrypt.decryptPDF === "function") return resolve(true);
-        if(i>=urls.length) return resolve(false);
-        var sc=document.createElement("script");sc.src=urls[i];sc.async=true;
-        sc.onload=function(){setTimeout(function(){if(window.PDFDecrypt&&typeof window.PDFDecrypt.decryptPDF==="function")resolve(true);else next(i+1);},0);};
-        sc.onerror=function(){next(i+1);};document.head.appendChild(sc);
+      for(var i=0;i<urls.length;i++){
+        try{
+          var mod=await import(urls[i]);
+          if(mod && typeof mod.decryptPDF === "function"){
+            window.PDFDecrypt={decryptPDF:mod.decryptPDF,isEncrypted:mod.isEncrypted};
+            return true;
+          }
+        }catch(err){ log("decrypt engine load",err); }
       }
-      next(0);
-    });
+      return false;
+    })();
     return decryptEnginePromise;
   }
 

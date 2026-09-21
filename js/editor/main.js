@@ -57,12 +57,16 @@
       // first fit calculation. Without this, the initial viewport can report
       // an old/near-zero height and the first page opens cropped; changing
       // pages then accidentally triggers the correct second render.
-      await new Promise(function (resolve) { requestAnimationFrame(function () {
-        requestAnimationFrame(resolve);
-      }); });
+      // Let mobile browser chrome, fonts, and flex layout settle before the
+      // first measurement. This avoids the old "go to page 2 and back" fix.
+      for(var frame=0;frame<4;frame++) await new Promise(function(resolve){requestAnimationFrame(resolve);});
+      if(document.fonts && document.fonts.ready){try{await document.fonts.ready;}catch(_){} }
+      await new Promise(function(resolve){setTimeout(resolve,90);});
       await R.renderCurrentPage();
       if (state.view.fitMode === "page") {
         await new Promise(function (resolve) { requestAnimationFrame(resolve); });
+        await R.renderCurrentPage();
+        await new Promise(function(resolve){setTimeout(resolve,60);});
         await R.renderCurrentPage();
       }
       R.renderOverlays();

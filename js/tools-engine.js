@@ -49,6 +49,8 @@
 
   /* ---------- Global loading indicator ---------- */
   var globalLoader=null;
+  var globalLoaderShownAt=0;
+  var globalLoaderHideTimer=null;
   function ensureGlobalLoader(){
     if(globalLoader)return globalLoader;
     globalLoader=document.createElement("div");
@@ -61,10 +63,18 @@
   }
   function showGlobalLoading(message){
     var box=ensureGlobalLoader();
+    if(globalLoaderHideTimer){clearTimeout(globalLoaderHideTimer);globalLoaderHideTimer=null;}
     box.querySelector(".dspdf-global-loading__text").textContent=message||"Loading…";
+    if(!box.classList.contains("is-visible")) globalLoaderShownAt=(performance&&performance.now)?performance.now():Date.now();
     box.classList.add("is-visible");
   }
-  function hideGlobalLoading(){if(globalLoader)globalLoader.classList.remove("is-visible");}
+  function hideGlobalLoading(){
+    if(!globalLoader)return;
+    var now=(performance&&performance.now)?performance.now():Date.now();
+    var elapsed=now-globalLoaderShownAt, wait=Math.max(0,360-elapsed);
+    if(globalLoaderHideTimer)clearTimeout(globalLoaderHideTimer);
+    globalLoaderHideTimer=setTimeout(function(){globalLoader.classList.remove("is-visible");globalLoaderHideTimer=null;},wait);
+  }
 
   /* ---------- Progress bar controller ---------- */
   function ProgressUI(el) {

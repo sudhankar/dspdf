@@ -30,7 +30,8 @@
     wrap = document.getElementById("ed-canvas-wrap");
     viewport = document.getElementById("ed-viewport");
 
-    window.addEventListener("resize", debounce(handleResize, 120));
+    window.addEventListener("resize", debounce(handleResize, 100));
+    if(window.visualViewport) window.visualViewport.addEventListener("resize", debounce(handleResize, 100));
     if (window.ResizeObserver && viewport) {
       var resizeTimer = null;
       var ro = new ResizeObserver(function () {
@@ -72,6 +73,16 @@
     return pageCache[pageIndex];
   }
 
+  async function waitForStableViewport(){
+    if(!viewport) return;
+    for(var i=0;i<4;i++){
+      await new Promise(function(resolve){requestAnimationFrame(resolve);});
+    }
+    // Mobile browser chrome/fonts can change the layout a little after the
+    // first paint. Give it a short settling window before measuring.
+    await new Promise(function(resolve){setTimeout(resolve,80);});
+  }
+
   /**
    * Render current page to the visible canvas.
    */
@@ -83,8 +94,18 @@
     if (myToken !== renderToken) return; // stale
 
     var vpNatural = page.getViewport({ scale: 1 });
-    var availableW = Math.max(1, viewport.clientWidth - (window.matchMedia && window.matchMedia("(max-width: 900px)").matches ? 16 : 40));
-    var availableH = Math.max(1, viewport.clientHeight - 24);
+    var vr = viewport.getBoundingClientRect();
+    var availableW = Math.max(1, Math.floor(vr.width || viewport.clientWidth) - (window.matchMedia && window.matchMedia("(max-width: 900px)").matches ? 16 : 40));
+    var availableH = Math.max(1, Math.floor(vr.height || viewport.clientHeight) - 20);
+    // If the first layout pass has not produced a real viewport yet, retry
+    // instead of rendering a cropped page that only fixes itself after paging.
+    if(state.view.fitMode === "page" && (availableW < 120 || availableH < 120)){
+      await waitForStableViewport();
+      if(myToken !== renderToken)return;
+      vr=viewport.getBoundingClientRect();
+      availableW=Math.max(1,Math.floor(vr.width||viewport.clientWidth)-16);
+      availableH=Math.max(1,Math.floor(vr.height||viewport.clientHeight)-20);
+    }
 
     var scale = state.view.zoom;
     if (state.view.fitMode === "width") {
