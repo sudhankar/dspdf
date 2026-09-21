@@ -548,6 +548,7 @@
   .editor-tools{z-index:250!important;}
 }
 @media (min-width:901px) and (pointer:fine){.editor-creator-badge{display:block;}}
+@media (max-width:900px),(pointer:coarse){.editor-creator-badge{display:none!important;}}
 .editor-creator-badge{position:fixed;right:10px;bottom:66px;z-index:240;font-size:.68rem;letter-spacing:.04em;color:var(--text-muted);background:rgba(15,23,42,.72);padding:4px 8px;border-radius:999px;pointer-events:none;}
 
 /* v13: mobile editor layout — keep the PDF viewport and both toolbars inside
