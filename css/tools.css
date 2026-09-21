@@ -189,3 +189,19 @@
 .preview-pdf-item small{display:block;margin-top:6px;color:var(--text-muted);}
 /* v4: make standalone PDF preview canvases use the full available panel width. */
 #crop-preview,#text-preview,#red-canvas,#hl-canvas,#sign-page-canvas{width:100%;max-width:100%;height:auto;}
+
+/* Smooth touch drawing + explicit page selection */
+#hl-canvas,#red-canvas,#enh-preview{touch-action:none;user-select:none;-webkit-user-select:none;}
+.rotate-check-wrap{position:absolute;right:6px;top:6px;z-index:5;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:pointer;}
+.rotate-check-wrap input{position:absolute;opacity:0;pointer-events:none;}
+.rotate-check-wrap span{display:none;font-weight:800;color:#2563eb;font-size:18px;line-height:1;}
+.thumb.is-selected .rotate-check-wrap{background:#dbeafe;}
+.thumb.is-selected .rotate-check-wrap span{display:block;}
+
+/* Mobile PDF preview: keep the complete page visible and scrollable without clipping */
+@media (max-width: 900px), (pointer:coarse){
+  #an-canvas-wrap{width:100%;max-width:100%;overflow:auto!important;-webkit-overflow-scrolling:touch;}
+  #an-canvas{display:block;width:100%!important;height:auto!important;max-width:none;}
+  #an-drag-layer,#an-draw-preview{max-width:100%;}
+  #hl-stage>div,#red-toolbar>div[style*="overflow:auto"]{max-height:65vh;overflow:auto;-webkit-overflow-scrolling:touch;}
+}
