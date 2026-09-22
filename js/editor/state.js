@@ -8,7 +8,7 @@
   var state = {
     file:null, originalBytes:null, pdfDoc:null, pageCount:0, pageIndex:0,
     overlays:[], selectedId:null, activeTool:null,
-    view:{zoom:1,fitMode:"width"}, history:[], historyIndex:-1
+    view:{zoom:1,fitMode:"width",interactionMode:"select"}, history:[], historyIndex:-1
   };
   var listeners={change:[],select:[],page:[],document:[]};
   var idCounter=1;
@@ -29,6 +29,7 @@
   function select(id){if(state.selectedId===id)return;state.selectedId=id;emit("select",id);emit("change");}
   function setPage(idx){if(idx<0||idx>=state.pageCount)return;state.pageIndex=idx;state.selectedId=null;emit("page",idx);emit("select",null);emit("change");}
   function setActiveTool(tool){state.activeTool=tool;emit("change");}
+  function setInteractionMode(mode){state.view.interactionMode=(mode==="pan"?"pan":"select");emit("change");}
   function reset(newDoc){state.file=newDoc.file;state.originalBytes=newDoc.originalBytes;state.pdfDoc=newDoc.pdfDoc;state.pageCount=newDoc.pageCount;state.pageIndex=0;state.overlays=[];state.selectedId=null;state.activeTool=null;state.history=[];state.historyIndex=-1;for(var i=0;i<newDoc.pageCount;i++)state.overlays.push([]);pushHistory();emit("change");emit("page",0);emit("select",null);}
-  window.DSPDFEditor=window.DSPDFEditor||{};window.DSPDFEditor.state=state;window.DSPDFEditor.on=function(n,fn){(listeners[n]=listeners[n]||[]).push(fn)};window.DSPDFEditor.emit=emit;window.DSPDFEditor.addElement=addElement;window.DSPDFEditor.updateElement=updateElement;window.DSPDFEditor.removeElement=removeElement;window.DSPDFEditor.ensurePage=ensurePage;window.DSPDFEditor.getSelected=getSelected;window.DSPDFEditor.select=select;window.DSPDFEditor.setPage=setPage;window.DSPDFEditor.setActiveTool=setActiveTool;window.DSPDFEditor.undo=undo;window.DSPDFEditor.redo=redo;window.DSPDFEditor.reset=reset;window.DSPDFEditor.pushHistory=pushHistory;
+  window.DSPDFEditor=window.DSPDFEditor||{};window.DSPDFEditor.state=state;window.DSPDFEditor.on=function(n,fn){(listeners[n]=listeners[n]||[]).push(fn)};window.DSPDFEditor.emit=emit;window.DSPDFEditor.addElement=addElement;window.DSPDFEditor.updateElement=updateElement;window.DSPDFEditor.removeElement=removeElement;window.DSPDFEditor.ensurePage=ensurePage;window.DSPDFEditor.getSelected=getSelected;window.DSPDFEditor.select=select;window.DSPDFEditor.setPage=setPage;window.DSPDFEditor.setActiveTool=setActiveTool;window.DSPDFEditor.setInteractionMode=setInteractionMode;window.DSPDFEditor.undo=undo;window.DSPDFEditor.redo=redo;window.DSPDFEditor.reset=reset;window.DSPDFEditor.pushHistory=pushHistory;
 })();

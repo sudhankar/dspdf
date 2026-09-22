@@ -35,6 +35,11 @@
     overlayLayer.addEventListener("click", onOverlayClick);
     hitLayer.addEventListener("pointerdown", onHitLayerPointerDown);
 
+    // Touch navigation: one-finger pan on blank page / Pan mode, and native-feeling
+    // two-finger pinch + pan. The PDF itself stays fixed while the viewport scrolls,
+    // so zooming never traps the user at the top-left corner.
+    setupViewportGestures();
+
     window.addEventListener("pointermove", onWindowPointerMove);
     window.addEventListener("pointerup", onWindowPointerUp);
 
@@ -44,6 +49,98 @@
     // Rebuild overlays on state change
     Ed.on("change", function () { if (!editingTextId) R.renderOverlays(); });
     Ed.on("select", function () { if (!editingTextId) R.renderOverlays(); });
+  }
+
+  var gesturePointers = new Map();
+  var viewportGesture = null;
+  var pinchRaf = 0;
+
+  function setupViewportGestures() {
+    var vp = document.getElementById("ed-viewport");
+    if (!vp || !wrap) return;
+    vp.addEventListener("pointerdown", onViewportPointerDown, true);
+    vp.addEventListener("pointermove", onViewportPointerMove, true);
+    vp.addEventListener("pointerup", onViewportPointerUp, true);
+    vp.addEventListener("pointercancel", onViewportPointerUp, true);
+  }
+
+  function pointerDistance(a,b){ return Math.max(1, Math.hypot(a.x-b.x,a.y-b.y)); }
+  function pointerMid(a,b){ return {x:(a.x+b.x)/2,y:(a.y+b.y)/2}; }
+
+  function onViewportPointerDown(e) {
+    if (!state.pdfDoc || state.activeTool) return;
+    var target = e.target && e.target.closest ? e.target.closest(".ed-elem") : null;
+    var forcePan = state.view.interactionMode === "pan";
+    if (target && !forcePan && gesturePointers.size === 0) return;
+
+    gesturePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
+    var vp = document.getElementById("ed-viewport");
+    if (gesturePointers.size === 1) {
+      viewportGesture = {
+        mode: forcePan || !target ? "pan" : "none",
+        startX:e.clientX, startY:e.clientY,
+        scrollLeft:vp.scrollLeft, scrollTop:vp.scrollTop,
+        pointerType:e.pointerType
+      };
+      if (viewportGesture.mode === "pan") {
+        try { vp.setPointerCapture(e.pointerId); } catch (_) {}
+        e.preventDefault();
+      }
+    } else if (gesturePointers.size === 2) {
+      // A second finger always upgrades the gesture to pinch+pan, even if the
+      // first finger touched an annotation. Cancel element dragging cleanly.
+      drag = null;
+      var vals = Array.from(gesturePointers.values()), a=vals[0], b=vals[1];
+      var mid = pointerMid(a,b);
+      viewportGesture = {
+        mode:"pinch", baseDistance:pointerDistance(a,b), baseZoom:state.view.zoom,
+        startMidX:mid.x, startMidY:mid.y,
+        scrollLeft:vp.scrollLeft, scrollTop:vp.scrollTop
+      };
+      try { vp.setPointerCapture(e.pointerId); } catch (_) {}
+      e.preventDefault();
+    }
+  }
+
+  function onViewportPointerMove(e) {
+    if (!gesturePointers.has(e.pointerId) || !viewportGesture || viewportGesture.mode === "none") return;
+    gesturePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    var vp=document.getElementById("ed-viewport");
+    if (viewportGesture.mode === "pan") {
+      vp.scrollLeft = viewportGesture.scrollLeft - (e.clientX-viewportGesture.startX);
+      vp.scrollTop = viewportGesture.scrollTop - (e.clientY-viewportGesture.startY);
+      e.preventDefault();
+      return;
+    }
+    if (viewportGesture.mode === "pinch" && gesturePointers.size >= 2) {
+      var vals=Array.from(gesturePointers.values()), a=vals[0], b=vals[1];
+      var dist=pointerDistance(a,b), mid=pointerMid(a,b);
+      var ratio=dist/viewportGesture.baseDistance;
+      var nextZoom=Math.max(0.25,Math.min(4,viewportGesture.baseZoom*ratio));
+      var vr=vp.getBoundingClientRect();
+      var localMidX=mid.x-vr.left, localMidY=mid.y-vr.top;
+      var anchorX=viewportGesture.scrollLeft+(viewportGesture.startMidX-vr.left);
+      var anchorY=viewportGesture.scrollTop+(viewportGesture.startMidY-vr.top);
+      vp.scrollLeft=Math.max(0,anchorX*(nextZoom/viewportGesture.baseZoom)-localMidX);
+      vp.scrollTop=Math.max(0,anchorY*(nextZoom/viewportGesture.baseZoom)-localMidY);
+      if (!pinchRaf) {
+        pinchRaf=requestAnimationFrame(function(){
+          pinchRaf=0;
+          R.setZoom(nextZoom);
+        });
+      }
+      e.preventDefault();
+    }
+  }
+
+  function onViewportPointerUp(e) {
+    gesturePointers.delete(e.pointerId);
+    if (gesturePointers.size === 0) viewportGesture=null;
+    else if (viewportGesture && viewportGesture.mode === "pinch") {
+      // Do not immediately jump back to one-finger pan after releasing one finger.
+      var vals=Array.from(gesturePointers.values()), p=vals[0];
+      viewportGesture={mode:"pan",startX:p.x,startY:p.y,scrollLeft:document.getElementById("ed-viewport").scrollLeft,scrollTop:document.getElementById("ed-viewport").scrollTop,pointerType:p.pointerType};
+    }
   }
 
   /* ---------- Coordinate helpers ---------- */
@@ -61,6 +158,7 @@
     if (!target) return;
 
     var id = target.dataset.id;
+    if (state.view.interactionMode === "pan") { e.preventDefault(); e.stopPropagation(); return; }
     // Text boxes use the same interaction as other elements: single click selects
     // and drag moves; double-click edits the text. This prevents the text layer
     // from stealing pointer events and makes the box movable after editing.

@@ -50,8 +50,13 @@
       // The old /dist/pdf-decrypt.umd.js URL therefore always failed. Load the
       // real ESM entry through jsDelivr and expose the two functions globally.
       var urls=[
-        "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt@1.0.1/dist/index.mjs",
-        "https://cdn.jsdelivr.net/npm/@localonlytools/pdf-decrypt@1.0.1/dist/index.mjs"
+        // esm.sh bundles the package for direct browser import, including its
+        // pdf-lib peer dependency. This avoids the bare-module/import-map
+        // failure that made the previous CDN import report "engine unavailable".
+        "https://esm.sh/@localonlytools/pdf-decrypt@1.0.1?bundle&target=es2020",
+        "https://esm.sh/@pdfsmaller/pdf-decrypt@1.0.1?bundle&target=es2020",
+        "https://cdn.jsdelivr.net/npm/@localonlytools/pdf-decrypt@1.0.1/dist/index.mjs",
+        "https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt@1.0.1/dist/index.mjs"
       ];
       for(var i=0;i<urls.length;i++){
         try{

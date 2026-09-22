@@ -326,16 +326,16 @@
 
   function fitWidth() {
     state.view.fitMode = "width";
-    renderCurrentPage();
+    renderCurrentPage().then(renderOverlays);
   }
   function fitPage() {
     state.view.fitMode = "page";
-    renderCurrentPage();
+    renderCurrentPage().then(renderOverlays);
   }
   function setZoom(z) {
     state.view.fitMode = "manual";
     state.view.zoom = Math.max(0.25, Math.min(4, z));
-    renderCurrentPage();
+    renderCurrentPage().then(renderOverlays);
   }
 
   function invalidatePageCache() { pageCache = {}; }

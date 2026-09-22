@@ -48,7 +48,6 @@
       el("ed-viewport").classList.remove("is-hidden");
       el("ed-bottombar").hidden = false;
       el("ed-save").disabled = false;
-      el("edm-save").disabled = false;
 
       if (window.matchMedia && window.matchMedia("(pointer:coarse), (max-width:900px)").matches) {
         state.view.fitMode = "page";
@@ -224,11 +223,9 @@
     var flatten = el("save-flatten").checked;
     closeSaveModal();
     var saveBtn = el("ed-save");
-    var saveBtn2 = el("edm-save");
-    var prev1 = saveBtn.textContent, prev2 = saveBtn2.textContent;
-    saveBtn.disabled = saveBtn2.disabled = true;
+    var prev1 = saveBtn.textContent;
+    saveBtn.disabled = true;
     saveBtn.textContent = "Exporting…";
-    saveBtn2.textContent = "…";
     try {
       var bytes = await E.exportPdf({ flatten: flatten });
       var blob = new Blob([bytes], { type: "application/pdf" });
@@ -240,9 +237,8 @@
       log(err);
       if (window.dspdfToast) window.dspdfToast(D.humanError(err, "Export failed."), "error");
     } finally {
-      saveBtn.disabled = saveBtn2.disabled = false;
+      saveBtn.disabled = false;
       saveBtn.textContent = prev1;
-      saveBtn2.textContent = prev2;
     }
   }
 
@@ -653,6 +649,13 @@
       R.setZoom(state.view.zoom / 1.2);
     });
     document.getElementById("ed-zoom-fit").addEventListener("click", function () { R.fitWidth(); });
+    function setGestureMode(mode){
+      Ed.setInteractionMode(mode);
+      ["ed-select","ed-pan","edm-select","edm-pan"].forEach(function(id){var b=document.getElementById(id);if(b)b.classList.toggle("is-active",(mode==="select"&&/select/.test(id))||(mode==="pan"&&/pan/.test(id)));});
+    }
+    ["ed-select","edm-select"].forEach(function(id){var b=document.getElementById(id);if(b)b.addEventListener("click",function(){setGestureMode("select");});});
+    ["ed-pan","edm-pan"].forEach(function(id){var b=document.getElementById(id);if(b)b.addEventListener("click",function(){setGestureMode("pan");});});
+    setGestureMode(state.view.interactionMode || "select");
     document.getElementById("ed-page-up").addEventListener("click", function(){ reorderCurrent(-1); });
     document.getElementById("ed-page-down").addEventListener("click", function(){ reorderCurrent(1); });
     document.getElementById("ed-page-delete").addEventListener("click", deleteCurrentPage);
@@ -712,7 +715,6 @@
   /* ---------- Save modal ---------- */
   function initSave() {
     document.getElementById("ed-save").addEventListener("click", openSaveModal);
-    document.getElementById("edm-save").addEventListener("click", openSaveModal);
     document.getElementById("save-cancel").addEventListener("click", closeSaveModal);
     document.getElementById("save-confirm").addEventListener("click", doSave);
     window.addEventListener("dspdf:save", openSaveModal);
