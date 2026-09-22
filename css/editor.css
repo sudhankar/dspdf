@@ -658,6 +658,7 @@
 }
 
 
+/* v16: Select / Pan stay in the page/zoom bar on mobile; the quick toolbar is kept compact. */
 /* v15: touch-friendly Select / Pan controls and stable gesture surfaces. */
 .ed-gesture-mode.is-active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700;}
 .editor-viewport,.editor-canvas-wrap,.editor-overlay-layer,.editor-hit-layer{
