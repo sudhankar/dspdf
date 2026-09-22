@@ -750,3 +750,11 @@ p  { margin: 0 0 var(--space-4); color: var(--text-primary); }
 .home-brand-lockup__line{width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--accent));opacity:.7;}
 .home-brand-lockup__line:last-child{background:linear-gradient(90deg,var(--accent),transparent);}
 @media(max-width:640px){.home-brand-lockup{margin-bottom:18px}.home-brand-lockup__logo{width:min(220px,68vw)}.home-brand-lockup__creator{font-size:.76rem;letter-spacing:.11em;gap:8px}.home-brand-lockup__line{width:24px;}}
+
+
+/* v15: creator profile at the top of About. Replace images/profile.jpg with the
+   creator's photo; the SVG fallback keeps the layout polished until then. */
+.about-profile{display:flex;flex-direction:column;align-items:center;text-align:center;margin:0 auto 30px;padding:8px 0 2px;}
+.about-profile__photo{width:150px;height:150px;border-radius:50%;object-fit:cover;display:block;border:5px solid var(--bg-card);box-shadow:0 10px 30px rgba(0,0,0,.18),0 0 0 2px var(--accent);background:var(--bg-elevated);}
+.about-profile__title{margin-top:16px;font-size:clamp(1rem,2.2vw,1.28rem);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);line-height:1.35;}
+@media(max-width:640px){.about-profile{margin-bottom:24px}.about-profile__photo{width:124px;height:124px}.about-profile__title{font-size:.9rem;letter-spacing:.09em;padding:0 10px;}}

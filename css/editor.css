@@ -656,3 +656,15 @@
     min-width: 48px;
   }
 }
+
+
+/* v15: touch-friendly Select / Pan controls and stable gesture surfaces. */
+.ed-gesture-mode.is-active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700;}
+.editor-viewport,.editor-canvas-wrap,.editor-overlay-layer,.editor-hit-layer{
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+}
+@media (max-width:900px),(pointer:coarse){
+  .editor-viewport{touch-action:none;overscroll-behavior:contain;}
+  .editor-canvas-wrap{touch-action:none;will-change:transform;}
+  .editor-mobile-bar .ed-gesture-mode{min-width:52px;padding-left:8px;padding-right:8px;font-size:.72rem;}
+}
