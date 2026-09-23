@@ -111,6 +111,7 @@
 }
 .editor-thumbs__header .ed-btn { display: none; }
 .ed-page-actions{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin-left:auto}.ed-page-actions .ed-btn{display:inline-flex;min-width:28px;padding:3px 6px;font-weight:700}.ed-page-actions #ed-page-delete{color:#ef4444}.ed-page-actions #ed-page-rotate{color:#2563eb}
+.editor-quick-actions{display:flex;align-items:center;margin-bottom:10px}.editor-rotate-btn{width:100%;justify-content:center;color:var(--accent);border-color:var(--accent)}
 .editor-thumbs__list {
   overflow-y: auto;
   padding: var(--space-3);
