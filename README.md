@@ -99,7 +99,7 @@ window.DSPDF_CONFIG = {
   siteUrl: "https://dspdf.pages.dev/",
 
   // 👉 Your real contact email. Shown on Contact page.
-  contactEmail: "hello@example.com",
+  contactEmail: "dstechnocomp@gmail.com",
 
   // 👉 Ads: keep false until AdSense approves your site.
   adsenseEnabled: false,
@@ -119,7 +119,7 @@ The single most common deployment mistake is setting `basePath` wrong. Two scena
 
 | Your deployed URL | basePath | siteUrl |
 |---|---|---|
-| `https://sudhankar.github.io/dspdf/` | `/dspdf/` | `https://sudhankar.github.io/dspdf/` |
+| `https://dspdf.pages.dev/` | `/dspdf/` | `https://dspdf.pages.dev/` |
 | `https://sudhankar.github.io/` | `/` | `https://sudhankar.github.io/` |
 | `https://dspdf.com/` | `/` | `https://dspdf.com/` |
 

@@ -32,7 +32,7 @@ window.DSPDF_CONFIG = {
   /**
    * 👉 OWNER: Your real contact email. Shown on /contact.
    */
-  contactEmail: "hello@example.com",
+  contactEmail: "dstechnocomp@gmail.com",
 
   /**
    * 👉 OWNER: Ads — set to true ONLY after AdSense approves your site.

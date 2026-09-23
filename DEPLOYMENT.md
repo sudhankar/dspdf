@@ -42,7 +42,7 @@ You do NOT need: a domain name, a paid hosting plan, any coding knowledge, or a 
 You now have an empty repository. The URL will look like:
 
 ```
-https://github.com/YOUR-USERNAME/dspdf
+https://github.com/sudhankar/dspdf
 ```
 
 Agar aap is URL ko yaad rakhein — aage kaam aayega.
@@ -80,7 +80,7 @@ This is easier for large file sets and any future updates.
 ```bash
 cd /path/to/dspdf
 git init
-git remote add origin https://github.com/YOUR-USERNAME/dspdf.git
+git remote add origin https://github.com/sudhankar/dspdf.git
 git add .
 git commit -m "Initial upload"
 git branch -M main
@@ -129,7 +129,7 @@ Because your site lives in a subfolder (`/dspdf/`), all internal links and asset
 
 | Your live URL | basePath should be |
 |---|---|
-| `https://sudhankar.github.io/dspdf/` | `/dspdf/` |
+| `https://dspdf.pages.dev/` | `/dspdf/` |
 | `https://priya.github.io/my-pdf-tools/` | `/my-pdf-tools/` |
 | `https://username.github.io/` | `/` |
 | `https://dspdf.com/` (custom domain) | `/` |
@@ -142,12 +142,12 @@ Because your site lives in a subfolder (`/dspdf/`), all internal links and asset
    ```javascript
    basePath: "/",
    siteUrl: "https://dspdf.pages.dev/",
-   contactEmail: "hello@example.com",
+   contactEmail: "dstechnocomp@gmail.com",
    ```
 4. Change them to your real values. For example, if your username is `sudhankar` and your repo is `dspdf`:
    ```javascript
    basePath: "/dspdf/",
-   siteUrl: "https://sudhankar.github.io/dspdf/",
+   siteUrl: "https://dspdf.pages.dev/",
    contactEmail: "your-real-email@example.com",
    ```
 5. Scroll to the bottom, click **Commit changes**.
