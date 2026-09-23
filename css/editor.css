@@ -37,6 +37,17 @@
   max-width: 40vw;
 }
 
+.editor-seo-heading {
+  margin: 0 0 2px;
+  font-size: 0.92rem;
+  line-height: 1.25;
+  font-weight: 800;
+  color: var(--accent);
+}
+.editor-notice p {
+  margin: 0;
+}
+
 .editor-notice {
   background: var(--accent-soft);
   color: var(--accent);
