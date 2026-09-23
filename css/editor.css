@@ -669,3 +669,57 @@
   .editor-canvas-wrap{touch-action:none;will-change:transform;}
   .editor-mobile-bar .ed-gesture-mode{min-width:52px;padding-left:8px;padding-right:8px;font-size:.72rem;}
 }
+
+/* v17: keep the complete mobile page/zoom control row inside narrow phone screens. */
+@media (max-width: 520px) {
+  .editor-bottombar {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 3px;
+    padding: 4px 6px;
+    box-sizing: border-box;
+  }
+  .editor-bottombar__spacer { display: none; }
+  .editor-bottombar > * { flex: 0 0 auto; }
+  .editor-bottombar .ed-btn--icon {
+    width: 32px;
+    min-width: 32px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+  }
+  .editor-page-indicator {
+    min-width: 30px;
+    width: 30px;
+    font-size: .78rem;
+  }
+  .editor-bottombar .ed-gesture-mode {
+    min-width: 43px;
+    width: 43px;
+    height: 36px;
+    min-height: 36px;
+    padding: 3px 2px;
+    font-size: .72rem;
+  }
+  .editor-zoom-indicator {
+    min-width: 40px;
+    width: 40px;
+    font-size: .78rem;
+  }
+  .editor-bottombar #ed-zoom-fit {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 3px 2px;
+    font-size: .72rem;
+  }
+}
+
+@media (max-width: 390px) {
+  /* On very narrow phones Fit is the only optional control; keep +/- and the
+     percentage visible rather than allowing the right side to be clipped. */
+  .editor-bottombar #ed-zoom-fit { display: none; }
+}
