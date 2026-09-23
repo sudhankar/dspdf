@@ -734,3 +734,5 @@
      percentage visible rather than allowing the right side to be clipped. */
   .editor-bottombar #ed-zoom-fit { display: none; }
 }
+
+.editor-notice__help{margin:6px auto 0;max-width:760px;font-size:.82rem;line-height:1.45;opacity:.92}.editor-notice__help a{text-decoration:underline;text-underline-offset:2px}

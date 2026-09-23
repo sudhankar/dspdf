@@ -209,3 +209,5 @@
 
 /* v14 touch drawing stability: drawing canvases should receive the full pointer gesture. */
 #hl-canvas,#red-canvas,#enh-preview,#an-canvas,#an-preview,#sign-canvas,.pdf-draw-canvas{touch-action:none;overscroll-behavior:contain;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;}
+
+.tools-intro-copy{max-width:860px}.tools-intro-copy p{max-width:78ch;line-height:1.7;color:var(--text-muted)}
