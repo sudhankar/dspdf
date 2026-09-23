@@ -65,4 +65,6 @@
   <url><loc>https://dspdf.pages.dev/tools/split-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/unlock-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/watermark-pdf/</loc></url>
+  <url><loc>https://dspdf.pages.dev/tools/pdf-to-text/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dspdf.pages.dev/blog/pdf-to-text-guide/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
