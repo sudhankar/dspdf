@@ -737,3 +737,15 @@
 }
 
 .editor-notice__help{margin:6px auto 0;max-width:760px;font-size:.82rem;line-height:1.45;opacity:.92}.editor-notice__help a{text-decoration:underline;text-underline-offset:2px}
+
+
+/* v26: compact mobile editor intro. Keep the H1 visible for users/SEO,
+   but remove the long explanatory copy from the limited phone viewport. */
+.editor-seo-heading__mobile{display:none;}
+@media (max-width:900px),(pointer:coarse){
+  .editor-notice{padding:4px 8px;}
+  .editor-notice p{display:none;}
+  .editor-seo-heading{margin:0;font-size:.92rem;line-height:1.2;}
+  .editor-seo-heading__full{display:none;}
+  .editor-seo-heading__mobile{display:inline;}
+}

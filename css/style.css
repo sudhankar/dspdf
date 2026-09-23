@@ -228,6 +228,18 @@ p  { margin: 0 0 var(--space-4); color: var(--text-primary); }
 }
 .navbar__menu a:hover { color: var(--text-primary); background: var(--bg-elevated); text-decoration: none; }
 
+.navbar__menu a.navbar__contact-link {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,.14);
+}
+.navbar__menu a.navbar__contact-link:hover {
+  background: var(--accent-hover, var(--accent));
+  color: #fff;
+  text-decoration: none;
+}
+
 .navbar__actions { display: flex; align-items: center; gap: var(--space-2); }
 
 .navbar__toggle {
