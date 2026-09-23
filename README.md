@@ -96,7 +96,7 @@ window.DSPDF_CONFIG = {
   basePath: "/",
 
   // 👉 Your full public URL, WITH trailing slash.
-  siteUrl: "https://YOUR-USERNAME.github.io/dspdf/",
+  siteUrl: "https://dspdf.pages.dev/",
 
   // 👉 Your real contact email. Shown on Contact page.
   contactEmail: "hello@example.com",
@@ -124,7 +124,7 @@ The single most common deployment mistake is setting `basePath` wrong. Two scena
 | `https://dspdf.com/` | `/` | `https://dspdf.com/` |
 
 Also update these two files to match:
-- `sitemap.xml` — find/replace `YOUR-USERNAME.github.io/dspdf` with your real URL
+- `sitemap.xml` — find/replace `dspdf.pages.dev` with your real URL
 - `robots.txt` — same
 
 ---
@@ -222,7 +222,7 @@ Whenever you add a page, add a `<url>` block:
 
 ```xml
 <url>
-  <loc>https://YOUR-USERNAME.github.io/dspdf/path/to/page/</loc>
+  <loc>https://dspdf.pages.dev/path/to/page/</loc>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
 </url>
