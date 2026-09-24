@@ -16,7 +16,7 @@
  *    below to make them work offline.
  */
 
-var CACHE_VERSION = "dspdf-v4";
+var CACHE_VERSION = "dspdf-v5";
 var PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -27,6 +27,7 @@ var PRECACHE_URLS = [
   "./js/config.js",
   "./js/main.js",
   "./js/tools-engine.js",
+  "./js/tools/reorder-pages.js",
   "./images/logo.svg",
   "./images/favicon.svg"
 ];

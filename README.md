@@ -428,3 +428,7 @@ copies of the Software...
 ## Contact
 
 See the Contact page on the live site, or check `js/config.js` for the configured email.
+
+## Current tool coverage
+
+- Reorder PDF Pages is available as a standalone Organize tool with thumbnail previews, desktop drag-and-drop, mobile-safe move controls, reset order, browser-side processing, SEO metadata, FAQ, related links, sitemap entry, and a companion long-form guide.
