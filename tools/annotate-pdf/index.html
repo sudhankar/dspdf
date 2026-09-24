@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>Annotate PDF Online — Notes, Stamps &amp; Markup | DSPDF</title>
-<meta name="description" content="Annotate your PDF with text notes, stamps like APPROVED or DRAFT, and freehand markup. Free, private, all in your browser." />
-<link rel="canonical" href="https://dspdf.pages.dev/tools/annotate-pdf/" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Annotate PDF — DSPDF" />
-<meta property="og:description" content="Add notes, stamps, and markup to your PDF." />
-<meta property="og:url" content="https://dspdf.pages.dev/tools/annotate-pdf/" />
-<meta property="og:image" content="https://dspdf.pages.dev/images/logo.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="../../images/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/tools.css" />
+<meta content="Annotate your PDF with text notes, stamps like APPROVED or DRAFT, and freehand markup. Free, private, all in your browser." name="description"/>
+<link href="https://dspdf.pages.dev/tools/annotate-pdf/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Annotate PDF — DSPDF" property="og:title"/>
+<meta content="Add notes, stamps, and markup to your PDF." property="og:description"/>
+<meta content="https://dspdf.pages.dev/tools/annotate-pdf/" property="og:url"/>
+<meta content="https://dspdf.pages.dev/images/logo.svg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../../images/logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/tools.css" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"SoftwareApplication","name":"Annotate PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://dspdf.pages.dev/tools/annotate-pdf/"},
@@ -35,174 +36,156 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="navbar">
-  <div class="container navbar__inner">
-    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" alt="DSPDF logo" class="dspdf-shared-logo" /></a>
-    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
-    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
-      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
-      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
-    </ul></nav>
-    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
-  </div>
+<div class="container navbar__inner">
+<a aria-label="DSPDF home" class="navbar__brand" href="../../index.html"><img alt="DSPDF logo" class="dspdf-shared-logo" src="../../images/logo.svg"/></a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu" class="navbar__toggle" data-nav-toggle="">☰</button>
+<nav aria-label="Primary"><ul class="navbar__menu" data-nav-menu="" id="primary-nav">
+<li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+<li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
+</ul></nav>
+<div class="navbar__actions"><button aria-label="Switch theme" class="theme-toggle" data-theme-toggle="">☀️</button></div>
+</div>
 </header>
-
-<main id="main" class="section">
-  <div class="container">
-    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
-      <li><a href="../../index.html">Home</a></li>
-      <li><a href="../index.html">Tools</a></li>
-      <li><span aria-current="page">Annotate PDF</span></li>
-    </ol></nav>
-
-    <h1>Annotate PDF</h1>
-    <p class="lead">Add text notes, preset stamps (APPROVED, DRAFT, CONFIDENTIAL), and freehand markup to any page.</p>
-    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
-
-    <section class="tool-panel mt-6">
-      <div id="uz-an" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
-        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p class="upload-zone__title">Drop a PDF here or click to select</p>
-        <input type="file" accept="application/pdf,.pdf" hidden />
-      </div>
-
-      <div id="an-alert" class="alert alert-error mt-4" hidden role="alert"></div>
-
-      <div id="an-toolbar" class="mt-6" hidden>
-        <p class="text-muted" id="an-info"></p>
-
-        <div class="opt-group mt-4">
-          <div class="opt-row">
-            <label>Page</label>
-            <button type="button" class="btn btn-sm" id="an-prev">‹ Prev</button>
-            <span id="an-page-label" style="font-variant-numeric:tabular-nums;">1 / 1</span>
-            <button type="button" class="btn btn-sm" id="an-next">Next ›</button>
-          </div>
-          <div class="opt-row">
-            <label>Tool</label>
-            <label><input type="radio" name="an-tool" value="note" checked /> Sticky note</label>
-            <label><input type="radio" name="an-tool" value="stamp" /> Stamp</label>
-            <label><input type="radio" name="an-tool" value="draw" /> Freehand draw</label>
-          </div>
-          <div class="opt-row" id="an-note-row">
-            <label>Note text</label>
-            <input type="text" id="an-note-text" placeholder="Type your note…" />
-            <label style="min-width:auto;">Color
-              <input type="color" id="an-note-color" value="#FDE047" />
-            </label>
-          </div>
-          <div class="opt-row" id="an-stamp-row" hidden>
-            <label>Stamp</label>
-            <select id="an-stamp-preset">
-              <option value="APPROVED">APPROVED</option>
-              <option value="DRAFT">DRAFT</option>
-              <option value="CONFIDENTIAL">CONFIDENTIAL</option>
-              <option value="REVIEWED">REVIEWED</option>
-              <option value="PAID">PAID</option>
-              <option value="VOID">VOID</option>
-              <option value="EXPIRED">EXPIRED</option>
-              <option value="SAMPLE">SAMPLE</option>
-              <option value="custom">Custom text…</option>
-            </select>
-            <input type="text" id="an-stamp-custom" placeholder="Custom text" hidden />
-            <input type="color" id="an-stamp-color" value="#EF4444" aria-label="Stamp color" />
-            <label style="min-width:auto;">Size <input type="range" id="an-stamp-size" min="5" max="60" value="20" /><span id="an-stamp-size-val" style="min-width:42px;">20%</span></label>
-          </div>
-          <div class="opt-row" id="an-stamp-image-row" hidden>
-            <label>Stamp image</label>
-            <label><input type="checkbox" id="an-stamp-image-on" /> Use image</label>
-            <button type="button" class="btn btn-sm btn-secondary" id="an-stamp-image-pick" disabled>Select image</button>
-            <input type="file" id="an-stamp-image" accept="image/png,image/jpeg" hidden />
-            <span id="an-stamp-image-name" class="text-muted">No image selected</span>
-          </div>
-          <div class="opt-row" id="an-draw-row" hidden>
-            <label>Pen</label>
-            <input type="color" id="an-draw-color" value="#EF4444" />
-            <input type="range" id="an-draw-width" min="1" max="12" value="3" />
-            <span id="an-draw-width-val" style="min-width:36px;">3</span>
-          </div>
-        </div>
-
-        <div id="an-canvas-wrap" style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
-          <canvas id="an-canvas" style="display:block;background:#fff;margin:0 auto;touch-action:none;"></canvas>
-        </div>
-
-        <div class="mt-4">
-          <button type="button" class="btn btn-ghost btn-sm" id="an-undo">Undo</button>
-          <button type="button" class="btn btn-ghost btn-sm" id="an-redo">Redo</button>
-          <button type="button" class="btn btn-ghost btn-sm" id="an-delete">Delete selected</button>
-          <button type="button" class="btn btn-ghost btn-sm" id="an-clear-page">Clear this page</button>
-          <span class="text-muted" style="font-size:0.85rem;margin-left:8px;" id="an-count">0 annotations</span>
-        </div>
-
-        <div id="an-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="progress"><div class="progress__bar"></div></div>
-          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
-        </div>
-
-        <div class="tool-actions mt-6">
-          <button type="button" class="btn btn-primary btn-lg" id="an-save" disabled>Save annotated PDF</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>How to annotate a PDF</h2>
-      <ol class="how-to">
-        <li>Drop your PDF into the box above.</li>
-        <li>Choose a tool: sticky note, stamp, or freehand draw.</li>
-        <li>Click on the page to place a note or stamp, or drag to draw.</li>
-        <li>Use Prev / Next to annotate multiple pages.</li>
-        <li>Click <strong>Save annotated PDF</strong>.</li>
-      </ol>
-    </section>
-
-    <section class="mt-6">
-      <h2>Technical limitations</h2>
-      <ul>
-        <li>Notes and stamps are drawn as flat page content — they do not appear in PDF reader "Comments" panels.</li>
-        <li>Annotations cannot be edited or removed after saving. Keep your original if revisions may be needed.</li>
-        <li>Sticky note text is limited to what fits in the note box; long text wraps.</li>
-      </ul>
-    </section>
-
-    <section class="mt-6">
-      <h2>Frequently asked</h2>
-      <div class="faq-accordion">
-        <details><summary>Are these real PDF comments?</summary><p>No — they're drawn as page content. They look correct in any PDF reader, but won't show in the interactive comments panel.</p></details>
-        <details><summary>Can I remove a note later?</summary><p>Not from the output PDF. Keep your original file.</p></details>
-        <details><summary>What stamps are available?</summary><p>APPROVED, DRAFT, CONFIDENTIAL, REVIEWED, PAID, VOID, EXPIRED, SAMPLE — plus a custom option.</p></details>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related tools</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">The full overlay editor.</p></a>
-        <a class="tool-card" href="../highlight-pdf/index.html"><h3 class="tool-card__title">Highlight PDF</h3><p class="tool-card__desc">Colored highlights.</p></a>
-        <a class="tool-card" href="../watermark-pdf/index.html"><h3 class="tool-card__title">Watermark PDF</h3><p class="tool-card__desc">DRAFT/CONFIDENTIAL stamps repeated.</p></a>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related reading</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../../blog/watermark-your-documents/index.html"><h3 class="tool-card__title">Watermark Your Documents</h3><p class="tool-card__desc">Comparing watermark vs stamp.</p></a>
-        <a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">How local processing works.</p></a>
-      </div>
-    </section>
-  </div>
-</main>
-
+<main class="section" id="main">
+<div class="container">
+<nav aria-label="Breadcrumb"><ol class="breadcrumb">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../index.html">Tools</a></li>
+<li><span aria-current="page">Annotate PDF</span></li>
+</ol></nav>
+<h1>Annotate PDF</h1>
+<p class="lead">Add text notes, preset stamps (APPROVED, DRAFT, CONFIDENTIAL), and freehand markup to any page.</p>
+<p class="privacy-badge">🔒 Processed locally in your browser.</p>
+<section class="tool-panel mt-6">
+<div aria-label="Add a PDF" class="upload-zone" id="uz-an" role="button" tabindex="0">
+<svg aria-hidden="true" class="upload-zone__icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+<p class="upload-zone__title">Drop a PDF here or click to select</p>
+<input accept="application/pdf,.pdf" hidden="" type="file"/>
+</div>
+<div class="alert alert-error mt-4" hidden="" id="an-alert" role="alert"></div>
+<div class="mt-6" hidden="" id="an-toolbar">
+<p class="text-muted" id="an-info"></p>
+<div class="opt-group mt-4">
+<div class="opt-row">
+<label>Page</label>
+<button class="btn btn-sm" id="an-prev" type="button">‹ Prev</button>
+<span id="an-page-label" style="font-variant-numeric:tabular-nums;">1 / 1</span>
+<button class="btn btn-sm" id="an-next" type="button">Next ›</button>
+</div>
+<div class="opt-row">
+<label>Tool</label>
+<label><input checked="" name="an-tool" type="radio" value="note"/> Sticky note</label>
+<label><input name="an-tool" type="radio" value="stamp"/> Stamp</label>
+<label><input name="an-tool" type="radio" value="draw"/> Freehand draw</label>
+</div>
+<div class="opt-row" id="an-note-row">
+<label>Note text</label>
+<input id="an-note-text" placeholder="Type your note…" type="text"/>
+<label style="min-width:auto;">Color
+              <input id="an-note-color" type="color" value="#FDE047"/>
+</label>
+</div>
+<div class="opt-row" hidden="" id="an-stamp-row">
+<label>Stamp</label>
+<select id="an-stamp-preset">
+<option value="APPROVED">APPROVED</option>
+<option value="DRAFT">DRAFT</option>
+<option value="CONFIDENTIAL">CONFIDENTIAL</option>
+<option value="REVIEWED">REVIEWED</option>
+<option value="PAID">PAID</option>
+<option value="VOID">VOID</option>
+<option value="EXPIRED">EXPIRED</option>
+<option value="SAMPLE">SAMPLE</option>
+<option value="custom">Custom text…</option>
+</select>
+<input hidden="" id="an-stamp-custom" placeholder="Custom text" type="text"/>
+<input aria-label="Stamp color" id="an-stamp-color" type="color" value="#EF4444"/>
+<label style="min-width:auto;">Size <input id="an-stamp-size" max="60" min="5" type="range" value="20"/><span id="an-stamp-size-val" style="min-width:42px;">20%</span></label>
+</div>
+<div class="opt-row" hidden="" id="an-stamp-image-row">
+<label>Stamp image</label>
+<label><input id="an-stamp-image-on" type="checkbox"/> Use image</label>
+<button class="btn btn-sm btn-secondary" disabled="" id="an-stamp-image-pick" type="button">Select image</button>
+<input accept="image/png,image/jpeg" hidden="" id="an-stamp-image" type="file"/>
+<span class="text-muted" id="an-stamp-image-name">No image selected</span>
+</div>
+<div class="opt-row" hidden="" id="an-draw-row">
+<label>Pen</label>
+<input id="an-draw-color" type="color" value="#EF4444"/>
+<input id="an-draw-width" max="12" min="1" type="range" value="3"/>
+<span id="an-draw-width-val" style="min-width:36px;">3</span>
+</div>
+</div>
+<div id="an-canvas-wrap" style="border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:70vh;background:#0f1a2b;padding:12px;">
+<canvas id="an-canvas" style="display:block;background:#fff;margin:0 auto;touch-action:none;"></canvas>
+</div>
+<div class="mt-4">
+<button class="btn btn-ghost btn-sm" id="an-undo" type="button">Undo</button>
+<button class="btn btn-ghost btn-sm" id="an-redo" type="button">Redo</button>
+<button class="btn btn-ghost btn-sm" id="an-delete" type="button">Delete selected</button>
+<button class="btn btn-ghost btn-sm" id="an-clear-page" type="button">Clear this page</button>
+<span class="text-muted" id="an-count" style="font-size:0.85rem;margin-left:8px;">0 annotations</span>
+</div>
+<div aria-live="polite" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="mt-4" hidden="" id="an-progress" role="progressbar">
+<div class="progress"><div class="progress__bar"></div></div>
+<p class="text-muted" data-progress-label="" style="font-size:0.9rem;margin:8px 0 0;"></p>
+</div>
+<div class="tool-actions mt-6">
+<button class="btn btn-primary btn-lg" disabled="" id="an-save" type="button">Save annotated PDF</button>
+</div>
+</div>
+</section>
+<section class="mt-6">
+<h2>How to annotate a PDF</h2>
+<ol class="how-to">
+<li>Drop your PDF into the box above.</li>
+<li>Choose a tool: sticky note, stamp, or freehand draw.</li>
+<li>Click on the page to place a note or stamp, or drag to draw.</li>
+<li>Use Prev / Next to annotate multiple pages.</li>
+<li>Click <strong>Save annotated PDF</strong>.</li>
+</ol>
+</section>
+<section class="mt-6">
+<h2>Technical limitations</h2>
+<ul>
+<li>Notes and stamps are drawn as flat page content — they do not appear in PDF reader "Comments" panels.</li>
+<li>Annotations cannot be edited or removed after saving. Keep your original if revisions may be needed.</li>
+<li>Sticky note text is limited to what fits in the note box; long text wraps.</li>
+</ul>
+</section>
+<section class="mt-6">
+<h2>Frequently asked</h2>
+<div class="faq-accordion">
+<details><summary>Are these real PDF comments?</summary><p>No — they're drawn as page content. They look correct in any PDF reader, but won't show in the interactive comments panel.</p></details>
+<details><summary>Can I remove a note later?</summary><p>Not from the output PDF. Keep your original file.</p></details>
+<details><summary>What stamps are available?</summary><p>APPROVED, DRAFT, CONFIDENTIAL, REVIEWED, PAID, VOID, EXPIRED, SAMPLE — plus a custom option.</p></details>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related tools</h2>
+<div class="related-grid">
+<a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">The full overlay editor.</p></a>
+<a class="tool-card" href="../highlight-pdf/index.html"><h3 class="tool-card__title">Highlight PDF</h3><p class="tool-card__desc">Colored highlights.</p></a>
+<a class="tool-card" href="../watermark-pdf/index.html"><h3 class="tool-card__title">Watermark PDF</h3><p class="tool-card__desc">DRAFT/CONFIDENTIAL stamps repeated.</p></a>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related reading</h2>
+<div class="related-grid">
+<a class="tool-card" href="../../blog/watermark-your-documents/index.html"><h3 class="tool-card__title">Watermark Your Documents</h3><p class="tool-card__desc">Comparing watermark vs stamp.</p></a>
+<a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">How local processing works.</p></a>
+</div>
+</section>
+</div>
+<section class="mt-6"><h2>Privacy</h2><p>Annotate PDF processes the selected PDF in your browser rather than sending it to a DSPDF PDF-processing server. Your browser may load public libraries needed for the tool, while your device controls memory and processing speed. For sensitive documents, keep the original and follow your own document-handling rules.</p></section></main>
 <footer class="footer"><div class="container"><div class="footer__bottom">
-  <span>© <span data-year>2026</span> DSPDF.</span>
-  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+<span>© <span data-year="">2026</span> DSPDF.</span>
+<span class="footer__badge">🔒 All processing happens in your browser.</span>
 </div></div></footer>
-
 <script src="../../js/config.js"></script>
 <script src="../../js/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="../../js/tools-engine.js"></script>

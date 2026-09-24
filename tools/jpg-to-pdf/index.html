@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>JPG to PDF — Combine Images into One PDF | DSPDF</title>
-<meta name="description" content="Convert JPG, PNG, and WebP images into a single PDF. Choose page size, orientation, margins. Private, in-browser, free." />
-<link rel="canonical" href="https://dspdf.pages.dev/tools/jpg-to-pdf/" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="JPG to PDF — DSPDF" />
-<meta property="og:description" content="Images to PDF in your browser. Free, no uploads." />
-<meta property="og:url" content="https://dspdf.pages.dev/tools/jpg-to-pdf/" />
-<meta property="og:image" content="https://dspdf.pages.dev/images/logo.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="../../images/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/tools.css" />
+<meta content="Convert JPG, PNG, and WebP images into a single PDF. Choose page size, orientation, margins. Private, in-browser, free." name="description"/>
+<link href="https://dspdf.pages.dev/tools/jpg-to-pdf/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="JPG to PDF — DSPDF" property="og:title"/>
+<meta content="Images to PDF in your browser. Free, no uploads." property="og:description"/>
+<meta content="https://dspdf.pages.dev/tools/jpg-to-pdf/" property="og:url"/>
+<meta content="https://dspdf.pages.dev/images/logo.svg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../../images/logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/tools.css" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"SoftwareApplication","name":"JPG to PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://dspdf.pages.dev/tools/jpg-to-pdf/"},
@@ -35,132 +36,116 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="navbar">
-  <div class="container navbar__inner">
-    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" alt="DSPDF logo" class="dspdf-shared-logo" /></a>
-    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
-    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
-      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
-      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
-    </ul></nav>
-    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
-  </div>
+<div class="container navbar__inner">
+<a aria-label="DSPDF home" class="navbar__brand" href="../../index.html"><img alt="DSPDF logo" class="dspdf-shared-logo" src="../../images/logo.svg"/></a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu" class="navbar__toggle" data-nav-toggle="">☰</button>
+<nav aria-label="Primary"><ul class="navbar__menu" data-nav-menu="" id="primary-nav">
+<li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+<li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
+</ul></nav>
+<div class="navbar__actions"><button aria-label="Switch theme" class="theme-toggle" data-theme-toggle="">☀️</button></div>
+</div>
 </header>
-
-<main id="main" class="section">
-  <div class="container">
-    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
-      <li><a href="../../index.html">Home</a></li>
-      <li><a href="../index.html">Tools</a></li>
-      <li><span aria-current="page">JPG to PDF</span></li>
-    </ol></nav>
-
-    <h1>JPG to PDF</h1>
-    <p class="lead">Turn one or many images into a single clean PDF. Reorder before saving.</p>
-    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
-
-    <section class="tool-panel mt-6">
-      <div id="uz-j2p" class="upload-zone" tabindex="0" role="button" aria-label="Add images">
-        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p class="upload-zone__title">Drop images here or click to select</p>
-        <p class="upload-zone__hint">JPG, PNG, WebP. Multiple allowed.</p>
-        <input type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden />
-      </div>
-
-      <div id="j2p-alert" class="alert alert-error mt-4" hidden role="alert"></div>
-
-      <ul id="j2p-list" class="file-list mt-4" aria-label="Images to include"></ul>
-
-      <div id="j2p-options" class="opt-group mt-6" hidden>
-        <div class="opt-row">
-          <label>Page size</label>
-          <select id="j2p-pagesize">
-            <option value="a4">A4 (210 × 297 mm)</option>
-            <option value="letter">Letter (8.5 × 11 in)</option>
-            <option value="fit">Fit to image</option>
-          </select>
-        </div>
-        <div class="opt-row">
-          <label>Orientation</label>
-          <select id="j2p-orient">
-            <option value="auto">Auto (match image)</option>
-            <option value="portrait">Portrait</option>
-            <option value="landscape">Landscape</option>
-          </select>
-        </div>
-        <div class="opt-row">
-          <label>Margin</label>
-          <input type="number" id="j2p-margin" min="0" max="60" value="20" step="4" aria-label="Margin in points" />
-          <span class="text-muted" style="font-size:0.85rem;">points (0–60)</span>
-        </div>
-      </div>
-
-      <div id="j2p-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="progress"><div class="progress__bar"></div></div>
-        <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
-      </div>
-
-      <div class="tool-actions mt-6">
-        <button type="button" class="btn btn-primary btn-lg" id="j2p-apply" disabled>Create PDF</button>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>How to convert images to PDF</h2>
-      <ol class="how-to">
-        <li>Drop your JPG, PNG, or WebP images above.</li>
-        <li>Drag the file cards to reorder — this is the PDF page order.</li>
-        <li>Choose page size, orientation, and margin.</li>
-        <li>Click <strong>Create PDF</strong> and save the result.</li>
-      </ol>
-    </section>
-
-    <section class="mt-6">
-      <h2>Technical limitations</h2>
-      <ul>
-        <li>Transparency in PNG/WebP becomes white in the PDF (PDF pages are opaque).</li>
-        <li>Very high-resolution images (over ~8000 px on a side) may fail to encode on low-memory devices.</li>
-        <li>"Fit to image" makes each page exactly the image size — great for comics, less ideal for printing.</li>
-      </ul>
-    </section>
-
-    <section class="mt-6">
-      <h2>Frequently asked</h2>
-      <div class="faq-accordion">
-        <details><summary>Can I mix JPG and PNG?</summary><p>Yes. Any supported format can appear in the same PDF.</p></details>
-        <details><summary>How do I reorder pages?</summary><p>Drag any image card up or down before clicking Create PDF.</p></details>
-        <details><summary>Will images be reduced in quality?</summary><p>No — images are embedded as-is when possible. Choose "Fit to image" for pixel-perfect results.</p></details>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related tools</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../pdf-to-jpg/index.html"><h3 class="tool-card__title">PDF to JPG</h3><p class="tool-card__desc">The reverse operation.</p></a>
-        <a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine with existing PDFs.</p></a>
-        <a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink the resulting file.</p></a>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related reading</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../../blog/how-to-convert-jpg-to-pdf/index.html"><h3 class="tool-card__title">How to Convert JPG to PDF</h3><p class="tool-card__desc">Real workflows for real photos.</p></a>
-        <a class="tool-card" href="../../blog/extract-images-from-pdf/index.html"><h3 class="tool-card__title">Extract Images from PDF</h3><p class="tool-card__desc">The reverse workflow.</p></a>
-      </div>
-    </section>
-  </div>
-</main>
-
+<main class="section" id="main">
+<div class="container">
+<nav aria-label="Breadcrumb"><ol class="breadcrumb">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../index.html">Tools</a></li>
+<li><span aria-current="page">JPG to PDF</span></li>
+</ol></nav>
+<h1>JPG to PDF</h1>
+<p class="lead">Turn one or many images into a single clean PDF. Reorder before saving.</p>
+<p class="privacy-badge">🔒 Processed locally in your browser.</p>
+<section class="tool-panel mt-6">
+<div aria-label="Add images" class="upload-zone" id="uz-j2p" role="button" tabindex="0">
+<svg aria-hidden="true" class="upload-zone__icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+<p class="upload-zone__title">Drop images here or click to select</p>
+<p class="upload-zone__hint">JPG, PNG, WebP. Multiple allowed.</p>
+<input accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden="" multiple="" type="file"/>
+</div>
+<div class="alert alert-error mt-4" hidden="" id="j2p-alert" role="alert"></div>
+<ul aria-label="Images to include" class="file-list mt-4" id="j2p-list"></ul>
+<div class="opt-group mt-6" hidden="" id="j2p-options">
+<div class="opt-row">
+<label>Page size</label>
+<select id="j2p-pagesize">
+<option value="a4">A4 (210 × 297 mm)</option>
+<option value="letter">Letter (8.5 × 11 in)</option>
+<option value="fit">Fit to image</option>
+</select>
+</div>
+<div class="opt-row">
+<label>Orientation</label>
+<select id="j2p-orient">
+<option value="auto">Auto (match image)</option>
+<option value="portrait">Portrait</option>
+<option value="landscape">Landscape</option>
+</select>
+</div>
+<div class="opt-row">
+<label>Margin</label>
+<input aria-label="Margin in points" id="j2p-margin" max="60" min="0" step="4" type="number" value="20"/>
+<span class="text-muted" style="font-size:0.85rem;">points (0–60)</span>
+</div>
+</div>
+<div aria-live="polite" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="mt-4" hidden="" id="j2p-progress" role="progressbar">
+<div class="progress"><div class="progress__bar"></div></div>
+<p class="text-muted" data-progress-label="" style="font-size:0.9rem;margin:8px 0 0;"></p>
+</div>
+<div class="tool-actions mt-6">
+<button class="btn btn-primary btn-lg" disabled="" id="j2p-apply" type="button">Create PDF</button>
+</div>
+</section>
+<section class="mt-6">
+<h2>How to convert images to PDF</h2>
+<ol class="how-to">
+<li>Drop your JPG, PNG, or WebP images above.</li>
+<li>Drag the file cards to reorder — this is the PDF page order.</li>
+<li>Choose page size, orientation, and margin.</li>
+<li>Click <strong>Create PDF</strong> and save the result.</li>
+</ol>
+</section>
+<section class="mt-6">
+<h2>Technical limitations</h2>
+<ul>
+<li>Transparency in PNG/WebP becomes white in the PDF (PDF pages are opaque).</li>
+<li>Very high-resolution images (over ~8000 px on a side) may fail to encode on low-memory devices.</li>
+<li>"Fit to image" makes each page exactly the image size — great for comics, less ideal for printing.</li>
+</ul>
+</section>
+<section class="mt-6">
+<h2>Frequently asked</h2>
+<div class="faq-accordion">
+<details><summary>Can I mix JPG and PNG?</summary><p>Yes. Any supported format can appear in the same PDF.</p></details>
+<details><summary>How do I reorder pages?</summary><p>Drag any image card up or down before clicking Create PDF.</p></details>
+<details><summary>Will images be reduced in quality?</summary><p>No — images are embedded as-is when possible. Choose "Fit to image" for pixel-perfect results.</p></details>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related tools</h2>
+<div class="related-grid">
+<a class="tool-card" href="../pdf-to-jpg/index.html"><h3 class="tool-card__title">PDF to JPG</h3><p class="tool-card__desc">The reverse operation.</p></a>
+<a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine with existing PDFs.</p></a>
+<a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink the resulting file.</p></a>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related reading</h2>
+<div class="related-grid">
+<a class="tool-card" href="../../blog/how-to-convert-jpg-to-pdf/index.html"><h3 class="tool-card__title">How to Convert JPG to PDF</h3><p class="tool-card__desc">Real workflows for real photos.</p></a>
+<a class="tool-card" href="../../blog/extract-images-from-pdf/index.html"><h3 class="tool-card__title">Extract Images from PDF</h3><p class="tool-card__desc">The reverse workflow.</p></a>
+</div>
+</section>
+</div>
+<section class="mt-6"><h2>Privacy</h2><p>JPG to PDF processes the selected PDF in your browser rather than sending it to a DSPDF PDF-processing server. Your browser may load public libraries needed for the tool, while your device controls memory and processing speed. For sensitive documents, keep the original and follow your own document-handling rules.</p></section></main>
 <footer class="footer"><div class="container"><div class="footer__bottom">
-  <span>© <span data-year>2026</span> DSPDF.</span>
-  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+<span>© <span data-year="">2026</span> DSPDF.</span>
+<span class="footer__badge">🔒 All processing happens in your browser.</span>
 </div></div></footer>
-
 <script src="../../js/config.js"></script>
 <script src="../../js/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="../../js/tools-engine.js"></script>
 <script src="../../js/tools/jpg-to-pdf.js"></script>
 </body>

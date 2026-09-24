@@ -213,6 +213,7 @@
           <h3 class="tool-card__title">PDF to JPG</h3>
           <p class="tool-card__desc">Convert each page to a JPEG image.</p>
         </a>
+          <a class="tool-card" href="tools/pdf-to-webp/index.html"><span class="tool-card__icon">🌐</span><h3 class="tool-card__title">PDF to WebP</h3><p class="tool-card__desc">Convert PDF pages to compact WebP images.</p></a>
         <a class="tool-card" href="tools/watermark-pdf/index.html">
           <h3 class="tool-card__title">Watermark PDF</h3>
           <p class="tool-card__desc">Add text or image watermarks.</p>
@@ -254,7 +255,7 @@
           <h2>Your Files Never Leave Your Device</h2>
           <p class="lead">Most online PDF tools upload your documents to a server, process them somewhere, and hope you don't read the privacy policy. We built DSPDF because that never sat right with us.</p>
           <p>Every operation here — merging, splitting, editing, compressing — happens directly inside your browser tab using WebAssembly and modern JavaScript. Your file goes from your hard drive into your browser's memory and back out as a download. Nowhere else.</p>
-          <p>Disconnect from the internet and the tools still work. That's the proof.</p>
+          <p>The tools are designed to process your files locally in the browser. Some tool libraries may still need to be loaded by the browser before a tool can run.</p>
           <a class="btn btn-secondary mt-4" href="blog/why-pdfs-never-leave-your-device/index.html">Read why this matters →</a>
         </div>
         <div>
@@ -366,7 +367,7 @@
         </details>
         <details>
           <summary>What's the maximum file size?</summary>
-          <p>It depends on your device's RAM, not on us — since we don't upload anything. As a rule of thumb, most laptops handle 100 MB PDFs comfortably; older phones may struggle above 30–40 MB.</p>
+          <p>It depends on your device's RAM, not on us — since we don't upload anything. There is no single practical file-size limit because browser memory, device RAM, PDF complexity and the selected operation all matter. Large PDFs may need more time or memory, especially on phones.</p>
         </details>
         <details>
           <summary>Does the PDF Editor let me edit existing text?</summary>

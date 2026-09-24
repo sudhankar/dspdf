@@ -1,24 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>Delete PDF Pages Online — Remove Pages Free | DSPDF</title>
-<meta name="description" content="Delete unwanted pages from any PDF with a visual selector. 100% private — processed in your browser." />
-<link rel="canonical" href="https://dspdf.pages.dev/tools/delete-pages/" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Delete PDF Pages — DSPDF" />
-<meta property="og:description" content="Remove pages visually. Free and private." />
-<meta property="og:url" content="https://dspdf.pages.dev/tools/delete-pages/" />
-<meta property="og:image" content="https://dspdf.pages.dev/images/logo.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="../../images/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/tools.css" />
-
+<meta content="Delete unwanted pages from any PDF with a visual selector. 100% private — processed in your browser." name="description"/>
+<link href="https://dspdf.pages.dev/tools/delete-pages/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Delete PDF Pages — DSPDF" property="og:title"/>
+<meta content="Remove pages visually. Free and private." property="og:description"/>
+<meta content="https://dspdf.pages.dev/tools/delete-pages/" property="og:url"/>
+<meta content="https://dspdf.pages.dev/images/logo.svg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../../images/logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/tools.css" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"SoftwareApplication","name":"Delete PDF Pages — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://dspdf.pages.dev/tools/delete-pages/"},
@@ -36,120 +36,104 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="navbar">
-  <div class="container navbar__inner">
-    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" alt="DSPDF logo" class="dspdf-shared-logo" /></a>
-    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
-    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
-      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
-      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
-    </ul></nav>
-    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
-  </div>
+<div class="container navbar__inner">
+<a aria-label="DSPDF home" class="navbar__brand" href="../../index.html"><img alt="DSPDF logo" class="dspdf-shared-logo" src="../../images/logo.svg"/></a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu" class="navbar__toggle" data-nav-toggle="">☰</button>
+<nav aria-label="Primary"><ul class="navbar__menu" data-nav-menu="" id="primary-nav">
+<li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+<li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
+</ul></nav>
+<div class="navbar__actions"><button aria-label="Switch theme" class="theme-toggle" data-theme-toggle="">☀️</button></div>
+</div>
 </header>
-
-<main id="main" class="section">
-  <div class="container">
-    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
-      <li><a href="../../index.html">Home</a></li>
-      <li><a href="../index.html">Tools</a></li>
-      <li><span aria-current="page">Delete Pages</span></li>
-    </ol></nav>
-
-    <h1>Delete PDF Pages</h1>
-    <p class="lead">Remove unwanted pages by clicking their thumbnails — then save a clean copy.</p>
-    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
-
-    <section class="tool-panel mt-6">
-      <div id="uz-delete" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
-        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p class="upload-zone__title">Drop a PDF here or click to select</p>
-        <input type="file" accept="application/pdf,.pdf" hidden />
-      </div>
-
-      <div id="delete-alert" class="alert alert-error mt-4" hidden role="alert"></div>
-
-      <div id="delete-toolbar" class="mt-6" hidden>
-        <div class="opt-row">
-          <span class="text-muted" id="delete-count"></span>
-          <button type="button" class="btn btn-ghost btn-sm" id="delete-clear">Clear selection</button>
-        </div>
-        <div id="delete-grid" class="thumb-grid mt-4" aria-label="Page thumbnails"></div>
-
-        <div id="delete-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="progress"><div class="progress__bar"></div></div>
-          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
-        </div>
-
-        <div class="tool-actions mt-6">
-          <button type="button" class="btn btn-primary btn-lg" id="delete-apply">Delete selected pages</button>
-        </div>
-      </div>
-    </section>
-
-
-    <section class="mt-6">
-      <h2>When deleting pages is useful</h2>
-      <p>Page deletion is useful when a scan contains blank sheets, duplicate pages, cover pages you no longer need, or the wrong attachment was included in a combined document. DSPDF shows page thumbnails before you apply the change, so you can check the selection instead of guessing from page numbers. The original file on your device is not overwritten; the tool creates a new PDF from the pages you keep.</p>
-      <p>For a document that needs pages saved in a separate file rather than removed, use <a href="../extract-pages/index.html">Extract Pages</a>. If the order also needs changing, the <a href="../pdf-editor/index.html">PDF Editor</a> can handle page organization and additional annotations in one workflow.</p>
-    </section>
-    <section class="mt-6">
-      <h2>How to delete PDF pages</h2>
-      <ol class="how-to">
-        <li>Drop your PDF into the box above.</li>
-        <li>Thumbnails of every page appear.</li>
-        <li>Click the pages you want to remove. They'll highlight.</li>
-        <li>Click <strong>Delete selected pages</strong>.</li>
-        <li>Your new PDF downloads automatically.</li>
-      </ol>
-    </section>
-
-    <section class="mt-6">
-      <h2>Technical limitations</h2>
-      <ul>
-        <li>If every page is selected, deletion is blocked to avoid an empty PDF.</li>
-        <li>Removing pages drops their content but shared resources (fonts, some images) may still remain in the file — so file size won't always shrink proportionally.</li>
-        <li>Digital certificate signatures are invalidated by page removal (this is true of any editor).</li>
-      </ul>
-    </section>
-
-    <section class="mt-6">
-      <h2>Frequently asked</h2>
-      <div class="faq-accordion">
-        <details><summary>Can I undo a deletion?</summary><p>Not after saving — but you can deselect a thumbnail before clicking Apply. Your original file on disk is never touched.</p></details>
-        <details><summary>Will the file size shrink?</summary><p>Usually yes but often only slightly. Shared resources may remain.</p></details>
-        <details><summary>Is there a page limit?</summary><p>No hard limit. Very large PDFs (500+ pages) may render thumbnails slowly.</p></details>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related tools</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../extract-pages/index.html"><h3 class="tool-card__title">Extract Pages</h3><p class="tool-card__desc">Keep selected pages in a new PDF.</p></a>
-        <a class="tool-card" href="../rotate-pdf/index.html"><h3 class="tool-card__title">Rotate PDF</h3><p class="tool-card__desc">Fix page orientation.</p></a>
-        <a class="tool-card" href="../split-pdf/index.html"><h3 class="tool-card__title">Split PDF</h3><p class="tool-card__desc">Break into multiple files.</p></a>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related reading</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../../blog/rotate-reorder-pages/index.html"><h3 class="tool-card__title">Rotate &amp; Reorder Pages</h3><p class="tool-card__desc">Fixing messy scans.</p></a>
-        <a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">How local processing works.</p></a>
-      </div>
-    </section>
-  </div>
-</main>
-
+<main class="section" id="main">
+<div class="container">
+<nav aria-label="Breadcrumb"><ol class="breadcrumb">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../index.html">Tools</a></li>
+<li><span aria-current="page">Delete Pages</span></li>
+</ol></nav>
+<h1>Delete PDF Pages</h1>
+<p class="lead">Remove unwanted pages by clicking their thumbnails — then save a clean copy.</p>
+<p class="privacy-badge">🔒 Processed locally in your browser.</p>
+<section class="tool-panel mt-6">
+<div aria-label="Add a PDF" class="upload-zone" id="uz-delete" role="button" tabindex="0">
+<svg aria-hidden="true" class="upload-zone__icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+<p class="upload-zone__title">Drop a PDF here or click to select</p>
+<input accept="application/pdf,.pdf" hidden="" type="file"/>
+</div>
+<div class="alert alert-error mt-4" hidden="" id="delete-alert" role="alert"></div>
+<div class="mt-6" hidden="" id="delete-toolbar">
+<div class="opt-row">
+<span class="text-muted" id="delete-count"></span>
+<button class="btn btn-ghost btn-sm" id="delete-clear" type="button">Clear selection</button>
+</div>
+<div aria-label="Page thumbnails" class="thumb-grid mt-4" id="delete-grid"></div>
+<div aria-live="polite" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="mt-4" hidden="" id="delete-progress" role="progressbar">
+<div class="progress"><div class="progress__bar"></div></div>
+<p class="text-muted" data-progress-label="" style="font-size:0.9rem;margin:8px 0 0;"></p>
+</div>
+<div class="tool-actions mt-6">
+<button class="btn btn-primary btn-lg" id="delete-apply" type="button">Delete selected pages</button>
+</div>
+</div>
+</section>
+<section class="mt-6">
+<h2>When deleting pages is useful</h2>
+<p>Page deletion is useful when a scan contains blank sheets, duplicate pages, cover pages you no longer need, or the wrong attachment was included in a combined document. DSPDF shows page thumbnails before you apply the change, so you can check the selection instead of guessing from page numbers. The original file on your device is not overwritten; the tool creates a new PDF from the pages you keep.</p>
+<p>For a document that needs pages saved in a separate file rather than removed, use <a href="../extract-pages/index.html">Extract Pages</a>. If the order also needs changing, the <a href="../pdf-editor/index.html">PDF Editor</a> can handle page organization and additional annotations in one workflow.</p>
+</section>
+<section class="mt-6">
+<h2>How to delete PDF pages</h2>
+<ol class="how-to">
+<li>Drop your PDF into the box above.</li>
+<li>Thumbnails of every page appear.</li>
+<li>Click the pages you want to remove. They'll highlight.</li>
+<li>Click <strong>Delete selected pages</strong>.</li>
+<li>Your new PDF downloads automatically.</li>
+</ol>
+</section>
+<section class="mt-6">
+<h2>Technical limitations</h2>
+<ul>
+<li>If every page is selected, deletion is blocked to avoid an empty PDF.</li>
+<li>Removing pages drops their content but shared resources (fonts, some images) may still remain in the file — so file size won't always shrink proportionally.</li>
+<li>Digital certificate signatures are invalidated by page removal (this is true of any editor).</li>
+</ul>
+</section>
+<section class="mt-6">
+<h2>Frequently asked</h2>
+<div class="faq-accordion">
+<details><summary>Can I undo a deletion?</summary><p>Not after saving — but you can deselect a thumbnail before clicking Apply. Your original file on disk is never touched.</p></details>
+<details><summary>Will the file size shrink?</summary><p>Usually yes but often only slightly. Shared resources may remain.</p></details>
+<details><summary>Is there a page limit?</summary><p>No hard limit. Very large PDFs (500+ pages) may render thumbnails slowly.</p></details>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related tools</h2>
+<div class="related-grid">
+<a class="tool-card" href="../extract-pages/index.html"><h3 class="tool-card__title">Extract Pages</h3><p class="tool-card__desc">Keep selected pages in a new PDF.</p></a>
+<a class="tool-card" href="../rotate-pdf/index.html"><h3 class="tool-card__title">Rotate PDF</h3><p class="tool-card__desc">Fix page orientation.</p></a>
+<a class="tool-card" href="../split-pdf/index.html"><h3 class="tool-card__title">Split PDF</h3><p class="tool-card__desc">Break into multiple files.</p></a>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related reading</h2>
+<div class="related-grid">
+<a class="tool-card" href="../../blog/rotate-reorder-pages/index.html"><h3 class="tool-card__title">Rotate &amp; Reorder Pages</h3><p class="tool-card__desc">Fixing messy scans.</p></a>
+<a class="tool-card" href="../../blog/why-pdfs-never-leave-your-device/index.html"><h3 class="tool-card__title">Why PDFs stay on your device</h3><p class="tool-card__desc">How local processing works.</p></a>
+</div>
+</section>
+</div>
+<section class="mt-6"><h2>Privacy</h2><p>Delete PDF Pages processes the selected PDF in your browser rather than sending it to a DSPDF PDF-processing server. Your browser may load public libraries needed for the tool, while your device controls memory and processing speed. For sensitive documents, keep the original and follow your own document-handling rules.</p></section></main>
 <footer class="footer"><div class="container"><div class="footer__bottom">
-  <span>© <span data-year>2026</span> DSPDF.</span>
-  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+<span>© <span data-year="">2026</span> DSPDF.</span>
+<span class="footer__badge">🔒 All processing happens in your browser.</span>
 </div></div></footer>
-
 <script src="../../js/config.js"></script>
 <script src="../../js/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="../../js/tools-engine.js"></script>
 <script src="../../js/tools/delete-pages.js"></script>
 </body>

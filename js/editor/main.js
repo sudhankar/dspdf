@@ -661,7 +661,6 @@
     document.getElementById("ed-page-delete").addEventListener("click", deleteCurrentPage);
     document.getElementById("ed-page-blank").addEventListener("click", addBlankPage);
     document.getElementById("ed-page-rotate").addEventListener("click", rotateCurrentPage);
-    document.getElementById("ed-rotate-page").addEventListener("click", rotateCurrentPage);
     document.getElementById("ed-page-addpdf").addEventListener("click", function(){ document.getElementById("ed-add-pdf-file").click(); });
     document.getElementById("ed-add-pdf-file").addEventListener("change", function(e){ var f=e.target.files&&e.target.files[0]; if(f) addPdfAfterCurrent(f); e.target.value=""; });
 

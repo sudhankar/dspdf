@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>PDF to JPG — Convert PDF Pages to Images | DSPDF</title>
-<meta name="description" content="Convert each PDF page into a JPG image. Output delivered as a ZIP. Private, in-browser, free." />
-<link rel="canonical" href="https://dspdf.pages.dev/tools/pdf-to-jpg/" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="PDF to JPG — DSPDF" />
-<meta property="og:description" content="Convert PDF pages to JPG images. Free and private." />
-<meta property="og:url" content="https://dspdf.pages.dev/tools/pdf-to-jpg/" />
-<meta property="og:image" content="https://dspdf.pages.dev/images/logo.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="../../images/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/tools.css" />
+<meta content="Convert each PDF page into a JPG image. Output delivered as a ZIP. Private, in-browser, free." name="description"/>
+<link href="https://dspdf.pages.dev/tools/pdf-to-jpg/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="PDF to JPG — DSPDF" property="og:title"/>
+<meta content="Convert PDF pages to JPG images. Free and private." property="og:description"/>
+<meta content="https://dspdf.pages.dev/tools/pdf-to-jpg/" property="og:url"/>
+<meta content="https://dspdf.pages.dev/images/logo.svg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../../images/logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/tools.css" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"SoftwareApplication","name":"PDF to JPG — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://dspdf.pages.dev/tools/pdf-to-jpg/"},
@@ -35,126 +36,110 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="navbar">
-  <div class="container navbar__inner">
-    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" alt="DSPDF logo" class="dspdf-shared-logo" /></a>
-    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
-    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
-      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
-      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
-    </ul></nav>
-    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
-  </div>
+<div class="container navbar__inner">
+<a aria-label="DSPDF home" class="navbar__brand" href="../../index.html"><img alt="DSPDF logo" class="dspdf-shared-logo" src="../../images/logo.svg"/></a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu" class="navbar__toggle" data-nav-toggle="">☰</button>
+<nav aria-label="Primary"><ul class="navbar__menu" data-nav-menu="" id="primary-nav">
+<li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+<li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
+</ul></nav>
+<div class="navbar__actions"><button aria-label="Switch theme" class="theme-toggle" data-theme-toggle="">☀️</button></div>
+</div>
 </header>
-
-<main id="main" class="section">
-  <div class="container">
-    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
-      <li><a href="../../index.html">Home</a></li>
-      <li><a href="../index.html">Tools</a></li>
-      <li><span aria-current="page">PDF to JPG</span></li>
-    </ol></nav>
-
-    <h1>PDF to JPG</h1>
-    <p class="lead">Turn each page of your PDF into a JPG image. Output is packaged as a ZIP so you get everything in one download.</p>
-    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
-
-    <section class="tool-panel mt-6">
-      <div id="uz-p2j" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
-        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p class="upload-zone__title">Drop a PDF here or click to select</p>
-        <input type="file" accept="application/pdf,.pdf" hidden />
-      </div>
-
-      <div id="p2j-alert" class="alert alert-error mt-4" hidden role="alert"></div>
-
-      <div id="p2j-toolbar" class="mt-6" hidden>
-        <p class="text-muted" id="p2j-info"></p>
-
-        <div class="opt-group mt-4">
-          <div class="opt-row">
-            <label>Resolution</label>
-            <select id="p2j-dpi">
-              <option value="72">72 DPI — screen</option>
-              <option value="150" selected>150 DPI — good quality</option>
-              <option value="300">300 DPI — print quality</option>
-            </select>
-          </div>
-          <div class="opt-row">
-            <label>JPEG quality</label>
-            <input type="range" id="p2j-quality" min="40" max="95" step="5" value="85" />
-            <span id="p2j-quality-val" style="min-width:44px;font-variant-numeric:tabular-nums;">85%</span>
-          </div>
-        </div>
-
-        <div id="p2j-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="progress"><div class="progress__bar"></div></div>
-          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
-        </div>
-
-        <div class="tool-actions mt-6">
-          <button type="button" class="btn btn-primary btn-lg" id="p2j-apply">Convert to JPG (ZIP)</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>How to convert PDF to JPG</h2>
-      <ol class="how-to">
-        <li>Drop your PDF into the box above.</li>
-        <li>Choose resolution and JPEG quality.</li>
-        <li>Click <strong>Convert to JPG (ZIP)</strong>.</li>
-        <li>You receive a ZIP file with one JPG per page.</li>
-      </ol>
-    </section>
-
-    <section class="mt-6">
-      <h2>Technical limitations</h2>
-      <ul>
-        <li>Very large PDFs (500+ pages) at 300 DPI can exhaust memory. Try a lower DPI or split the PDF first.</li>
-        <li>Text becomes part of the image — no searchable text in the output JPGs (that's normal).</li>
-        <li>PDFs with transparency render onto a white background.</li>
-      </ul>
-    </section>
-
-    <section class="mt-6">
-      <h2>Frequently asked</h2>
-      <div class="faq-accordion">
-        <details><summary>What resolution should I pick?</summary><p>72 DPI for web/screen. 150 DPI for typical documents. 300 DPI only if you plan to print.</p></details>
-        <details><summary>How many JPGs do I get?</summary><p>One per page, all inside a single ZIP.</p></details>
-        <details><summary>Can I get PNG instead?</summary><p>Not in this tool. We chose JPG because it produces smaller files. Use your computer's image editor to convert to PNG afterwards if needed.</p></details>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related tools</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../jpg-to-pdf/index.html"><h3 class="tool-card__title">JPG to PDF</h3><p class="tool-card__desc">The reverse.</p></a>
-        <a class="tool-card" href="../split-pdf/index.html"><h3 class="tool-card__title">Split PDF</h3><p class="tool-card__desc">Break into smaller PDFs first.</p></a>
-        <a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink before converting.</p></a>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related reading</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../../blog/how-to-convert-pdf-to-jpg/index.html"><h3 class="tool-card__title">How to Convert PDF to JPG</h3><p class="tool-card__desc">Uses and pitfalls.</p></a>
-        <a class="tool-card" href="../../blog/extract-images-from-pdf/index.html"><h3 class="tool-card__title">Extract Images from PDF</h3><p class="tool-card__desc">Just the embedded pictures.</p></a>
-      </div>
-    </section>
-  </div>
-</main>
-
+<main class="section" id="main">
+<div class="container">
+<nav aria-label="Breadcrumb"><ol class="breadcrumb">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../index.html">Tools</a></li>
+<li><span aria-current="page">PDF to JPG</span></li>
+</ol></nav>
+<h1>PDF to JPG</h1>
+<p class="lead">Turn each page of your PDF into a JPG image. Output is packaged as a ZIP so you get everything in one download.</p>
+<p class="privacy-badge">🔒 Processed locally in your browser.</p>
+<section class="tool-panel mt-6">
+<div aria-label="Add a PDF" class="upload-zone" id="uz-p2j" role="button" tabindex="0">
+<svg aria-hidden="true" class="upload-zone__icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+<p class="upload-zone__title">Drop a PDF here or click to select</p>
+<input accept="application/pdf,.pdf" hidden="" type="file"/>
+</div>
+<div class="alert alert-error mt-4" hidden="" id="p2j-alert" role="alert"></div>
+<div class="mt-6" hidden="" id="p2j-toolbar">
+<p class="text-muted" id="p2j-info"></p>
+<div class="opt-group mt-4">
+<div class="opt-row">
+<label>Resolution</label>
+<select id="p2j-dpi">
+<option value="72">72 DPI — screen</option>
+<option selected="" value="150">150 DPI — good quality</option>
+<option value="300">300 DPI — print quality</option>
+</select>
+</div>
+<div class="opt-row">
+<label>JPEG quality</label>
+<input id="p2j-quality" max="95" min="40" step="5" type="range" value="85"/>
+<span id="p2j-quality-val" style="min-width:44px;font-variant-numeric:tabular-nums;">85%</span>
+</div>
+</div>
+<div aria-live="polite" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="mt-4" hidden="" id="p2j-progress" role="progressbar">
+<div class="progress"><div class="progress__bar"></div></div>
+<p class="text-muted" data-progress-label="" style="font-size:0.9rem;margin:8px 0 0;"></p>
+</div>
+<div class="tool-actions mt-6">
+<button class="btn btn-primary btn-lg" id="p2j-apply" type="button">Convert to JPG (ZIP)</button>
+</div>
+</div>
+</section>
+<section class="mt-6">
+<h2>How to convert PDF to JPG</h2>
+<ol class="how-to">
+<li>Drop your PDF into the box above.</li>
+<li>Choose resolution and JPEG quality.</li>
+<li>Click <strong>Convert to JPG (ZIP)</strong>.</li>
+<li>You receive a ZIP file with one JPG per page.</li>
+</ol>
+</section>
+<section class="mt-6">
+<h2>Technical limitations</h2>
+<ul>
+<li>Very large PDFs (500+ pages) at 300 DPI can exhaust memory. Try a lower DPI or split the PDF first.</li>
+<li>Text becomes part of the image — no searchable text in the output JPGs (that's normal).</li>
+<li>PDFs with transparency render onto a white background.</li>
+</ul>
+</section>
+<section class="mt-6">
+<h2>Frequently asked</h2>
+<div class="faq-accordion">
+<details><summary>What resolution should I pick?</summary><p>72 DPI for web/screen. 150 DPI for typical documents. 300 DPI only if you plan to print.</p></details>
+<details><summary>How many JPGs do I get?</summary><p>One per page, all inside a single ZIP.</p></details>
+<details><summary>Can I get PNG instead?</summary><p>Not in this tool. We chose JPG because it produces smaller files. Use your computer's image editor to convert to PNG afterwards if needed.</p></details>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related tools</h2>
+<div class="related-grid">
+<a class="tool-card" href="../jpg-to-pdf/index.html"><h3 class="tool-card__title">JPG to PDF</h3><p class="tool-card__desc">The reverse.</p></a>
+<a class="tool-card" href="../split-pdf/index.html"><h3 class="tool-card__title">Split PDF</h3><p class="tool-card__desc">Break into smaller PDFs first.</p></a>
+<a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink before converting.</p></a>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related reading</h2>
+<div class="related-grid">
+<a class="tool-card" href="../../blog/how-to-convert-pdf-to-jpg/index.html"><h3 class="tool-card__title">How to Convert PDF to JPG</h3><p class="tool-card__desc">Uses and pitfalls.</p></a>
+<a class="tool-card" href="../../blog/extract-images-from-pdf/index.html"><h3 class="tool-card__title">Extract Images from PDF</h3><p class="tool-card__desc">Just the embedded pictures.</p></a>
+</div>
+</section>
+</div>
+<section class="mt-6"><h2>Privacy</h2><p>PDF to JPG processes the selected PDF in your browser rather than sending it to a DSPDF PDF-processing server. Your browser may load public libraries needed for the tool, while your device controls memory and processing speed. For sensitive documents, keep the original and follow your own document-handling rules.</p></section></main>
 <footer class="footer"><div class="container"><div class="footer__bottom">
-  <span>© <span data-year>2026</span> DSPDF.</span>
-  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+<span>© <span data-year="">2026</span> DSPDF.</span>
+<span class="footer__badge">🔒 All processing happens in your browser.</span>
 </div></div></footer>
-
 <script src="../../js/config.js"></script>
 <script src="../../js/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="../../js/tools-engine.js"></script>
 <script src="../../js/tools/pdf-to-jpg.js"></script>
 </body>

@@ -25,6 +25,9 @@
   <url><loc>https://dspdf.pages.dev/blog/pdf-metadata-before-sharing/</loc></url>
   <url><loc>https://dspdf.pages.dev/blog/pdf-metadata-explained/</loc></url>
   <url><loc>https://dspdf.pages.dev/blog/pdf-preview-dpi-quality/</loc></url>
+  <url><loc>https://dspdf.pages.dev/blog/pdf-to-png-guide/</loc></url>
+  <url><loc>https://dspdf.pages.dev/blog/pdf-to-text-guide/</loc></url>
+  <url><loc>https://dspdf.pages.dev/blog/pdf-to-webp-guide/</loc></url>
   <url><loc>https://dspdf.pages.dev/blog/protect-sensitive-pdfs/</loc></url>
   <url><loc>https://dspdf.pages.dev/blog/reorder-delete-extract-pdf-pages/</loc></url>
   <url><loc>https://dspdf.pages.dev/blog/rotate-reorder-pages/</loc></url>
@@ -58,6 +61,9 @@
   <url><loc>https://dspdf.pages.dev/tools/page-numbers-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/pdf-editor/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/pdf-to-jpg/</loc></url>
+  <url><loc>https://dspdf.pages.dev/tools/pdf-to-png/</loc></url>
+  <url><loc>https://dspdf.pages.dev/tools/pdf-to-text/</loc></url>
+  <url><loc>https://dspdf.pages.dev/tools/pdf-to-webp/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/protect-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/redact-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/rotate-pdf/</loc></url>
@@ -65,6 +71,4 @@
   <url><loc>https://dspdf.pages.dev/tools/split-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/unlock-pdf/</loc></url>
   <url><loc>https://dspdf.pages.dev/tools/watermark-pdf/</loc></url>
-  <url><loc>https://dspdf.pages.dev/tools/pdf-to-text/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dspdf.pages.dev/blog/pdf-to-text-guide/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>Split PDF Online — Free, Private, No Upload | DSPDF</title>
-<meta name="description" content="Split a PDF by page ranges, every N pages, or individual pages — output as separate PDFs in a ZIP. 100% private, runs in your browser." />
-<link rel="canonical" href="https://dspdf.pages.dev/tools/split-pdf/" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Split PDF — DSPDF" />
-<meta property="og:description" content="Split by range or every N pages. Free and private." />
-<meta property="og:url" content="https://dspdf.pages.dev/tools/split-pdf/" />
-<meta property="og:image" content="https://dspdf.pages.dev/images/logo.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="../../images/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/tools.css" />
+<meta content="Split a PDF by page ranges, every N pages, or individual pages — output as separate PDFs in a ZIP. 100% private, runs in your browser." name="description"/>
+<link href="https://dspdf.pages.dev/tools/split-pdf/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Split PDF — DSPDF" property="og:title"/>
+<meta content="Split by range or every N pages. Free and private." property="og:description"/>
+<meta content="https://dspdf.pages.dev/tools/split-pdf/" property="og:url"/>
+<meta content="https://dspdf.pages.dev/images/logo.svg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../../images/logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/tools.css" rel="stylesheet"/>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
   {"@type":"SoftwareApplication","name":"Split PDF — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://dspdf.pages.dev/tools/split-pdf/"},
@@ -35,127 +36,110 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="navbar">
-  <div class="container navbar__inner">
-    <a class="navbar__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" alt="DSPDF logo" class="dspdf-shared-logo" /></a>
-    <button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
-    <nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
-      <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
-      <li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
-    </ul></nav>
-    <div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div>
-  </div>
+<div class="container navbar__inner">
+<a aria-label="DSPDF home" class="navbar__brand" href="../../index.html"><img alt="DSPDF logo" class="dspdf-shared-logo" src="../../images/logo.svg"/></a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu" class="navbar__toggle" data-nav-toggle="">☰</button>
+<nav aria-label="Primary"><ul class="navbar__menu" data-nav-menu="" id="primary-nav">
+<li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li>
+<li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
+</ul></nav>
+<div class="navbar__actions"><button aria-label="Switch theme" class="theme-toggle" data-theme-toggle="">☀️</button></div>
+</div>
 </header>
-
-<main id="main" class="section">
-  <div class="container">
-    <nav aria-label="Breadcrumb"><ol class="breadcrumb">
-      <li><a href="../../index.html">Home</a></li>
-      <li><a href="../index.html">Tools</a></li>
-      <li><span aria-current="page">Split PDF</span></li>
-    </ol></nav>
-
-    <h1>Split PDF</h1>
-    <p class="lead">Break one PDF into several. Choose "every N pages" or specify exact ranges — output is delivered as a ZIP.</p>
-    <p class="privacy-badge">🔒 Processed locally in your browser.</p>
-
-    <section class="tool-panel mt-6">
-      <div id="uz-split" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF">
-        <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p class="upload-zone__title">Drop a PDF here or click to select</p>
-        <input type="file" accept="application/pdf,.pdf" hidden />
-      </div>
-
-      <div id="split-alert" class="alert alert-error mt-4" hidden role="alert"></div>
-
-      <div id="split-toolbar" class="mt-6" hidden>
-        <p class="text-muted" id="split-info"></p>
-        <div id="split-preview" class="tool-preview mt-4" aria-live="polite"></div>
-
-        <div class="opt-group mt-4">
-          <div class="opt-row">
-            <label><input type="radio" name="split-mode" value="every" checked /> Every N pages</label>
-            <input type="number" id="split-n" min="1" value="1" aria-label="Pages per chunk" style="max-width:120px;" />
-          </div>
-          <div class="opt-row">
-            <label><input type="radio" name="split-mode" value="ranges" /> Custom ranges</label>
-            <input type="text" id="split-ranges" placeholder="e.g. 1-3, 5, 7-10" aria-label="Ranges" />
-          </div>
-        </div>
-
-        <div id="split-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="progress"><div class="progress__bar"></div></div>
-          <p class="text-muted" data-progress-label style="font-size:0.9rem;margin:8px 0 0;"></p>
-        </div>
-
-        <div class="tool-actions mt-6">
-          <button type="button" class="btn btn-primary btn-lg" id="split-apply">Split &amp; download ZIP</button>
-        </div>
-      </div>
-    </section>
-
-
-    <section class="mt-6">
-      <h2>Choose the right way to split a PDF</h2>
-      <p>Splitting is useful when one PDF contains several independent documents or when you need to send different page ranges to different people. Use a custom range such as <code>1-3, 5, 7-10</code> when you know exactly which pages belong together, or use the automatic every-N-pages option for repeated sections.</p>
-      <p>If you only need a few selected pages in one new PDF, <a href="../extract-pages/index.html">Extract Pages</a> is simpler. If your goal is to remove unwanted pages while keeping the rest as one document, use <a href="../delete-pages/index.html">Delete Pages</a> instead.</p>
-    </section>
-    <section class="mt-6">
-      <h2>How to split a PDF</h2>
-      <ol class="how-to">
-        <li>Drop your PDF into the box above.</li>
-        <li>Choose "Every N pages" or enter custom ranges like <code>1-3, 5, 7-10</code>.</li>
-        <li>Click <strong>Split &amp; download ZIP</strong>.</li>
-        <li>You receive a ZIP file containing one PDF per chunk.</li>
-      </ol>
-    </section>
-
-    <section class="mt-6">
-      <h2>Technical limitations</h2>
-      <ul>
-        <li>Password-protected PDFs must be unlocked first.</li>
-        <li>Ranges are inclusive of both endpoints. So <code>1-3</code> means pages 1, 2, and 3.</li>
-        <li>Bookmarks and form fields are not preserved.</li>
-      </ul>
-    </section>
-
-    <section class="mt-6">
-      <h2>Frequently asked</h2>
-      <div class="faq-accordion">
-        <details><summary>Do I get one file or many?</summary><p>Many. They're bundled into a ZIP to save you clicks.</p></details>
-        <details><summary>Can I split a protected PDF?</summary><p>Not directly. Unlock it first with <a href="../unlock-pdf/index.html">Unlock PDF</a>.</p></details>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related tools</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine back into one.</p></a>
-        <a class="tool-card" href="../extract-pages/index.html"><h3 class="tool-card__title">Extract Pages</h3><p class="tool-card__desc">Single output file.</p></a>
-        <a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink each chunk.</p></a>
-      </div>
-    </section>
-
-    <section class="mt-6">
-      <h2>Related reading</h2>
-      <div class="related-grid">
-        <a class="tool-card" href="../../blog/how-to-split-pdf/index.html"><h3 class="tool-card__title">How to Split a PDF</h3><p class="tool-card__desc">Every method explained.</p></a>
-        <a class="tool-card" href="../../blog/compress-pdf-for-email/index.html"><h3 class="tool-card__title">Compress PDF for Email</h3><p class="tool-card__desc">Size limits and tactics.</p></a>
-      </div>
-    </section>
-  </div>
-</main>
-
+<main class="section" id="main">
+<div class="container">
+<nav aria-label="Breadcrumb"><ol class="breadcrumb">
+<li><a href="../../index.html">Home</a></li>
+<li><a href="../index.html">Tools</a></li>
+<li><span aria-current="page">Split PDF</span></li>
+</ol></nav>
+<h1>Split PDF</h1>
+<p class="lead">Break one PDF into several. Choose "every N pages" or specify exact ranges — output is delivered as a ZIP.</p>
+<p class="privacy-badge">🔒 Processed locally in your browser.</p>
+<section class="tool-panel mt-6">
+<div aria-label="Add a PDF" class="upload-zone" id="uz-split" role="button" tabindex="0">
+<svg aria-hidden="true" class="upload-zone__icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+<p class="upload-zone__title">Drop a PDF here or click to select</p>
+<input accept="application/pdf,.pdf" hidden="" type="file"/>
+</div>
+<div class="alert alert-error mt-4" hidden="" id="split-alert" role="alert"></div>
+<div class="mt-6" hidden="" id="split-toolbar">
+<p class="text-muted" id="split-info"></p>
+<div aria-live="polite" class="tool-preview mt-4" id="split-preview"></div>
+<div class="opt-group mt-4">
+<div class="opt-row">
+<label><input checked="" name="split-mode" type="radio" value="every"/> Every N pages</label>
+<input aria-label="Pages per chunk" id="split-n" min="1" style="max-width:120px;" type="number" value="1"/>
+</div>
+<div class="opt-row">
+<label><input name="split-mode" type="radio" value="ranges"/> Custom ranges</label>
+<input aria-label="Ranges" id="split-ranges" placeholder="e.g. 1-3, 5, 7-10" type="text"/>
+</div>
+</div>
+<div aria-live="polite" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="mt-4" hidden="" id="split-progress" role="progressbar">
+<div class="progress"><div class="progress__bar"></div></div>
+<p class="text-muted" data-progress-label="" style="font-size:0.9rem;margin:8px 0 0;"></p>
+</div>
+<div class="tool-actions mt-6">
+<button class="btn btn-primary btn-lg" id="split-apply" type="button">Split &amp; download ZIP</button>
+</div>
+</div>
+</section>
+<section class="mt-6">
+<h2>Choose the right way to split a PDF</h2>
+<p>Splitting is useful when one PDF contains several independent documents or when you need to send different page ranges to different people. Use a custom range such as <code>1-3, 5, 7-10</code> when you know exactly which pages belong together, or use the automatic every-N-pages option for repeated sections.</p>
+<p>If you only need a few selected pages in one new PDF, <a href="../extract-pages/index.html">Extract Pages</a> is simpler. If your goal is to remove unwanted pages while keeping the rest as one document, use <a href="../delete-pages/index.html">Delete Pages</a> instead.</p>
+</section>
+<section class="mt-6">
+<h2>How to split a PDF</h2>
+<ol class="how-to">
+<li>Drop your PDF into the box above.</li>
+<li>Choose "Every N pages" or enter custom ranges like <code>1-3, 5, 7-10</code>.</li>
+<li>Click <strong>Split &amp; download ZIP</strong>.</li>
+<li>You receive a ZIP file containing one PDF per chunk.</li>
+</ol>
+</section>
+<section class="mt-6">
+<h2>Technical limitations</h2>
+<ul>
+<li>Password-protected PDFs must be unlocked first.</li>
+<li>Ranges are inclusive of both endpoints. So <code>1-3</code> means pages 1, 2, and 3.</li>
+<li>Bookmarks and form fields are not preserved.</li>
+</ul>
+</section>
+<section class="mt-6">
+<h2>Frequently asked</h2>
+<div class="faq-accordion">
+<details><summary>Do I get one file or many?</summary><p>Many. They're bundled into a ZIP to save you clicks.</p></details>
+<details><summary>Can I split a protected PDF?</summary><p>Not directly. Unlock it first with <a href="../unlock-pdf/index.html">Unlock PDF</a>.</p></details>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related tools</h2>
+<div class="related-grid">
+<a class="tool-card" href="../merge-pdf/index.html"><h3 class="tool-card__title">Merge PDF</h3><p class="tool-card__desc">Combine back into one.</p></a>
+<a class="tool-card" href="../extract-pages/index.html"><h3 class="tool-card__title">Extract Pages</h3><p class="tool-card__desc">Single output file.</p></a>
+<a class="tool-card" href="../compress-pdf/index.html"><h3 class="tool-card__title">Compress PDF</h3><p class="tool-card__desc">Shrink each chunk.</p></a>
+</div>
+</section>
+<section class="mt-6">
+<h2>Related reading</h2>
+<div class="related-grid">
+<a class="tool-card" href="../../blog/how-to-split-pdf/index.html"><h3 class="tool-card__title">How to Split a PDF</h3><p class="tool-card__desc">Every method explained.</p></a>
+<a class="tool-card" href="../../blog/compress-pdf-for-email/index.html"><h3 class="tool-card__title">Compress PDF for Email</h3><p class="tool-card__desc">Size limits and tactics.</p></a>
+</div>
+</section>
+</div>
+<section class="mt-6"><h2>Privacy</h2><p>Split PDF processes the selected PDF in your browser rather than sending it to a DSPDF PDF-processing server. Your browser may load public libraries needed for the tool, while your device controls memory and processing speed. For sensitive documents, keep the original and follow your own document-handling rules.</p></section></main>
 <footer class="footer"><div class="container"><div class="footer__bottom">
-  <span>© <span data-year>2026</span> DSPDF.</span>
-  <span class="footer__badge">🔒 All processing happens in your browser.</span>
+<span>© <span data-year="">2026</span> DSPDF.</span>
+<span class="footer__badge">🔒 All processing happens in your browser.</span>
 </div></div></footer>
-
 <script src="../../js/config.js"></script>
 <script src="../../js/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="../../js/tools-engine.js"></script>
 <script src="../../js/tools/split.js"></script>

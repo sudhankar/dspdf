@@ -42,6 +42,8 @@
 <a class="skip-link" href="#main">Skip to editor</a>
 
 <!-- ============================ EDITOR HEADER ============================ -->
+<div class="editor-app-shell">
+
 <header class="editor-header" role="banner">
   <div class="editor-header__left">
     <a class="editor-header__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" aria-hidden="true" class="dspdf-shared-logo" /></a>
@@ -141,11 +143,6 @@
     </div>
 
     <div class="editor-tools__body">
-      <div class="editor-quick-actions" aria-label="Page actions">
-        <button type="button" class="ed-btn ed-btn--sm editor-rotate-btn" id="ed-rotate-page" title="Rotate the current PDF page 90 degrees clockwise">↻ Rotate page</button>
-      </div>
-
-
       <!-- Text panel -->
       <section class="editor-panel is-active" data-panel-id="text" role="tabpanel">
         <button type="button" class="ed-tool-btn" data-tool="text">
@@ -271,6 +268,7 @@
     </div>
   </aside>
 </main>
+
 <div class="editor-creator-badge">Sudhakar Creations</div>
 
 <!-- Mobile bottom toolbar -->
@@ -281,7 +279,10 @@
   <button type="button" class="ed-btn ed-btn--icon" id="edm-tools" aria-label="Tools">✎</button>
 </nav>
 
-<!-- Signature modal -->
+</div><!-- /.editor-app-shell -->
+
+<section class="editor-seo-content" aria-labelledby="editor-guide-heading"><h2 id="editor-guide-heading">PDF Editor: what you can do</h2><p>DSPDF PDF Editor is designed for adding new content on top of an existing PDF. You can place text, images, shapes, freehand marks, highlights, redaction-style boxes and signatures without uploading the selected document to a DSPDF processing server. The editor works with a browser canvas, so the available memory and performance of your device can affect large or image-heavy PDFs.</p><h2>How to use the editor</h2><ol><li>Open a PDF and wait for the first page to finish rendering.</li><li>Use Select mode when you need to pick or move an object and Pan mode when you need to move around a zoomed page.</li><li>Choose Text, Image, Shape, Draw, Mark or Sign from the tools panel.</li><li>Place the new object, adjust its properties and review the whole page.</li><li>Use the page controls to navigate, reorder, delete or rotate pages when needed.</li><li>Save or export the finished PDF after checking the downloaded copy.</li></ol><h2>Important limitations</h2><p>The editor adds new objects over the existing page. It does not claim to rewrite existing PDF paragraphs in place like a word processor. Redaction-style boxes in the editor are visual overlays; they should not be treated as secure removal of underlying data. For sensitive information that must be permanently removed, use a dedicated redaction workflow and verify the saved file.</p><h2>Privacy and local processing</h2><p>The selected PDF is processed in your browser rather than being sent to a DSPDF PDF-processing server. Your browser may still load public JavaScript libraries from their CDNs, and your device controls memory, speed and storage. Keep the original document and follow your own organization’s rules for sensitive files.</p><h2>Frequently asked questions</h2><div class="faq-accordion"><details><summary>Can I edit existing PDF text directly?</summary><p>No. The editor is an overlay editor for adding new text and other objects. Existing page text is not rewritten in place.</p></details><details><summary>What is Select mode for?</summary><p>Select mode is for choosing, moving and editing objects such as text boxes, images and signatures. Pan mode is for moving around the page after zooming.</p></details><details><summary>Can I rotate a page inside the editor?</summary><p>Yes. Use the rotate control beside the page navigation controls to rotate the current page.</p></details><details><summary>Should I check the exported PDF?</summary><p>Yes. The downloaded file is the final result, so open it in a PDF viewer and inspect important pages before sharing.</p></details></div><h2>Related tools and reading</h2><div class="related-grid"><a class="tool-card" href="../add-text-to-pdf/index.html"><h3 class="tool-card__title">Add Text to PDF</h3><p class="tool-card__desc">Place new text on a PDF page.</p></a><a class="tool-card" href="../sign-pdf/index.html"><h3 class="tool-card__title">Sign PDF</h3><p class="tool-card__desc">Draw, type or upload a signature.</p></a><a class="tool-card" href="../../blog/pdf-editor-shapes-arrows-lines/index.html"><h3 class="tool-card__title">PDF Editor Guide</h3><p class="tool-card__desc">Learn about text, shapes, arrows and annotations.</p></a></div></section>
+
 <div class="modal" id="sign-modal" role="dialog" aria-modal="true" aria-labelledby="sign-modal-title">
   <div class="modal__panel">
     <h3 id="sign-modal-title">Create signature</h3>

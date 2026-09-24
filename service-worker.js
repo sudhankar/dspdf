@@ -16,7 +16,7 @@
  *    below to make them work offline.
  */
 
-var CACHE_VERSION = "dspdf-v3";
+var CACHE_VERSION = "dspdf-v4";
 var PRECACHE_URLS = [
   "./",
   "./index.html",

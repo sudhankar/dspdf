@@ -1,46 +1,47 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <title>PDF to Text — Extract Text from PDF | DSPDF</title>
-<meta name="description" content="Extract selectable text from a PDF and download it as a TXT file. Free, private and processed in your browser." />
-<link rel="canonical" href="https://dspdf.pages.dev/tools/pdf-to-text/" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="PDF to Text — DSPDF" />
-<meta property="og:description" content="Extract text from PDF files directly in your browser and save it as a TXT file." />
-<meta property="og:url" content="https://dspdf.pages.dev/tools/pdf-to-text/" />
-<meta property="og:image" content="https://dspdf.pages.dev/images/logo.svg" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" type="image/svg+xml" href="../../images/logo.svg" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/tools.css" />
+<meta content="Extract selectable text from a PDF and download it as a TXT file. Free, private and processed in your browser." name="description"/>
+<link href="https://dspdf.pages.dev/tools/pdf-to-text/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="PDF to Text — DSPDF" property="og:title"/>
+<meta content="Extract text from PDF files directly in your browser and save it as a TXT file." property="og:description"/>
+<meta content="https://dspdf.pages.dev/tools/pdf-to-text/" property="og:url"/>
+<meta content="https://dspdf.pages.dev/images/logo.svg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="../../images/logo.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../../css/style.css" rel="stylesheet"/>
+<link href="../../css/tools.css" rel="stylesheet"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"PDF to Text — DSPDF","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://dspdf.pages.dev/tools/pdf-to-text/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dspdf.pages.dev/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://dspdf.pages.dev/tools/"},{"@type":"ListItem","position":3,"name":"PDF to Text","item":"https://dspdf.pages.dev/tools/pdf-to-text/"}]}]}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="navbar"><div class="container navbar__inner">
-<a class="navbar__brand" href="../../index.html" aria-label="DSPDF home"><img src="../../images/logo.svg" alt="DSPDF logo" class="dspdf-shared-logo" /></a>
-<button class="navbar__toggle" data-nav-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
-<nav aria-label="Primary"><ul class="navbar__menu" id="primary-nav" data-nav-menu>
+<a aria-label="DSPDF home" class="navbar__brand" href="../../index.html"><img alt="DSPDF logo" class="dspdf-shared-logo" src="../../images/logo.svg"/></a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu" class="navbar__toggle" data-nav-toggle="">☰</button>
+<nav aria-label="Primary"><ul class="navbar__menu" data-nav-menu="" id="primary-nav">
 <li><a href="../index.html">All Tools</a></li><li><a href="../pdf-editor/index.html">PDF Editor</a></li><li><a href="../../blog/index.html">Blog</a></li><li><a href="../../faq/index.html">FAQ</a></li><li><a href="../../about/index.html">About</a></li><li><a class="navbar__contact-link" href="../../contact/index.html">Contact</a></li>
-</ul></nav><div class="navbar__actions"><button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☀️</button></div></div></header>
-<main id="main" class="section"><div class="container">
+</ul></nav><div class="navbar__actions"><button aria-label="Switch theme" class="theme-toggle" data-theme-toggle="">☀️</button></div></div></header>
+<main class="section" id="main"><div class="container">
 <nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="../../index.html">Home</a></li><li><a href="../index.html">Tools</a></li><li><span aria-current="page">PDF to Text</span></li></ol></nav>
 <h1>PDF to Text</h1><p class="lead">Extract selectable text from a text-based PDF and download it as a plain TXT file.</p><p class="privacy-badge">🔒 Processed locally in your browser.</p>
-<section class="tool-panel mt-6"><div id="uz-p2t" class="upload-zone" tabindex="0" role="button" aria-label="Add a PDF"><svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p class="upload-zone__title">Drop a PDF here or click to select</p><input type="file" accept="application/pdf,.pdf" hidden /></div>
-<div id="p2t-alert" class="alert alert-error mt-4" hidden role="alert"></div>
-<div id="p2t-toolbar" class="mt-6" hidden><p class="text-muted" id="p2t-info"></p><div id="p2t-progress" class="mt-4" hidden aria-live="polite" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress"><div class="progress__bar"></div></div><p class="text-muted" data-progress-label style="font-size:.9rem;margin:8px 0 0;"></p></div><div class="tool-actions mt-6"><button type="button" class="btn btn-primary btn-lg" id="p2t-apply">Extract &amp; Download TXT</button></div></div></section>
+<section class="tool-panel mt-6"><div aria-label="Add a PDF" class="upload-zone" id="uz-p2t" role="button" tabindex="0"><svg aria-hidden="true" class="upload-zone__icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg><p class="upload-zone__title">Drop a PDF here or click to select</p><input accept="application/pdf,.pdf" hidden="" type="file"/></div>
+<div class="alert alert-error mt-4" hidden="" id="p2t-alert" role="alert"></div>
+<div class="mt-6" hidden="" id="p2t-toolbar"><p class="text-muted" id="p2t-info"></p><div aria-live="polite" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="mt-4" hidden="" id="p2t-progress" role="progressbar"><div class="progress"><div class="progress__bar"></div></div><p class="text-muted" data-progress-label="" style="font-size:.9rem;margin:8px 0 0;"></p></div><div class="tool-actions mt-6"><button class="btn btn-primary btn-lg" id="p2t-apply" type="button">Extract &amp; Download TXT</button></div></div></section>
 <section class="mt-6"><h2>How to extract text from PDF</h2><ol class="how-to"><li>Upload your PDF.</li><li>Wait for the pages to be read in your browser.</li><li>Click <strong>Extract &amp; Download TXT</strong>.</li><li>Open or copy the resulting text file.</li></ol></section>
 <section class="mt-6"><h2>What this tool is designed to do</h2><p>PDF to Text is intended for digital PDFs that already contain selectable text. It reads the text layer available in the document and creates a simple TXT file that you can search, copy, edit or reuse in another application. This is different from OCR: OCR recognizes characters from page images, while this tool works with text that is already stored in the PDF.</p><p>A plain-text file deliberately does not reproduce the original page design. Fonts, colors, images, signatures and exact page geometry are left behind so that the result stays lightweight and easy to work with.</p></section>
 <section class="mt-6"><h2>Important limitations</h2><ul><li>This tool extracts text that already exists in the PDF. Scanned pages may contain little or no selectable text.</li><li>For scanned documents, use <a href="../ocr-pdf/index.html">OCR PDF</a> instead.</li><li>Complex page layouts, columns, tables, headers and unusual reading order may not reproduce perfectly in plain text.</li><li>Hindi and other Unicode text can be extracted when the source PDF stores it as real text; image-only pages need OCR.</li><li>Processing happens in your browser; the PDF is not uploaded to our server.</li></ul></section>
 <section class="mt-6"><h2>Related tools</h2><div class="related-grid"><a class="tool-card" href="../ocr-pdf/index.html"><h3 class="tool-card__title">OCR PDF</h3><p class="tool-card__desc">Recognize text in scanned PDFs.</p></a><a class="tool-card" href="../pdf-to-jpg/index.html"><h3 class="tool-card__title">PDF to JPG</h3><p class="tool-card__desc">Convert pages to images.</p></a><a class="tool-card" href="../pdf-editor/index.html"><h3 class="tool-card__title">PDF Editor</h3><p class="tool-card__desc">Edit, annotate and organize your PDF.</p></a></div></section>
 <section class="mt-6"><h2>Related reading</h2><div class="related-grid"><a class="tool-card" href="../../blog/pdf-to-text-guide/index.html"><h3 class="tool-card__title">How to Extract Text from a PDF</h3><p class="tool-card__desc">Understand text layers, scanned PDFs, OCR and layout limitations.</p></a><a class="tool-card" href="../../blog/ocr-explained/index.html"><h3 class="tool-card__title">OCR Explained</h3><p class="tool-card__desc">Learn when OCR is needed for image-based documents.</p></a><a class="tool-card" href="../../blog/ocr-hindi-pdf-guide/index.html"><h3 class="tool-card__title">Hindi PDF OCR Guide</h3><p class="tool-card__desc">Practical tips for Hindi and English scanned PDFs.</p></a></div></section>
 <section class="mt-6"><h2>Frequently asked</h2><div class="faq-accordion"><details><summary>Does this work with scanned PDFs?</summary><p>Usually not by itself. Scanned pages are images, so use the OCR PDF tool to recognize their text first.</p></details><details><summary>Will formatting be preserved?</summary><p>No. The download is plain text, so fonts, colors and most visual layout are intentionally removed.</p></details><details><summary>Is my PDF uploaded?</summary><p>No. The extraction is performed in your browser.</p></details></div></section>
-</div></main>
-<footer class="footer"><div class="container"><div class="footer__bottom"><span>© <span data-year>2026</span> DSPDF.</span><span class="footer__badge">🔒 All processing happens in your browser.</span></div></div></footer>
+</div><section class="mt-6"><h2>Privacy</h2><p>PDF to Text processes the selected PDF in your browser rather than sending it to a DSPDF PDF-processing server. Your browser may load public libraries needed for the tool, while your device controls memory and processing speed. For sensitive documents, keep the original and follow your own document-handling rules.</p></section></main>
+<footer class="footer"><div class="container"><div class="footer__bottom"><span>© <span data-year="">2026</span> DSPDF.</span><span class="footer__badge">🔒 All processing happens in your browser.</span></div></div></footer>
 <script src="../../js/config.js"></script><script src="../../js/main.js"></script><script src="../../js/tools-engine.js"></script><script src="../../js/tools/pdf-to-text.js"></script>
 </body></html>
