@@ -95,7 +95,7 @@
 
       <p>We fixed it in about ten minutes. But the exercise reminded me how much room there is for a merge tool to go wrong — and how few of them are upfront about what they actually do with your file.</p>
 
-      <p>This is a practical guide: the workflow that works, the pitfalls to watch for, and the cases where you really shouldn't be merging at all.</p>
+      <p>This guide covers the workflow, common pitfalls and cases where merging is a poor fit.</p>
 
       <div class="article__toc">
         <h4>What's in this guide</h4>
@@ -113,11 +113,11 @@
 
       <p>A PDF is a container. Inside it: pages, fonts, images, metadata, and various catalogues describing how all of that fits together. Merging means: create a new empty PDF container, then copy pages from the source files into it, one by one.</p>
 
-      <p>Sounds simple. And structurally it is. But "copy the pages" is where things get interesting, because each source file brings its own fonts, its own page size, its own coordinate system, and its own security settings. A good merge tool handles all of this gracefully. A bad one produces something that looks right at first glance but isn't.</p>
+      
 
       <h2 id="steps">Step-by-step workflow</h2>
 
-      <p>Here's the workflow that worked for my friend's thesis. It's the same one I'd recommend for most documents.</p>
+      <p>Here's the workflow that worked for my friend's thesis. It's the same one I'd recommend for documents.</p>
 
       <h3>1. Merge in the final intended order</h3>
 
@@ -187,7 +187,7 @@
 
       <p>I want to spend a bit more time on bookmarks because it's the pitfall most people don't discover until it's too late.</p>
 
-      <p>PDF bookmarks are stored in a structure called the "outline tree", hanging off the document catalogue. It looks roughly like this:</p>
+      <p>PDF bookmarks are stored in a structure called the "outline tree", hanging off the document catalogue. It looks like this:</p>
 
       <pre>Document Catalog
   → /Outlines
@@ -200,7 +200,7 @@
 
       <p>This is why DSPDF's Merge tool page explicitly says: <em>"Existing PDF bookmarks and form fields are not preserved by pdf-lib during merge. Page content and text are preserved faithfully."</em> We'd rather tell you upfront than have you discover it after sending a document to your thesis committee.</p>
 
-      <p>If bookmarks matter to you, the honest answer is: use a desktop tool. <code>qpdf</code> and <code>pdftk</code> both handle this better than any browser-based tool can. They're command-line utilities, so they're not for everyone, but they're free and they work.</p>
+      
 
       <h2 id="when-not">When NOT to merge</h2>
 
@@ -214,7 +214,7 @@
         <li><strong>Files you'll edit later.</strong> A single 200-page PDF is much harder to edit than the seven originals. Keep them separate if there's any chance of future revision.</li>
       </ul>
 
-      <p>If your reason for merging is "one attachment is easier than seven", a ZIP file achieves the same thing without the downsides.</p>
+      <p>If your reason for merging is "one attachment is easier than seven", ZIP achieves the same thing without the downsides.</p>
 
       <h2 id="faq">FAQ</h2>
 
@@ -229,7 +229,7 @@
         </details>
         <details>
           <summary>Can I merge PDFs with different page sizes?</summary>
-          <p>Yes. The merged file will have mixed page sizes. This is fine for digital viewing but may cause issues when printing — some printers scale non-standard pages unpredictably.</p>
+          <p>Yes. The merged file will have mixed page sizes. This is fine digitally but may cause printing issues — some printers scale non-standard pages unpredictably.</p>
         </details>
         <details>
           <summary>Why did my merged file come out larger than the sum of its parts?</summary>

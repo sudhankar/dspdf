@@ -3,11 +3,26 @@
    ===================================================================== */
 
 .editor-body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  background: var(--bg-dark);
+}
+
+/* Keep the actual editor app at one full viewport. SEO/help content lives
+   below it, so it can never shrink the workspace or cover the tool panels. */
+.editor-app-shell {
   height: 100vh;
-  overflow: hidden;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--bg-dark);
+  overflow: hidden;
+}
+
+.editor-seo-content {
+  flex: 0 0 auto;
 }
 
 /* ---------- Header ---------- */
@@ -111,7 +126,7 @@
 }
 .editor-thumbs__header .ed-btn { display: none; }
 .ed-page-actions{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin-left:auto}.ed-page-actions .ed-btn{display:inline-flex;min-width:28px;padding:3px 6px;font-weight:700}.ed-page-actions #ed-page-delete{color:#ef4444}.ed-page-actions #ed-page-rotate{color:#2563eb}
-.editor-quick-actions{display:flex;align-items:center;margin-bottom:10px}.editor-rotate-btn{width:100%;justify-content:center;color:var(--accent);border-color:var(--accent)}
+
 .editor-thumbs__list {
   overflow-y: auto;
   padding: var(--space-3);
@@ -744,8 +759,48 @@
 .editor-seo-heading__mobile{display:none;}
 @media (max-width:900px),(pointer:coarse){
   .editor-notice{padding:4px 8px;}
-  .editor-notice p{display:none;}
+  .editor-notice p:not(.editor-notice__help){display:none;}
+  .editor-notice__help{display:block!important;margin:0;font-size:.86rem;line-height:1.25;}
   .editor-seo-heading{margin:0;font-size:.92rem;line-height:1.2;}
   .editor-seo-heading__full{display:none;}
   .editor-seo-heading__mobile{display:inline;}
+}
+/* SEO/help content lives below the editor so it never pushes the workspace off-screen. */
+.editor-mobile-guide{display:none;text-align:center;padding:8px 14px;background:var(--bg-card);border-bottom:1px solid var(--border);font-size:.92rem}.editor-mobile-guide a{color:var(--accent);font-weight:700}
+.editor-seo-content{max-width:900px;margin:28px auto 48px;padding:0 20px;color:var(--text)}
+.editor-seo-content h2{margin:24px 0 10px}.editor-seo-content p,.editor-seo-content li{line-height:1.7;color:var(--text-muted)}
+.editor-seo-content .related-grid{margin-top:12px}
+@media(max-width:700px){.editor-mobile-guide{display:block}.editor-seo-content{padding:0 14px;margin-top:20px}.editor-seo-content .editor-mobile-only-note{display:block}}
+
+
+/* Final layout guard: the editor workspace always owns the first viewport.
+   The long SEO guide is below the app and never competes with editor space. */
+.editor-body {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  display: block !important;
+}
+.editor-app-shell {
+  height: 100vh !important;
+  min-height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.editor-app-shell .editor-main {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+.editor-app-shell .editor-mobile-bar {
+  flex: 0 0 auto !important;
+}
+@media (max-width: 900px), (pointer: coarse) {
+  .editor-app-shell {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
 }
